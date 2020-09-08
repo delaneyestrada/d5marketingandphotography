@@ -1,0 +1,59 @@
+{%- unless settings.catalogue_mode -%}
+{%- if template != "cart" -%}
+
+<!-- sp-cart -->
+<div class="sp-desctop-parent-cart sp-parent-box">
+  <div class="sp-cart sp-dropdown-obj">
+    <button class="sp-dropdown-toggle"
+            data-tposition="bottom"
+            >
+      <i class="icon-f-39"></i>
+      <span class="sp-badge-cart">{{ cart.item_count }}</span>
+    </button>
+
+    <div class="sp-dropdown-menu">
+      <div class="sp-mobile-add">
+        <h6 class="sp-title">{{ 'cart.header.title' | t }}</h6>
+        <button class="sp-close">{{ 'cart.header.close' | t }}</button>
+      </div>
+      <div class="sp-dropdown-inner {% if settings.addtocart_scroll %} addtocart_scroll{% endif %}">
+        <div class="sp-cart-layout">
+          <div class="sp-cart-content">
+
+            <a href="/cart" class="sp-cart-empty{% if cart.item_count > 0 %} hide{% endif %}" title="{{ 'cart.header.view_cart' | t }}">
+              <i class="icon-f-39"></i>
+              <p>{{ 'cart.header.empty_cart' | t }}</p>
+            </a>
+            
+            <div class="sp-cart-box{% if cart.item_count == 0 %} hide{% endif %}">
+              <div class="sp-cart-list">
+                {%- for item in cart.items -%}{%- include "menu-cart-item" length: forloop.index -%}{%- endfor -%}
+              </div>
+              <div class="flex-align-center header-cart-more-message-js"{% if cart.items.size <= 3 %} style="display: none;"{% endif %}>
+                <a href="/cart" class="btn-link-02" title="{{ 'cart.header.view_cart' | t | capitalize }}">{{ 'cart.header.view_cart_all' | t }}</a>
+              </div>
+              <div class="sp-cart-total-row">
+                <div class="sp-cart-total-title">Subtotal:</div>
+                <div class="sp-cart-total-price">{{ cart.total_price | money }}</div>
+              </div>
+              <div class="sp-cart-btn">
+                <div class="sp-item">
+                  <a href="/cart" class="btn">view cart</a>
+                </div>
+                <div class="sp-item">
+                  <a href="/checkout" class="btn">checkout</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      {%- include "menu-cart-item-empty" -%}
+    </div>
+  </div>
+</div>
+<!-- /sp-cart -->
+
+{%- endif -%}
+{%- endunless -%}

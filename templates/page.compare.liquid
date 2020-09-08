@@ -1,0 +1,72 @@
+<div class="container-indent comparepage hide">
+  <div class="container">
+    <div class="sp-block-title">
+      <h1 class="sp-title">{{ "compare.compare_page.title" | t }}</h1>
+    </div>
+    <div class="sp-compare-table" id="sp-compare-table" style="opacity:0">
+      <div class="sp-col-title sp-compare-table-js">
+        <div class="title-item maininfo"></div>
+        <div class="title-item maininfo"></div>
+        <div class="title-item maininfo"></div>
+        <div class="title-item maininfo"></div>
+        <div class="title-item maininfo"></div>
+		<div class="title-item maininfo"></div>        
+        <div class="title-item maininfo maininfolast"></div>
+        <div class="title-item">{{ 'compare.compare_page.field_description' | t }}</div>
+        <div class="title-item">{{ 'compare.compare_page.field_vendor' | t }}</div>
+      </div>
+      <div class="sp-col-item compare-items-box">
+        <div class="compare-init-slider">
+        </div>
+      </div>
+    </div>
+    <!-- / -->
+  </div>
+</div>
+<div class="container-indent nomargin comparepageempty hide">
+  <div class="sp-empty-wishlist">
+    <h1 class="sp-title">{{ "compare.compare_page.empty_title" | t }}</h1>
+    <p>{{ "compare.compare_page.empty_compare" | t }}</p>
+    <a href="/" class="btn">{{ "compare.compare_page.continue_shopping" | t }}</a>
+  </div>
+</div>
+
+<div class="compareitemhtml hide">
+  <div class="sp-item sp-compare-table-js">
+    <div class="sp-value sp-image-box">
+      <a href="#"
+         class="sp-remove-item compare-js"
+         data-action="delete"
+         data-tooltip="Remove from Compare"
+         data-tposition="right"
+         data-findtag="svg"
+         >{% include "svg-delete-icon" %}</a>
+    </div>
+    <div class="sp-value sp-image-box">
+      <div class="sp-img">
+        <a href="#"><img src="{{ 'dummy.png' | asset_url }}" alt=""></a>
+      </div>
+    </div>
+    <div class="sp-value sp-image-box">
+      <div class="sp-label-location">
+        <div class="sp-label-in-stock">{{ "compare.compare_page.in_stock" | t }}</div><div class="sp-label-our-stock">{{ "compare.compare_page.soldout" | t }}</div>
+      </div>
+    </div>
+    <div class="sp-value sp-image-box"><h2 class="sp-title"><a href="#"></a></h2></div>
+    <div class="sp-value sp-image-box"><div class="sp-price"><span class="new-price"></span><span class="old-price"></span></div></div>
+    <div class="sp-value sp-image-box">
+      <form action="/cart/add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="false">
+        <button class="btn sp-btn-addtocart{% if settings.ajax_addtocart %} addtocart-item-js{% endif %} thumbprod-button-bg">
+          {{ 'products.general.add_to_cart_html' | t }}
+        </button>
+      </form>
+    </div>
+    <div class="sp-value sp-image-box sp-image-box-last"></div>
+
+    <div class="sp-value" data-val="description"></div>
+    <div class="sp-value" data-val="vendor"></div>
+  </div>
+  <div class="sp-value" data-val="empty">-</div>
+  <div class="title-item" data-val="maintable"></div>
+</div>

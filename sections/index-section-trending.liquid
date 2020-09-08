@@ -1,0 +1,481 @@
+{%- assign item = section.settings -%}
+{%- assign name_collection = item.collection -%}
+{% assign bg_alpha = item.background_alpha | plus: 0 %}
+{% assign bg_alpha_2 = item.background_alpha_2 | plus: 0 %}
+
+<section id="section-{{ section.id }}" data-aos="{{ section.settings.effect }}">
+  <div class="container-fluid{%- if item.fullwidth -%}-fullwidth{%- endif -%}">
+    {%- if item.show_titles -%}
+      <div class="sp-block-title">
+        <h2 class="sp-title">{{ item.heading }}</h2>
+        {%- unless item.text2 == '' -%}<div class="sp-description">{{ item.sub_heading }}</div>{%- endunless -%}
+      </div>
+    {%- endif -%}
+    <div class="row">
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="banner-item">
+          {%- if item.bg_image == blank -%}
+            
+            <img src="{{ 'bg.jpg' | asset_img_url: '850x' }}" class="banner-img">
+          {%- else -%}
+            <img src="{{ item.bg_image | img_url: '850x' }}" class="banner-img">
+          {%- endif -%}
+          
+          <div class="banner-content">
+            <span class="title-1" style="color: {{ item.color_header }};">{{ item.title }}</span>
+            <div class="wrap-title" style="color: {{ item.color_text }};">
+              <span class="title-2">{{ item.sub_price }}</span>
+              <span class="title-3">{{ item.price }}</span>
+            </div>
+            <a href="{{ item.url_link }}" class="btn">{{ item.text_button }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+          {%- if name_collection == blank -%}
+            <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-3">
+              <div class="sp-product product-parent options-js thumbprod-center">
+                <div class="sp-image-box">
+                  <a href="#">
+                    <span class="sp-img">
+                      <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                    </span>
+                  </a>
+                  <div class="gruop-button">
+                    <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                    <div class="sp-row-btn btn-cart">
+                      <form method="post" enctype="multipart/form-data">
+                        <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                      </form>
+                    </div>
+                    <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                    <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                <div class="sp-description">
+                  <div class="sp-row">
+                    <div class="sp-rating">
+                      <span class="shopify-product-reviews-badge"></span>
+                    </div>
+                  </div>
+                  <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                  <div class="sp-price">
+                    <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-3">
+              <div class="sp-product product-parent options-js thumbprod-center">
+                <div class="sp-image-box">
+                  <a href="#">
+                    <span class="sp-img">
+                      <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                    </span>
+                  </a>
+                  <div class="gruop-button">
+                    <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                    <div class="sp-row-btn btn-cart">
+                      <form method="post" enctype="multipart/form-data">
+                        <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                      </form>
+                    </div>
+                    <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                    <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                <div class="sp-description">
+                  <div class="sp-row">
+                    <div class="sp-rating">
+                      <span class="shopify-product-reviews-badge"></span>
+                    </div>
+                  </div>
+                  <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                  <div class="sp-price">
+                    <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-3">
+              <div class="sp-product product-parent options-js thumbprod-center">
+                <div class="sp-image-box">
+                  <a href="#">
+                    <span class="sp-img">
+                      <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                    </span>
+                  </a>
+                  <div class="gruop-button">
+                    <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                    <div class="sp-row-btn btn-cart">
+                      <form method="post" enctype="multipart/form-data">
+                        <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                      </form>
+                    </div>
+                    <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                    <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                <div class="sp-description">
+                  <div class="sp-row">
+                    <div class="sp-rating">
+                      <span class="shopify-product-reviews-badge"></span>
+                    </div>
+                  </div>
+                  <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                  <div class="sp-price">
+                    <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-3">
+              <div class="sp-product product-parent options-js thumbprod-center">
+                <div class="sp-image-box">
+                  <a href="#">
+                    <span class="sp-img">
+                      <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                    </span>
+                  </a>
+                  <div class="gruop-button">
+                    <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                    <div class="sp-row-btn btn-cart">
+                      <form method="post" enctype="multipart/form-data">
+                        <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                      </form>
+                    </div>
+                    <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                    <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                <div class="sp-description">
+                  <div class="sp-row">
+                    <div class="sp-rating">
+                      <span class="shopify-product-reviews-badge"></span>
+                    </div>
+                  </div>
+                  <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                  <div class="sp-price">
+                    <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-3">
+              <div class="sp-product product-parent options-js thumbprod-center">
+                <div class="sp-image-box">
+                  <a href="#">
+                    <span class="sp-img">
+                      <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                    </span>
+                  </a>
+                  <div class="gruop-button">
+                    <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                    <div class="sp-row-btn btn-cart">
+                      <form method="post" enctype="multipart/form-data">
+                        <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                      </form>
+                    </div>
+                    <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                    <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                <div class="sp-description">
+                  <div class="sp-row">
+                    <div class="sp-rating">
+                      <span class="shopify-product-reviews-badge"></span>
+                    </div>
+                  </div>
+                  <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                  <div class="sp-price">
+                    <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-3">
+              <div class="sp-product product-parent options-js thumbprod-center">
+                <div class="sp-image-box">
+                  <a href="#">
+                    <span class="sp-img">
+                      <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                    </span>
+                  </a>
+                  <div class="gruop-button">
+                    <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                    <div class="sp-row-btn btn-cart">
+                      <form method="post" enctype="multipart/form-data">
+                        <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                      </form>
+                    </div>
+                    <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                    <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                <div class="sp-description">
+                  <div class="sp-row">
+                    <div class="sp-rating">
+                      <span class="shopify-product-reviews-badge"></span>
+                    </div>
+                  </div>
+                  <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                  <div class="sp-price">
+                    <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- else -%}
+
+          {% for product in collections.all.products limit: 6 %}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              {%- include "product-grid-item" -%}
+            </div>
+          {% endfor %}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+ #section-{{ section.id }} .btn{
+    color: {{ item.color_text_button }};
+    border: 1px solid {{ item.color_border_button }};
+    background: {{ item.color_bg_button | color_modify: 'alpha', bg_alpha }};
+  }
+  #section-{{ section.id }} .btn:hover{
+    color: {{ item.color_text_button_hv }};
+    background: {{ item.color_bg_button_hv | color_modify: 'alpha', bg_alpha_2 }};
+    border:1px solid {{ item.color_border_button_hv }};
+  }
+  @media (max-width: 1599px) and (min-width: 1024px){
+    #section-{{ section.id }} .sp-btn-addtocart{
+      font-size: 0;
+    }
+    #section-{{ section.id }} button.sp-btn-addtocart:before{
+      content: "\f112";
+      font-family: Flaticon;
+      font-style: normal;
+      display: inline-block;
+      font-size: 16px;
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Banner trending",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth Width",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content" : "Content"
+    },
+    {
+      "type":"select",
+      "id":"effect",
+      "label":"Effect",
+      "options":[
+          {"value":"none","label":"No effect"},
+          {"value":"fade","label":"fade"},
+          {"value":"fade-up","label":"fade-up"},
+          {"value":"fade-down","label":"fade-down"},
+          {"value":"fade-left","label":"fade-left"},
+          {"value":"fade-right","label":"fade-right"},
+          {"value":"fade-up-right","label":"fade-up-right"},
+          {"value":"fade-up-left","label":"fade-up-left"},
+          {"value":"fade-down-right","label":"fade-down-right"},
+          {"value":"fade-down-left","label":"fade-down-left"},
+          {"value":"flip-up","label":"flip-up"},
+          {"value":"flip-down","label":"flip-down"},
+          {"value":"flip-left","label":"flip-left"},
+          {"value":"flip-right","label":"flip-right"},
+          {"value":"zoom-in","label":"zoom-in"},
+          {"value":"zoom-in-up","label":"zoom-in-up"},
+          {"value":"zoom-in-down","label":"zoom-in-down"},
+          {"value":"zoom-in-left","label":"zoom-in-left"},
+          {"value":"zoom-in-right","label":"zoom-in-right"},
+          {"value":"zoom-out","label":"zoom-out"},
+          {"value":"zoom-out-up","label":"zoom-out-up"},
+          {"value":"zoom-out-down","label":"zoom-out-down"},
+          {"value":"zoom-out-left","label":"zoom-out-left"},
+          {"value":"zoom-out-right","label":"zoom-out-right"}
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_titles",
+      "label": "Show titles",
+      "default": true
+    },
+    {
+      "type" :"text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "TRENDING ITEMS"
+    },
+    {
+      "type" :"text",
+      "id": "sub_heading",
+      "label": "Sub Heading",
+      "default": "The best choice for your space"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "background image"
+    },
+    {
+      "type" :"text",
+      "id": "title",
+      "label": "Title",
+      "default": "Home Decor Items"
+    },
+    {
+      "type" :"text",
+      "id": "sub_price",
+      "label": "Sub Price",
+      "default": "from"
+    },
+    {
+      "type" :"text",
+      "id": "price",
+      "label": "Price",
+      "default": "$9.99"
+    },
+    {
+      "type" :"text",
+      "id": "text_button",
+      "label": "Text Button",
+      "default": "shop now"
+    },
+     {
+      "type" :"url",
+      "id": "url_link",
+      "label": "Link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "header",
+      "content":"Color"
+    },
+    {
+      "type": "color",
+      "id": "color_header",
+      "label": "Color Heading",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Color Text",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_text_button",
+      "label": "Color Text Button",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_border_button",
+      "label": "Color Boder Button",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_bg_button",
+      "label": "Color Background Button",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "background_alpha",
+      "label": "background opacity",
+      "default": "0.75",
+      "info": "Range: 1 = 100%"
+    },
+
+    {
+      "type": "color",
+      "id": "color_text_button_hv",
+      "label": "Color Text Button Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_border_button_hv",
+      "label": "Color Boder Button Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_bg_button_hv",
+      "label": "Color Background Button Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "background_alpha_2",
+      "label": "background opacity",
+      "default": "0.75",
+      "info": "Range: 1 = 100%"
+    }
+  ],
+  "presets":[
+    {
+      "name": "Banners trending",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

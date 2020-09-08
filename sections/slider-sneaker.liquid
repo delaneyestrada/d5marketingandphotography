@@ -1,0 +1,272 @@
+{%- assign item = section.settings -%}
+<section class="Section" id="section-{{ section.id }}">
+	<div id="rev_slider_6_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="home-9" data-source="gallery" style="margin:0px auto;background:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+	<!-- START REVOLUTION SLIDER 5.4.8 fullwidth mode -->
+		<div id="rev_slider_6_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.8">
+			<ul>	<!-- SLIDE  -->
+				{%- for block in section.blocks -%}
+				{%- assign b_s = block.settings -%}
+				{%- assign img_url = b_s.image | img_url: '1900x' -%}
+				<li data-index="rs-{{ forloop.index }}" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300"  data-thumb="{{ img_url }}"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+						
+					{%- if b_s.image == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+	  				{%- else -%}
+					<img src="{{ img_url }}"  alt="" title="home-9-slide1"  width="1920" height="934" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+					{%- endif -%}
+						
+					<div class="tp-caption   tp-resizeme" 
+						id="slide-{{ forloop.index }}-layer-1" 
+						data-x="['right','right','center','center']" data-hoffset="['133','53','0','0']" 
+						data-y="['middle','middle','middle','middle']" data-voffset="['-5','-10','-10','-10']" 
+						data-fontsize="['72','60','50','30']"
+						data-lineheight="['76','64','54','34']"
+						data-width="none"
+						data-height="none"
+						data-whitespace="nowrap"
+			 
+						data-type="text" 
+						data-responsive_offset="on" 
+
+						data-frames='[{"delay":0,"speed":1500,"frame":"0","from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+						data-textAlign="['inherit','inherit','inherit','inherit']"
+						data-paddingtop="[0,0,0,0]"
+						data-paddingright="[0,0,0,0]"
+						data-paddingbottom="[0,0,0,0]"
+						data-paddingleft="[0,0,0,0]"
+
+						style="z-index: 5;
+						       white-space: nowrap; 
+						       font-size: 72px; 
+						       line-height: 76px; 
+						       font-weight: 700; 
+						       color: {{ b_s.color }}; 
+						       letter-spacing: 0.4px;
+						       font-family:Poppins;">
+						   	{{ b_s.text }} 
+					</div>
+
+						<!-- LAYER NR. 2 -->
+					<a href="{{ b_s.url_link }}"><div class="tp-caption   tp-resizeme" 
+						id="slide-{{ forloop.index }}-layer-2" 
+						data-x="['right','right','center','center']" data-hoffset="['153','70','0','-1']" 
+						data-y="['middle','middle','middle','middle']" data-voffset="['92','70','60','46']" 
+						data-width="none"
+						data-height="none"
+						data-whitespace="nowrap"
+			 
+						data-type="text" 
+						data-responsive_offset="on" 
+
+						data-frames='[{"delay":0,"speed":1500,"frame":"0","from":"z:0;rX:0;rY:0;rZ:0;sX:0.8;sY:0.8;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"500","ease":"Power3.easeIn","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(255,255,255);bg:transparent;br:0px 0px 0px 0px;"}]'
+						data-textAlign="['inherit','inherit','inherit','inherit']"
+						data-paddingtop="[9,9,9,9]"
+						data-paddingright="[28,28,28,28]"
+						data-paddingbottom="[9,9,9,9]"
+						data-paddingleft="[28,28,28,28]"
+
+						style="z-index: 6; white-space: nowrap; font-size: 14px; line-height: 22px; font-weight: 500; color: {{ b_s.color_button }}; letter-spacing: 0px;font-family:Poppins;text-transform:uppercase;background-color: {{ b_s.bg }};border-color:{{ b_s.color_border }};border-style:solid;border-width:2px 2px 2px 2px;cursor:pointer;">{{ b_s.text_button }}
+					</div>
+				</a>
+				</li>
+				{%- endfor -%}
+			</ul>
+			<div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>	
+		</div>
+	</div><!-- END REVOLUTION SLIDER -->
+</section>
+
+<script type="text/javascript">
+var revapi6,
+	tpj;	
+	(function() {			
+		if (!/loaded|interactive|complete/.test(document.readyState)) document.addEventListener("DOMContentLoaded",onLoad); else onLoad();	
+		function onLoad() {				
+			if (tpj===undefined) { tpj = jQuery; if("off" == "on") tpj.noConflict();}
+		if(tpj("#rev_slider_6_1").revolution == undefined){
+			revslider_showDoubleJqueryError("#rev_slider_6_1");
+		}else{
+			revapi6 = tpj("#rev_slider_6_1").show().revolution({
+				sliderType:"standard",
+				jsFileLocation:"//bixbang.spyropress.com/wp-content/plugins/revslider/public/assets/js/",
+				sliderLayout:"fullwidth",
+				dottedOverlay:"none",
+				delay:9000,
+				navigation: {
+					keyboardNavigation:"off",
+					keyboard_direction: "horizontal",
+					mouseScrollNavigation:"off",
+	 							mouseScrollReverse:"default",
+					onHoverStop:"off",
+					touch:{
+						touchenabled:"on",
+						touchOnDesktop:"on",
+						swipe_threshold: 75,
+						swipe_min_touches: 1,
+						swipe_direction: "horizontal",
+						drag_block_vertical: false
+					}
+					,
+					bullets: {
+						enable:true,
+						hide_onmobile:true,
+						hide_under:992,
+						style:"uranus",
+						hide_onleave:false,
+						direction:"horizontal",
+						h_align:"left",
+						v_align:"bottom",
+						h_offset:35,
+						v_offset:30,
+						space:8,
+						tmp:'<span class="tp-bullet-inner"></span>'
+					}
+				},
+				responsiveLevels:[1240,1024,778,480],
+				visibilityLevels:[1240,1024,778,480],
+				gridwidth:[1920,1024,778,480],
+				gridheight:[860,730,520,450],
+				lazyType:"none",
+				shadow:0,
+				spinner:"spinner2",
+				stopLoop:"off",
+				stopAfterLoops:-1,
+				stopAtSlide:-1,
+				shuffle:"off",
+				autoHeight:"off",
+				disableProgressBar:"on",
+				hideThumbsOnMobile:"off",
+				hideSliderAtLimit:0,
+				hideCaptionAtLimit:0,
+				hideAllCaptionAtLilmit:0,
+				debugMode:false,
+				fallbacks: {
+					simplifyAll:"off",
+					nextSlideOnWindowFocus:"off",
+					disableFocusListener:false,
+				}
+			});
+		}; /* END OF revapi call */
+		
+	}; /* END OF ON LOAD FUNCTION */
+}()); /* END OF WRAPPING FUNCTION */
+</script>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+{
+    "name": "Slider Sneaker",
+    "settings": [
+    	{
+	      "type": "text",
+	      "id": "padding",
+	      "label": "Section Padding",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "text",
+	      "id": "margin",
+	      "label": "Section margin",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "header",
+	      "content": "Mobile"
+	    },
+	    {
+	      "type": "text",
+	      "id": "padding_mobi",
+	      "label": "Section Padding",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "text",
+	      "id": "margin_mobi",
+	      "label": "Section margin",
+	      "default": "0px 0px 0px 0px"
+	    }
+    ],
+    "blocks": [
+		{
+			"type": "slider_list",
+			"name": "slider",
+			"settings": [
+				{
+		          "type": "image_picker",
+		          "id": "image",
+		          "label": "Image"
+		        },
+			    {
+			    	"type": "text",
+			    	"id": "text",
+			    	"label": "Text",
+			    	"default": "INFRARED VISION."
+			    },
+			    {
+			    	"type": "text",
+			    	"id": "text_button",
+			    	"label": "Text button",
+			    	"default": "shop now"
+			    },
+			    {
+			    	"type": "url",
+			    	"id": "url_link",
+			    	"label": "Link button"
+			    },
+			    {
+		          "type": "header",
+		          "content": "Color"
+		        },
+		        {
+		          "type": "color",
+		          "id": "color",
+		          "label": "Color sub heading",
+		          "default": "#fff"
+		        },
+		        {
+		          "type": "color",
+		          "id": "color_button",
+		          "label": "Color button",
+		          "default": "#303030"
+		        },
+		        {
+		          "type": "color",
+		          "id": "color_border",
+		          "label": "Color border button",
+		          "default": "#303030"
+		        },
+		        {
+		          "type": "color",
+		          "id": "bg",
+		          "label": "Color background button",
+		          "default": "#303030"
+		        }
+			]
+		}
+    ],
+   	"presets": [
+	    {
+	      "name": "Revolution Sneaker",
+	      "category": "Sliders",
+	      "blocks": [
+	        {
+	          "type": "slider_list"
+	        },
+	        {
+	          "type": "slider_list"
+	        }
+	      ]
+	    }
+	]
+}
+{% endschema %}

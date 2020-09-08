@@ -1,0 +1,146 @@
+<div class="sp-desktop-header{% if settings.header_position and template == 'index' %} sp-header-static{% endif %} header-sidebar">    
+    <div class="container-fluid{% if item.header_fullwidth %}-full{% endif %}">
+        <div class="row bb-row {{ menuposition }}">
+          	<div class="bb-logo-inline">
+	            <div class="bb-logo-header" itemscope itemtype="http://schema.org/Organization">
+	              {%- include "header_logo" -%}
+	            </div>
+	          </div>
+          	<div class="bb-options-inline">
+              <div class="toggle-sidebar">
+                <div class="sp-dropdown-toggle toggle-sidebar-area-side">
+					<span class="flaticon-lists"></span>
+				</div>
+				<div class="header-sidebar-toggle red-sidebar-area">
+					<div class="panel bb-item">
+						<span class="modal_sidebar_close toggle_close"><i class="flaticon-letter-x"></i></span>
+						<div class="bb-header-sidebar bb-sidebar-row">
+							<ul class="menu-general">
+					            {% for link in linklists[topbar.settings.menu_top].links %}
+						            <li {% if link.active %}class="link-top-bar {% if link.child_active %}child-active{% endif %}"{% endif %}><a href="{{ link.url }}">{{ link.title }}</a>
+						              {% if link.links != blank %}
+						              <ul class="child">
+						                {% for child_link in link.links %}  
+						                <li {% if child_link.active %}class="link-top-bar {% if child_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ child_link.url }}">{{ child_link.title }}</a>
+						                  {% if child_link.links != blank %}
+						                  <ul class="grandchild">
+						                    {% for grandchild_link in child_link.links %}  
+						                    <li {% if grandchild_link.active %}class="link-top-bar {% if grandchild_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+						                    {% endfor %}
+						                  </ul>
+						                  {% endif %}   
+						                </li>
+						                {% endfor %}
+						              </ul> 
+						              {% endif %}
+						            </li>
+					            {% endfor %}
+					        </ul>
+					        <div class="menu-currency">
+						        {%- if item.show_options_links -%}
+						          	<div class="sp-desctop-parent-multi sp-parent-box">
+						            	<div class="sp-multi-obj sp-dropdown-obj">
+							              	<div class="sp-dropdown-toggle">Currency</div>
+							              	<div class="sp-dropdown-menu">
+								                <div class="sp-mobile-add">
+								                  <button class="sp-close">Close</button>
+								                </div>
+								                <div class="sp-dropdown-inner">
+								                  {%- include "menu-currency" -%}
+								                </div>
+							              	</div>
+						            	</div>
+						         	</div>
+						        {%- endif -%}
+						    </div>
+						</div>
+						<div class="bb-logo-header text-center bb-sidebar-row" itemscope itemtype="http://schema.org/Organization">
+				          {%- include "header_logo" -%}
+				        </div>
+				        {%- if item.decs_header_sidebar != blank -%}
+				        	<div class="bb-sidebar-row text-center"><p>{{ item.decs_header_sidebar }}</p></div>
+				        {%- endif -%}
+				        
+				        {%- if item.img_header_sidebar != blank -%}
+				        	<div class="bb-sidebar-row-2">
+			        			<img src="{{ item.img_header_sidebar | img_url: '330x330'}}">
+			        		</div>
+		        		{%- else -%}
+		        			<div class="bb-sidebar-row-2">
+		        				<img src="{{ 'bg.jpg' | asset_img_url: '330x330' }}">
+		        			</div>
+		        		{%- endif -%}
+				        	
+				        {%- if item.show_text != blank -%}
+					        <div class="bb-sidebar-row text-center bb-text-header">
+					        	<div class="text_header_sidebar">
+									{{ item.text_header_sidebar }}
+					        	</div>
+					        	{{ item.custom_header_sidebar }}
+					        </div>
+					    {%- endif -%}
+				        {%- if item.show_socials -%}
+					        <div class="bb-sidebar-row text-center sidebar-cosial">
+								{%- if item.facebook_url -%}
+									<li><a class="icon-g-64" target="_blank" href="{{ item.facebook_url }}" data-tooltip="Facebook" ></a></li>
+								{%- endif -%}
+								{%- if item.twitter_url -%}
+									<li><a class="icon-h-58" target="_blank" href="{{ item.twitter_url }}" data-tooltip="Twitter"></a></li>
+								{%- endif -%}
+								{%- if item.gmail_url -%}
+									<li><a class="icon-g-66" target="_blank" href="{{ item.gmail_url }}" data-tooltip="Gmail"></a></li>
+								{%- endif -%}
+								{%- if item.instagram_url -%}
+									<li><a class="icon-g-67" target="_blank" href="{{ item.instagram_url }}" data-tooltip="Instagram"></a></li>
+								{%- endif -%}
+								{%- if item.pinterest_url -%}
+									<li><a class="icon-g-70" target="_blank" href="{{ item.pinterest_url }}" data-tooltip="Pinterest"></a></li>
+								{%- endif -%}
+							</div>
+						{%- endif -%}
+					</div>
+				</div>
+              </div>
+            <div class="sp-obj-menu">
+              <div class="sp-desctop-parent-menu sp-parent-box">
+                <div class="sp-desctop-menu">
+                  {%- include "main-menu" -%}
+                </div>
+              </div>
+            </div>
+            <div class="options-header bb-dropdown">
+              {%- include "header_options" -%}
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$('.toggle-sidebar-area-side').on('click', function(){  
+	        if ($(this).hasClass('active')){
+	            $(this).removeClass('active');
+	            $('.red-sidebar-area').removeClass('active');
+	            $('body').removeClass('active-hidden');
+	        }else{
+	            $(this).addClass('active');
+	            $('.red-sidebar-area').addClass('active');
+	            $('body').addClass('active-hidden');
+	        }
+	    }); 
+	    $('.red-sidebar-area .toggle_close').on('click', function(){  
+	        $('.toggle-sidebar-area-side').removeClass('active');
+	        $('.red-sidebar-area').removeClass('active');
+	        $('body').removeClass('active-hidden');
+	    }); 
+	    $('body').on('click', function( e ) {
+	        if ( !($(e.target).closest('.red-sidebar-area').length) && !$(e.target).hasClass('toggle-sidebar-area-side') && !$(e.target).parent().hasClass('toggle-sidebar-area-side') ) {
+	            $('.toggle-sidebar-area-side').removeClass('active');
+	            $('.red-sidebar-area').removeClass('active');
+	            $('body').removeClass('active-hidden');
+	        }
+	    });
+	});
+</script>
+

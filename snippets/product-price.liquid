@@ -1,0 +1,40 @@
+{% if product.title %}
+    {% assign compare_at_price = product.compare_at_price %}
+    {% assign price = product.price %}
+    {% assign price_varies = product.price_varies %}
+    {% assign available = product.available %}
+{% else %}
+    {% assign compare_at_price = 1999 %}
+    {% assign price = 1999 %}
+    {% assign price_varies = false %}
+    {% assign available = true %}
+{% endif %}
+
+{%- assign money_price = price | money_without_trailing_zeros -%}
+
+{% if compare_at_price > price %}
+    {% if price_varies %}
+        <span class="no-sale">{{ compare_at_price | money_without_trailing_zeros }}</span>
+        <span class="price-sale">{{ money_price }}</span>
+        {%  assign t =  price | times : 100 %}
+        {%  assign x = t | divided_by : compare_at_price %}
+        {%  assign p = 100 %}
+        <span class="sale-rate">{{ p | minus : x }}% Off</span>
+    {% else %}
+        <span class="no-sale">{{ compare_at_price | money_without_trailing_zeros }}</span>
+        <span class="price-sale">{{ money_price }}</span>
+        {%  assign t =  price | times : 100 %}
+        {%  assign x = t | divided_by : compare_at_price %}
+        {%  assign p = 100 %}
+        <span class="sale-rate">{{ p | minus : x }}% Off</span>
+    {% endif %}
+{% else %}
+    {% if price_varies %}
+        <span class="price-sale">{{ money_price }}</span>
+    {% else %}
+        <span class="price-sale">{{ money_price }}</span>
+    {% endif %}
+{% endif %}
+{% unless available %}
+<span class="product-price__sold-out">{{ 'products.product.sold_out' | t }}</span>
+{% endunless %}

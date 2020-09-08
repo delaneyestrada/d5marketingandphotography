@@ -1,0 +1,34 @@
+<!-- sp-search -->
+<div class="sp-desctop-parent-search sp-parent-box">
+  <div class="sp-search sp-dropdown-obj">
+    <button class="sp-dropdown-toggle" data-tposition="bottom">
+      <i class="icon-f-85"></i>
+    </button>
+    <div class="sp-dropdown-menu">
+      <div class="container">
+        <form action="/search" method="get" role="search">
+          <div class="sp-col">
+            <input class="sp-search-input ajax-search"
+                   type="search"
+                   name="q"
+                   value="{{ search.terms | escape }}"
+                   placeholder="Enter key word"
+                   aria-label="{{ 'general.search.place_holder' | t }}">
+            <button type="submit" class="sp-btn-search"></button>
+            <div class="cleafix">
+                <div class="results">
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+          </div>
+          <div class="sp-col">
+            <button class="sp-btn-close icon-f-84"></button>
+          </div>
+          <div class="sp-info-text">{{ 'general.search.header_message' | t }}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

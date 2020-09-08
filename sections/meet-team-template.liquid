@@ -1,0 +1,179 @@
+{%- assign item = section.settings -%}
+
+{%- capture blog-position -%}
+  {%- case item.blog_row = "" -%}
+    {%- when 1 -%} col-lg-12 
+    {%- when 2 -%} col-lg-6 col-md-12
+    {%- when 3 -%} col-lg-4 col-md-12
+    {%- else -%} col-lg-3 col-md-12
+  {%- endcase-%}
+{%- endcapture -%}
+<section class="Section" id="section-{{ section.id }}" >
+  <div class="container-indent page-team">
+    <div class="container container-fluid-custom-mobile-padding">
+      <div class="content row">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when "item" -%}
+            <div class="col-lg-12 col-item">
+              <div class="image"><img src="{{ block.settings.image | img_url: '1170x400' }}"></div>
+              <h2 class="heading">{{ block.settings.title }}</h2>
+              <div class="text">{{ block.settings.text }}</div>
+            </div>
+            {%- when "item-2" -%}
+            <div class="col-lg-6 col-md-6 col-sm-12 col-item">
+              <div class="image"><img src="{{ block.settings.image_1 | img_url: '570x400' }}"></div>
+              <div class="heading">{{ block.settings.title_1 }}</div>
+              <div class="text">{{ block.settings.text_1 }}</div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-item">
+              <div class="image"><img src="{{ block.settings.image_2 | img_url: '570x400' }}"></div>
+              <div class="heading">{{ block.settings.title_2 }}</div>
+              <div class="text">{{ block.settings.text_2 }}</div>
+            </div>
+          {%- endcase -%}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      color: {{ section.settings.color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+
+    }
+</style>
+{% schema %}
+  {
+    "name": "Meet Team",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color",
+        "label": "Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+          "type": "header",
+          "content": "Mobile"
+      },
+      {
+          "type": "color",
+          "id": "bg_color_mobi",
+          "label": "Background Color",
+          "default": "#ffffff"
+      },
+      {
+          "type": "color",
+          "id": "color_mobi",
+          "label": "Color",
+          "default": "#ffffff"
+      },
+      {
+          "type": "text",
+          "id": "padding_mobi",
+          "label": "Section Padding",
+          "default": "0px 0px 0px 0px"
+      },
+      {
+          "type": "text",
+          "id": "margin_mobi",
+          "label": "Section margin",
+          "default": "0px 0px 0px 0px"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "item",
+        "name": "Team item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "CLAY JENSEN"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "text",
+            "default": "Founder"
+          }
+        ]
+      },
+      {
+        "type": "item-2",
+        "name": "2 Item in 1 columns",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_1",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title_1",
+            "label": "Title",
+            "default": "CLAY JENSEN"
+          },
+          {
+            "type": "text",
+            "id": "text_1",
+            "label": "text",
+            "default": "Founder"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title_2",
+            "label": "Title",
+            "default": "CLAY JENSEN"
+          },
+          {
+            "type": "text",
+            "id": "text_2",
+            "label": "text",
+            "default": "Founder"
+          }
+        ]
+      }
+	  ]
+  }
+{% endschema %}

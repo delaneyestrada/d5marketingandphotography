@@ -1,0 +1,494 @@
+{% assign item = section.settings %}
+
+{%- capture image_size -%}{{ item.logo_max_width }}x{%- endcapture -%}
+{%- capture image_size_retina -%}{{ item.logo_max_width | times: 2 }}x{%- endcapture -%}
+{%- capture footerlogo -%}{%- if item.logo != blank -%}{{ item.logo | img_url: image_size }}{%- else -%}title_{{ item.logo_text }}{%- endif -%}{%- endcapture -%}
+{%- capture footerlogoretina -%}{%- if item.logo != blank -%}{{ item.logo | img_url: image_size_retina }}{%- endif -%}{%- endcapture -%}
+{%- assign footerlogoalt = item.logo.alt -%}
+
+<footer class="Section {% if item.show_footer %} {% else %}hidden{% endif %}" id="section-{{ section.id }}">
+	<div class="container-indent background-footer">
+        {%- if item.design_footer == 'footer_logo' -%}
+    		<div class="bb-container-footer-logo{%- if item.fullwidth -%}-full{%- endif -%}">
+                <div class="bb-footer bb-logo-center">
+                    <div>
+                        <ul class="menu-general">
+                           {% for link in linklists[item.menu_footer].links %}
+                                {%- include "footer_links" -%}
+                            {% endfor %} 
+                        </ul>
+                    </div>
+                    <div class="bb-logo-footer-center">
+                        {%- if item.show_logoblock -%}
+                            {%- include "footer_logo" -%}
+                        {%- endif -%}
+                        {%- if item.footer_address != "" -%}
+                            <div class="sp-col-item">
+                              <div class="sp-box-copyright">{{ item.footer_address }}</div>
+                            </div>
+                        {%- endif -%}
+                    </div>
+                    <div class="social-footer">
+                        {%- if item.show_socials -%}
+                            {%- include "footer_social" -%}
+                        {%- endif -%}
+                    </div>
+                </div>
+            </div>
+        {%- elsif item.design_footer == 'footer_culumn' -%}
+            <div class="bb-container-footer{% if item.fullwidth %}-full{% endif %} {{ item.style }}">
+                <div class="bb-footer-row">
+                    {%- for block in section.blocks -%}
+                        <div class="bb-culumn {% if block.type == 'subscribe_form' and section.blocks.size == 4 %}bb-culumn-width{% endif %} {% if block.type == 'subscribe_form' and section.blocks.size == 5 %}hidden-footer{% endif %} {% if block.type == 'footer_instagram' %}bb-culumn-instagram{% endif %}">
+                            {%- case block.type -%}
+                                {% when 'footer_logo' %}
+                                    {%- if block.settings.show_logoblock -%}
+                                        {%- include "footer_logo" -%}
+                                        <div class="bb-social-culumn">
+                                            {%- if item.show_socials -%}
+                                                {%- include "footer_social" -%}
+                                            {%- endif -%}
+                                        </div>
+                                    {%- endif -%}
+                                {% when 'footer_links' %}
+                                    <ul class="menu-general">
+                                        {% for link in linklists[block.settings.menu_footer].links %}
+                                            {%- include "footer_links" -%}
+                                        {% endfor %} 
+                                    </ul>
+                                {% when 'subscribe_form' %}
+                                    {%- include "footer_subscribe" -%}
+                                {% when 'footer_paymant' %}
+                                    <div class="text-paymant">
+                                        {{ block.settings.text_paymant }}
+                                    </div>
+                                    {% if block.settings.img_paymant != blank %}
+                                        <div class="img-paymant">
+                                            <a href=""><img src="{{ block.settings.img_paymant | img_url: '330x330'}}"></a>
+                                        </div>
+                                    {% endif %}
+                                 {% when 'footer_instagram' %}
+                                    <div class="footer-instagram">
+                                        {% assign ins = block.settings %}
+                                        {%- include "footer_instagram" -%}
+                                    </div>
+
+
+                            {%- endcase -%}
+                        </div>
+                    {%- endfor -%}
+                </div>
+            </div>
+            <div class="background-copyright">
+                {%- if item.footer_address != "" -%}
+                    <div class="sp-col-item">
+                      <div class="sp-box-copyright">{{ item.footer_address }}</div>
+                    </div>
+                {%- endif -%}
+            </div>
+        {%- else -%}
+            <div class="bb-custom-footer container-fluid-bb-custom{%- if item.fullwidth -%}-full{%- endif -%}">
+    			<div class="bb-footer">
+    				<div class="copyright">
+                        {%- if item.show_logoblock -%}
+                            {%- include "footer_logo" -%}
+                        {%- endif -%}
+                        {%- if item.footer_address != "" -%}
+                            <div class="sp-col-item">
+                              <div class="sp-box-copyright" style="font-weight: 500;">{{ item.footer_address }}</div>
+                            </div>
+                        {%- endif -%}
+    					<ul class="menu-general">
+    		            	{% for link in linklists[item.menu_footer].links %}
+    			                {%- include "footer_links" -%}
+    		            	{% endfor %}
+    		          	</ul>
+    				</div>
+    				<div class="social-footer social-default">
+    					{%- if item.show_socials -%}
+    						{%- include "footer_social" -%}
+    					{%- endif -%}
+    				</div>
+    			</div>
+            </div>
+        {%- endif -%}
+	</div>
+</footer>
+<style type="text/css">
+  #section-{{ section.id }}{
+    border-top: 1px solid {{ item.color_border }};
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  #section-{{ section.id }} .bb-container-footer{
+    padding: {{ section.settings.padding_container }};
+  }
+  @media (max-width: 1365px){
+    #section-{{ section.id }} .bb-container-footer{
+        padding: {{ section.settings.padding_container_laptop }};
+    }
+    }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      color: {{ section.settings.color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+    #section-{{ section.id }} .bb-container-footer{
+        padding: {{ section.settings.padding_container_mobi }};
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Footer template",
+    "class": "index-section",
+    "max_blocks": 5,
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_footer",
+          "label": "Show footer",
+          "default": true
+        },
+    	{
+	      "type": "checkbox",
+	      "id": "fullwidth",
+	      "label": "Fullwidth width",
+	      "default": true
+    	},
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "color_border",
+          "label": "Color border",
+          "default": "#dedede"
+        },
+        {
+          "type": "text",
+          "id": "padding",
+          "label": "Section padding",
+          "default": "0px 0px 0px 0px"
+        },
+        {
+          "type": "text",
+          "id": "margin",
+          "label": "Section margin",
+          "default": "0px 0px 0px 0px"
+        },
+        {
+            "type": "header",
+            "content": "Mobile"
+        },
+        {
+            "type": "color",
+            "id": "bg_color_mobi",
+            "label": "Background color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "color",
+            "id": "color_mobi",
+            "label": "Color",
+            "default": "#ffffff"
+        },
+        {
+            "type": "text",
+            "id": "padding_mobi",
+            "label": "Section padding",
+            "default": "0px 0px 0px 0px"
+        },
+        {
+            "type": "text",
+            "id": "margin_mobi",
+            "label": "Section margin",
+            "default": "0px 0px 0px 0px"
+        },
+        {
+            "type": "header",
+            "content": "Logo"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_logoblock",
+            "label": "Show logo",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "logo_text",
+            "label": "Logo text",
+            "default": "bixbang",
+            "info": "Work when logo image is empty."
+        },
+        {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo main",
+            "info": "95x19px"
+        },
+        {
+            "type": "range",
+            "id": "logo_max_width",
+            "label": "Logo main width (in pixels)",
+            "min": 0,
+            "max": 200,
+            "unit": "px",
+            "step": 2,
+            "default": 0
+        },
+        {
+            "type": "header",
+            "content": "Design footer"
+        },
+        {
+            "type": "select",
+            "id": "design_footer",
+            "label": "Design footer",
+            "options": [
+                {
+                    "value": "footer_default",
+                    "label": "Footer default"
+                },
+                {
+                    "value": "footer_logo",
+                    "label": "Footer logo center"
+                },
+                {
+                    "value": "footer_culumn",
+                    "label": "Footer column"
+                }
+            ]
+        },
+    	{
+    		"type": "link_list",
+    		"id": "menu_footer",
+    		"label": "Menu footer"
+    	},
+        {
+            "type": "paragraph",
+            "content": "Footer columns settings"
+        },
+        {
+            "type": "text",
+            "id": "padding_container",
+            "label": "Padding container columns",
+            "default": "98px 95px 96px 95px"
+        },
+        {
+            "type": "text",
+            "id": "padding_container_laptop",
+            "label": "Padding container laptop",
+            "default": "90px 0px 90px 0px"
+        },
+        {
+            "type": "text",
+            "id": "padding_container_mobi",
+            "label": "Padding container mobile",
+            "default": "60px 15px 60px 15px"
+        },
+        {
+            "type": "select",
+            "id": "style",
+            "label": "Logo style",
+            "options": [
+                {
+                    "value": "style_1",
+                    "label": "style 1"
+                },
+                {
+                    "value": "style_2",
+                    "label": "style 2"
+                },
+                {
+                    "value": "style_3",
+                    "label": "style 3"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Copyright"
+        },
+        {
+            "type": "text",
+            "id": "footer_address",
+            "label": "Copyright"
+        },
+    	{
+	        "type": "header",
+	        "content": "Social buttons"
+	    },
+    	{
+    		"type": "checkbox",
+    		"id": "show_socials",
+    		"label": "Show socials",
+    		"default": true
+    	},
+    	{
+    		"type": "url",
+    		"id": "facebook_url",
+    		"label": "Facebook",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "twitter_url",
+    		"label": "Twitter",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "gmail_url",
+    		"label": "Gmail",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "instagram_url",
+    		"label": "Instagram",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "pinterest_url",
+    		"label": "Pinterest",
+    		"info": "If url is empty? Link will be hidden"
+    	}
+    ],
+    "blocks": [
+        {
+            "type": "footer_logo",
+            "name": "Footer logo",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Logo"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_logoblock",
+                    "label": "Show logo",
+                    "default": true
+                }
+            ]
+        },
+        {
+            "type": "footer_links",
+            "name": "Footer links",
+            "settings": [
+                {
+                    "type": "checkbox",
+                    "id": "show_content",
+                    "label": "Show content",
+                    "default": true
+                },
+                {
+                   "type": "link_list",
+                    "id": "menu_footer",
+                    "label": "Menu footer" 
+                }
+            ]
+        },
+        {
+            "type": "subscribe_form",
+            "name": "Subscribe form",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "NEWSLETTERS"
+                },
+                {
+                    "type": "text",
+                    "id": "decs_sub",
+                    "label": "Button",
+                    "default": "Get timely updates from your favorite products"
+                },
+                {
+                    "type": "text",
+                    "id": "placeholder",
+                    "label": "Placeholder",
+                    "default": "Enter Your Email"
+                },
+                {
+                    "type": "text",
+                    "id": "submit",
+                    "label": "Submit",
+                    "default": "subscribe"
+                }
+            ]
+        },
+        {
+            "type": "footer_paymant",
+            "name": "Paymant",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "textarea",
+                    "id": "text_paymant",
+                    "label": "Text paymant",
+                    "default": "<p>132, Moon Street, NewYork, American</p><p>Support@bixbang.com</p><p>(+132) 888 666</p>"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "img_paymant",
+                    "label": "Image paymant"
+                }
+            ]
+        },
+        {
+            "type": "footer_instagram",
+            "name": "Footer instagram",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title instagram",
+                    "default": "VISIT US ON INSTAGRAM"
+                },
+                {
+                    "type": "color",
+                    "id": "color_title",
+                    "label": "Color title",
+                    "default": "#7c7c80"
+                },
+                {
+                  "type": "text",
+                  "id": "access_token",
+                  "label": "Access token",
+                  "info": "[Find your access token](http://www.maestrooo.com/instagram)."
+                },
+                {
+                  "type": "range",
+                  "id": "image_count",
+                  "min": 3,
+                  "max": 3,
+                  "step": 1,
+                  "label": "Image count",
+                  "default": 3
+                }
+            ]
+        }
+    ]
+  }
+{% endschema %}

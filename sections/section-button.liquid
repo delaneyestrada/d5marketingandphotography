@@ -1,0 +1,161 @@
+<section class="Section" id="section-{{ section.id }}" >
+  <div class="container-index">
+    <div class="container">
+      <div class="section-button">
+        <h2 class="heading">{{ section.settings.heading }}</h2>
+        <div class="content-section">
+          {% for block in section.blocks %}
+          <div class="content">
+            <div class="content-button">
+              <a href="" class="btn-section" id="button-{{ forloop.index }}">{{ block.settings.text }}</a>
+            </div>
+          </div>
+          <style type="text/css">
+            .content #button-{{ forloop.index }}{
+              margin-right: 30px;
+              line-height: 14px;
+              font-size: 14px;
+              font-weight: 500;
+              text-transform: uppercase;
+              display: block;
+              margin-bottom: 15px;
+              border: 2px solid;
+              transition: 300ms all;
+              padding: {{ block.settings.padding }};
+              color: {{ block.settings.text_color }};
+              background-color: {{ block.settings.bg_color }};
+              border-color: {{ block.settings.border_color }};
+            }
+            .content #button-{{ forloop.index }}:hover{
+              color: {{ block.settings.text_color_hv }};
+              background-color: {{ block.settings.bg_color_hv }};
+              border-color: {{ block.settings.border_color_hv }};
+            }
+          </style>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} .heading{
+    margin-bottom: 42px;
+    font-size: 30px !important;
+    padding-bottom: 0 !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+  }
+</style>
+{% schema %}
+{
+  "name": "Section Button",
+  "settings":[
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Button"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text Button",
+          "default": "Button"
+        },
+        {
+          "type": "text",
+          "id": "padding",
+          "label": "padding",
+          "default": "13px 32px"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#303030"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border Color",
+          "default": "#303030"
+        },
+        {
+          "type": "header",
+          "content": "Color Hover"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_hv",
+          "label": "Background",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "text_color_hv",
+          "label": "Text Color",
+          "default": "#303030"
+        },
+        {
+          "type": "color",
+          "id": "border_color_hv",
+          "label": "Border Color",
+          "default": "#303030"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

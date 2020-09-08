@@ -1,0 +1,502 @@
+{%- assign item = section.settings -%}
+
+{%- assign str_blocks_title = '|' -%}
+{%- assign str_blocks_title_drag = '|' -%}
+{%- for block in section.blocks -%}
+{%- assign str_blocks_title = str_blocks_title | append: block.settings.linklist | append: '_' | append: forloop.index0 -%}
+{%- unless forloop.last -%}{%- assign str_blocks_title = str_blocks_title | append: '|' -%}{%- endunless -%}
+{%- endfor -%}
+{%- for block in section.blocks -%}
+{%- assign str_blocks_title_drag = str_blocks_title_drag | append: block.settings.newnavigation_item | append: '_' | append: forloop.index0 -%}
+{%- unless forloop.last -%}{%- assign str_blocks_title_drag = str_blocks_title_drag | append: '|' -%}{%- endunless -%}
+{%- endfor -%}
+
+
+{%- include "main-menu-mobilecat" mm: item.main_menu_selected -%}
+
+<section id="section-{{ section.id }}">
+  <div class="container-fluid{% if section.settings.slider_fullwidth %}-fluid{% endif %}">
+    <div class="row">
+      {% if item.main_menu_selected != blank %}
+        <div class="col-xl-3 category-wrapper">
+          <div class="categories-btn">
+            <button class="category-button">
+              All Departments<i class="btn-icon fa fa-caret-down default"></i><i class="btn-icon fa fa-caret-down default"></i>
+            </button>
+            <div class="sp-dropdown-menu">
+              {%- include "main-menu-cat" -%}
+            </div>
+          </div>
+        </div>
+    {% endif %}
+      <div class="{% if item.main_menu_selected != blank %} col-xl-9 {% else %} col-xl-12 {% endif %}">
+      <div id="rev_slider_2_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.8">
+        <ul>  <!-- SLIDE  -->
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {% when 'slider_list' %}
+                {%- assign img_url = block.settings.image | img_url: '1900x' -%}
+                {%- assign img_url_2 = block.settings.image_2 | img_url: '1900x' -%}
+                <li data-index="rs-{{ forloop.index }}" data-transition="cube-horizontal" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="default"  data-thumb="{{ img_url }}"  data-rotate="0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                  <!-- MAIN IMAGE -->
+                  {%- if block.settings.image == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+                  {%- else -%}
+                    <img src="{{ img_url }}"  alt="" title="slider-bg-2"  width="1140" height="608" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                  {%- endif -%}
+
+                  <!-- LAYERS -->
+
+                  <!-- LAYER NR. 1 -->
+                  <div class="tp-caption   tp-resizeme" 
+                    id="slide-{{ forloop.index }}-layer-1" 
+                    data-x="['left','left','left','left']" data-hoffset="['575','555','555','555']" 
+                    data-y="['top','top','top','top']" data-voffset="['75','134','134','134']" 
+                    data-width="none"
+                    data-height="none"
+                    data-whitespace="nowrap"
+                    data-visibility="['on','on','off','off']"
+               
+                    data-type="image" 
+                    data-responsive_offset="on" 
+
+                    data-frames='[{"delay":1300,"speed":1500,"frame":"0","from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                    data-textAlign="['inherit','inherit','inherit','inherit']"
+                    data-paddingtop="[0,0,0,0]"
+                    data-paddingright="[0,0,0,0]"
+                    data-paddingbottom="[0,0,0,0]"
+                    data-paddingleft="[0,0,0,0]"
+                    
+                    style="z-index: 5;">
+                    {%- if block.settings.image_2 != blank -%}
+                      <img src="{{ img_url_2 }}" alt="" data-ww="['545px','451px','451px','451px']" data-hh="['523px','433px','433px','433px']" width="543" height="521" data-no-retina> 
+                    {%- endif -%}
+                  </div>
+
+                  <!-- LAYER NR. 2 -->
+                  <div class="tp-caption   tp-resizeme" 
+                    id="slide-{{ forloop.index }}-layer-2" 
+                    data-x="['left','left','left','left']" data-hoffset="['133','50','50','50']" 
+                    data-y="['middle','middle','middle','middle']" data-voffset="['-82','-82','-82','-82']" 
+                    data-width="none"
+                    data-height="none"
+                    data-whitespace="nowrap"
+               
+                    data-type="text" 
+                    data-responsive_offset="on" 
+                    data-frames='[{"delay":0,"split":"chars","splitdelay":0.1,"speed":1000,"split_direction":"forward","frame":"0","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                    data-textAlign="['inherit','inherit','inherit','inherit']"
+                    data-paddingtop="[0,0,0,0]"
+                    data-paddingright="[0,0,0,0]"
+                    data-paddingbottom="[0,0,0,0]"
+                    data-paddingleft="[0,0,0,0]"
+
+                    style="z-index: 6; white-space: nowrap; font-size: 68px; line-height: 67px; font-weight: 300; color: {{ block.settings.color_1 }}; letter-spacing: 9px;font-family:Poppins;text-transform:uppercase;">{{ block.settings.text1 }}</div>
+
+                  <!-- LAYER NR. 3 -->
+                  <div class="tp-caption   tp-resizeme" 
+                    id="slide-{{ forloop.index }}-layer-3" 
+                    data-x="['left','left','left','left']" data-hoffset="['134','51','51','51']" 
+                    data-y="['middle','middle','middle','middle']" data-voffset="['-4','-4','-4','-4']" 
+                    data-width="none"
+                    data-height="none"
+                    data-whitespace="nowrap"
+               
+                    data-type="text" 
+                    data-responsive_offset="on" 
+
+                    data-frames='[{"delay":900,"speed":1000,"frame":"0","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                    data-textAlign="['inherit','inherit','inherit','inherit']"
+                    data-paddingtop="[0,0,0,0]"
+                    data-paddingright="[0,0,0,0]"
+                    data-paddingbottom="[0,0,0,0]"
+                    data-paddingleft="[0,0,0,0]"
+
+                    style="z-index: 7; white-space: nowrap; font-size: 66px; line-height: 67px; font-weight: 700; color: {{ block.settings.color_2 }}; letter-spacing: 0px;font-family:Poppins;text-transform:uppercase;">{{ block.settings.text2 }}</div>
+
+                  <!-- LAYER NR. 4 -->
+                  <div class="tp-caption   tp-resizeme" 
+                    id="slide-{{ forloop.index }}-layer-4" 
+                    data-x="['left','left','left','left']" data-hoffset="['137','54','54','54']" 
+                    data-y="['middle','middle','middle','middle']" data-voffset="['42','42','42','42']" 
+                    data-width="none"
+                    data-height="none"
+                    data-whitespace="nowrap"
+                    data-type="text" 
+                    data-responsive_offset="on" 
+                    data-frames='[{"delay":1510,"speed":1000,"frame":"0","from":"x:{-250,250};y:{-150,150};rX:{-90,90};rY:{-90,90};rZ:{-360,360};sX:0;sY:0;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                    data-textAlign="['inherit','inherit','inherit','inherit']"
+                    data-paddingtop="[0,0,0,0]"
+                    data-paddingright="[0,0,0,0]"
+                    data-paddingbottom="[0,0,0,0]"
+                    data-paddingleft="[0,0,0,0]"
+
+                    style="z-index: 8; white-space: nowrap; font-size: 20px; line-height: 21px; font-weight: 600; color: {{ block.settings.color_3 }}; letter-spacing: 0px;font-family:Poppins;">{{ block.settings.text3 }}</div>
+
+                  <!-- LAYER NR. 5 -->
+                  <a class="tp-caption   tp-resizeme" 
+                    href="{{ block.settings.link_button }}" target="_self"      
+                    id="slide-{{ forloop.index }}-layer-5" 
+                    data-x="['left','left','left','left']" data-hoffset="['138','55','55','55']" 
+                    data-y="['middle','middle','middle','middle']" data-voffset="['122','122','122','122']" 
+                    data-width="none"
+                    data-height="none"
+                    data-whitespace="nowrap"
+                    data-type="text" 
+                    data-actions=''
+                    data-responsive_offset="on" 
+                    data-frames='[{"delay":2300,"speed":1000,"frame":"0","from":"y:50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"500","ease":"Linear.easeNone","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(255,255,255);bg:rgb(48,48,48);br:0px 0px 0px 0px;"}]'
+                    data-textAlign="['center','center','center','center']"
+                    data-paddingtop="[9,9,9,9]"
+                    data-paddingright="[25,25,25,25]"
+                    data-paddingbottom="[9,9,9,9]"
+                    data-paddingleft="[25,25,25,25]"
+
+                    style="z-index: 9; white-space: nowrap; font-size: 14px; line-height: 23px; font-weight: 500; color: {{ block.settings.color_button }}; letter-spacing: 0px;font-family:Poppins;text-transform:uppercase;border-color:{{ block.settings.color_border }};border-style:solid;border-width:2px 2px 2px 2px;cursor:pointer;text-decoration: none;">{{ block.settings.text_button }}</a>
+                </li>
+            {% endcase %}
+          {%- endfor -%}
+         
+        </ul>
+        <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div> 
+      </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+  var revapi2,
+    tpj;  
+  (function() {     
+      if (!/loaded|interactive|complete/.test(document.readyState)) document.addEventListener("DOMContentLoaded",onLoad); else onLoad();  
+      function onLoad() {       
+        if (tpj===undefined) { tpj = jQuery; if("off" == "on") tpj.noConflict();}
+      if(tpj("#rev_slider_2_1").revolution == undefined){
+        revslider_showDoubleJqueryError("#rev_slider_2_1");
+      }else{
+        revapi2 = tpj("#rev_slider_2_1").show().revolution({
+          sliderType:"standard",
+          jsFileLocation:"//bixbang.spyropress.com/wp-content/plugins/revslider/public/assets/js/",
+          sliderLayout:"auto",
+          dottedOverlay:"none",
+          delay:9000,
+          navigation: {
+            keyboardNavigation:"off",
+            keyboard_direction: "horizontal",
+            mouseScrollNavigation:"off",
+            mouseScrollReverse:"default",
+            onHoverStop:"off",
+            bullets: {
+              enable:true,
+              hide_onmobile:true,
+              hide_under:870,
+              style:"uranus",
+              hide_onleave:false,
+              direction:"horizontal",
+              h_align:"left",
+              v_align:"bottom",
+              h_offset:40,
+              v_offset:20,
+              space:8,
+              tmp:'<span class="tp-bullet-inner"></span>'
+            }
+          },
+          responsiveLevels:[1240,1024,778,480],
+          visibilityLevels:[1240,1024,778,480],
+          gridwidth:[1140,1024,778,480],
+          gridheight:[606,606,406,406],
+          lazyType:"none",
+          minHeight:"609",
+          shadow:0,
+          spinner:"spinner2",
+          stopLoop:"off",
+          stopAfterLoops:-1,
+          stopAtSlide:-1,
+          shuffle:"off",
+          autoHeight:"off",
+          disableProgressBar:"on",
+          hideThumbsOnMobile:"off",
+          hideSliderAtLimit:0,
+          hideCaptionAtLimit:0,
+          hideAllCaptionAtLilmit:0,
+          debugMode:false,
+          fallbacks: {
+            simplifyAll:"off",
+            nextSlideOnWindowFocus:"off",
+            disableFocusListener:false,
+          }
+        });
+      }; /* END OF revapi call */
+      
+     }; /* END OF ON LOAD FUNCTION */
+  }()); /* END OF WRAPPING FUNCTION */
+  function mobileFunction(_this){
+    var parent = $(_this).parent();
+
+    if(parent.hasClass("active")){
+      parent.removeClass("active");
+    }
+    else{
+      parent.find(".dropdown-menu").hide();
+      parent.addClass("active");
+    }
+  }
+</script>
+
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  @media (max-width: 778px){
+    #section-{{ section.id }} .rev_slider{
+      height: 406px !important;
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Slider Electronic",
+    "settings": [
+      {
+          "type": "header",
+          "content": "Slider fullwidth"
+      },
+      {
+         "type": "checkbox",
+         "id": "slider_fullwidth",
+         "label": "Slider fullwidth",
+         "default": false
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content": "Mobile"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobi",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin_mobi",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+       {
+        "type": "header",
+        "content": "Category Menu"
+      },
+      {
+        "type": "link_list",
+        "id": "main_menu_selected",
+        "label": "Category Menu",
+        "default": "main-menu"
+      }
+    ],
+  "blocks": [
+    {
+      "type": "slider_list",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image  background"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label":"image"
+        },
+        {
+          "type": "textarea",
+          "id": "text1",
+          "label": "Sub Heading",
+          "default": "playing"
+        },
+        {
+          "type": "textarea",
+          "id": "text2",
+          "label": "Heading",
+          "default": "monster"
+        },
+        {
+          "type": "textarea",
+          "id": "text3",
+          "label": "text",
+          "default": "Harman Kardon Onyx Studio 4"
+        },
+        {
+          "type": "text",
+          "id":"text_button",
+          "label": "Text Button",
+          "default": "shop now"
+        },
+        {
+          "type": "url",
+          "id":"link_button",
+          "label": "Link Button"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Color Sub Heading",
+          "default": "#303030"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Color Heading",
+          "default": "#303030"
+        },
+        {
+          "type": "color",
+          "id": "color_3",
+          "label": "Color Text",
+          "default": "#303030"
+        },
+        {
+          "type": "color",
+          "id": "color_button",
+          "label": "Color Button",
+          "default": "#303030"
+        },
+        {
+          "type": "color",
+          "id": "color_border",
+          "label": "Color Border Button",
+          "default": "#303030"
+        }
+      ]
+    },
+    {
+      "type": "megamenu",
+      "name": "Megamenu",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "newnavigation_item",
+          "label": "Main Menu Item Full Name",
+          "info": "Work with new admid panel drag menu. Copy and paste full item name from main menu. Drop-down limit=2"
+        },
+        {
+          "type": "select",
+          "id": "grid",
+          "label": "Items In Row",
+          "default": "4",
+          "options": [
+            {
+              "value": "3",
+              "label": "4"
+            },
+            {
+              "value": "4",
+              "label": "3"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "----------------"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg",
+          "label": "Background"
+        },
+        {
+          "type": "header",
+          "content": "Logo Mega"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_logo_mega",
+          "label": "Show Logo Mega"
+        },
+        {
+          "type": "url",
+          "id": "link_mega",
+          "label": "Link logo"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_mega",
+          "label": "Image Logo Mega"
+        },
+        {
+          "type": "text",
+          "id": "text1",
+          "label": "Text Logo",
+          "default": "Minimalist"
+        },
+        {
+          "type": "text",
+          "id": "text2",
+          "label": "Text Logo 2",
+          "default": "ECommerce Theme"
+        },
+        {
+          "type": "color",
+          "id": "color_border",
+          "label": "Color Border",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "color_text1",
+          "label": "Color Text",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "color_text2",
+          "label": "Color Text 2",
+          "default": "#fff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Revolution Slider electronic",
+      "category": "Sliders",
+      "blocks": [
+        {
+          "type": "slider_list"
+        },
+        {
+          "type": "slider_list"
+        },
+        {
+          "type": "slider_list"
+        }
+      ]
+    }
+  ]
+ }
+{% endschema %}

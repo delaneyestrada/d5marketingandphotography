@@ -1,0 +1,95 @@
+<section class="Section typography" id="section-{{ section.id }}" >
+  <div class="container-index">
+    <div class="container">
+      {% for block in section.blocks %}
+        <div class="content">
+          <h2 class="heading" style="font-size: {{ block.settings.font_size }}px;">{{ block.settings.title }}</h2>
+          <div class="text">{{ block.settings.text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media(max-width: 992px){
+    #section-{{ section.id }}{
+      margin: {{ section.settings.margin_mobile }};
+      padding: {{ section.settings.padding_mobile }};
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Typography",
+  "settings": [
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobile",
+      "label": "Margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobile",
+      "label": "Padding",
+      "default": "0px 0px 0px 0px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Typography",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "headding"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size",
+          "default": 40,
+          "min": 30,
+          "max": 50,
+          "step": 1
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Nunc vulputate consectetur ipsum, eget sollicitudin lorem ultricies at. Donec rhoncus sit amet sapien ut viverra. Pellentesque non elementum augue. Proin vitae malesuada tortor. Fusce sollicitudin ligula nec commodo interdum. Integer eget sollicitudin leo. Nunc non velit a dolor malesuada suscipit ac ut"
+        }
+      ]
+    },
+    {
+      "type": "Toggle",
+      "name": "Text Toggle",
+      "settings": [
+      ]
+    }
+  ]
+}
+{% endschema %}

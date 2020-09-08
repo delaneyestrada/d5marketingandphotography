@@ -1,0 +1,42 @@
+<section class="Section section-map" id="section-{{ section.id }}">
+  <div class="container-index">
+    <div class="container-page">
+      <div class="map">
+        {{ section.settings.html }}
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+   #section-{{ section.id }} .map{
+    line-height: 1;
+   }
+</style>
+{% schema %}
+{
+  "name": "Map",
+  "settings": [
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "html",
+      "id": "html",
+      "label": "Map"
+    }
+  ]
+}
+{% endschema %}

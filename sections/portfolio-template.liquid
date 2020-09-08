@@ -1,0 +1,105 @@
+<div class="sp-portfolio-masonry sp-product-init container-portfolio{% if section.settings.fullwidth %}-full{% endif %}">
+  <div class="sp-filter-nav">
+    <li class="nav-item text-center">
+      <a class="active button" data-filter="*">All</a>
+      {% for tag in blog.all_tags %}
+         <a data-filter=".{{ tag | handleize }}" class="button">{{ tag }}</a>
+      {% endfor %}
+    </li>
+  </div>
+  {% paginate blog.articles by section.settings.post_per_page %}
+    <div class="sp-portfolio-content sp-add-item row">
+      {% for article in blog.articles %}
+        {% assign t = '' %}
+        {% for tag in article.tags %}
+            {% assign htag = tag | handleize %}
+            {% assign t = t | append : htag %}
+            {% if forloop.index < article.tags.size %}
+                {% assign t = t | append : ',' %}
+            {% endif %}
+        {% endfor %}
+
+          <div class="element-item {{ t | replace :',',' ' }} col-lg-{{ section.settings.gird }} col-md-6 col-sm-6">
+            <div class="portfolio-blog">
+              <div class="overplay">
+                {% if section.settings.layout == 'masonry' %}
+                <img src="{{ article.image.src | img_url: '430x430' }}">
+                {% elsif section.settings.layout == 'default' %}
+                <img src="{{ article.image.src | img_url: '430x430', crop: 'center' }}">
+                {% endif %}
+                <div class="portfolio-meta">
+                  <a href="{{ article.url }}" class="title">{{ article.title }}</a>
+                  {%- if article.tags.size > 0 -%}
+                    <div class="portfolio-tag">
+                      {%- for tag in article.tags -%}
+                        {%- assign a_url = tag | handle -%}{%- assign a_url = blog.url | append: '/tagged/' | append: a_url  -%}
+                        {{ tag | link_to: a_url }}
+                      {%- endfor -%}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+      {% endfor %}
+    </div>
+    
+  {% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name":"Portfolio",
+  "settings":[
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": true
+    },
+    {
+      "type":"select",
+      "id":"layout",
+      "label":"Layout",
+      "default":"default",
+      "options":[
+        {
+          "value":"default",
+          "label":"Default"
+        },
+        {
+          "value":"masonry",
+          "label":"Portfolio Masonry"
+        }
+      ]
+    },
+	{
+		"type": "image_picker",
+		"id": "images",
+		"label": "Image Uploader"
+	},
+    {
+      "type": "select",
+      "id": "gird",
+      "label": "Number Of Columns",
+      "options": [
+          {
+            "value": "4",
+            "label": "3"
+          },
+          {
+            "value": "3",
+            "label": "4"
+          }
+      ]
+    },
+    {
+      "type":"text",
+      "id":"post_per_page",
+      "label":"Post per page",
+      "default":"8"
+    }
+  ]
+}
+{% endschema %}

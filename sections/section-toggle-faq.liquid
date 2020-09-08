@@ -1,0 +1,133 @@
+<section class="Section section--toggle section-faq" id="section-{{ section.id }}">
+  <div class="container-index">
+    <div class="container">
+      <div class="page-toggle">
+        {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'heading' %}
+            <h2 class="heading sp-title">{{ block.settings.heading }}</h2>
+          {% when 'Toggle' %}
+          
+          <div class="content">
+            <div class="title" id="clickme_{{ forloop.index }}" onclick="idFunction($(this))">
+              <span>{{ block.settings.title }}</span>
+            </div>
+            <div class="content-text" id="book_{{ forloop.index }}">
+              <div class="toggle">{{ block.settings.text }}</div>
+            </div>
+          </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+    function idFunction(_this){
+    var itemText = _this.next();
+    itemText.slideToggle("300");
+    if(_this.hasClass("add_before")){
+      _this.removeClass("add_before");
+    }
+    else{
+      _this.addClass("add_before");
+    }
+  }
+</script>
+
+</script>
+<style type="text/css">
+  #section-{{ section.id }}{
+    margin: {{ section.settings.margin }};
+    padding: {{ section.settings.padding }};
+  }
+  @media(max-width: 992px){
+    #section-{{ section.id }}{
+      margin: {{ section.settings.margin_mobile }};
+      padding: {{ section.settings.padding_mobile }};
+    }
+  }
+  #section-{{ section.id }} .heading{
+    font-size: 40px;
+    padding: 0;
+    margin-bottom: 65px;
+  }
+  @media(max-width: 992px){
+    #section-{{ section.id }} .heading{
+      font-size: 38px;
+    }
+  }
+  @media(max-width: 575px){
+    #section-{{ section.id }} .heading{
+      font-size: 28px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Togger Faqs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobile",
+      "label": "Margin",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobile",
+      "label": "Padding",
+      "default": "0 0 0 0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings":[
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Questions"
+        }
+      ]
+    },
+    {
+      "type": "Toggle",
+      "name": "Text Toggle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "What Shipping Methods Are Available?"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Once your order has been shipped, you will receive an email with your tracking and shipping information. Simply click on the link in the email or select the ‘track order’ option here and enter your order number and email address or sign into your account."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

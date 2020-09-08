@@ -1,0 +1,9 @@
+<a href="/" class="sp-logo" itemprop="url">
+  {%- if headerlogo_1 contains "title_" -%}<h2 class="sp-title">{{ headerlogo_1 | split:"title_" | last }}</h2>
+  {%- else -%}
+  <img src="{{ headerlogo_1 }}"
+                   srcset="{{ headerlogo_1 }} 1x, {{ headerlogoretina_1 }} 2x"
+                   alt="{{ headerlogoalt_1 }}"
+                   class="sp-retina" itemprop="logo" />
+  {%- endif -%}
+</a>

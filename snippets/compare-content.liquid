@@ -1,0 +1,98 @@
+<div id="compare-{{ product.handle }}">
+    <div class="content-product-compare">
+        <a href="#" class="remove-from-compare" data-name="{{ product.handle }}"  title="Remove from compare">&#x2715;</a>
+        <div class="compare-image">
+            <img src="{{ product.images[0] | img_url:'270x350', crop: 'center' }}" alt="{{ product.title }}" style="width: 100%">
+        </div>
+        <div class="compare-data">
+            <p>{{ product.title }}</p>
+            {% comment %}<p class="price">{% include 'product-price' %}</p>{% endcomment %}
+            <a
+                {% if product.variants.size > 1 %}
+                    class="compare-add-to-cart btn"
+                    href="/collections/{{ product.collections[0].handle }}{{ product.url }}"
+                {% else %}
+                    href="/collections/{{ product.collections[0].handle }}{{ product.url }}"
+                    class="add-to-cart compare-add-to-cart btn"
+                    data-variant="{{ product.variants[0].id }}"
+                    data-quantity="1"
+                {% endif %}
+            >
+                {% if product.variants.size > 1 %}
+                    SELECT OPTIONS
+                {% else %}
+                    ADD TO CART
+                {% endif %}
+            </a>
+        </div>
+        {% if product.content.size > 8 %}
+            <div class="compare-content">
+                {{ product.content | truncate: 300 }}
+            </div>
+        {% endif %}
+        <div class="compare-stock">
+            {% if product.variants[0].inventory_quantity > 0 %}
+                <p>In stock</p>
+            {% else %}
+                <p>Out of stock</p>
+            {% endif %}
+        </div>
+        {% unless product.variants.size == 1 and product.variants[0].title == "Default Title" %}
+        {% for option in product.options_with_values %}
+            <div class="compare-option">
+                <p>{{ option.name | camelcese }}</p>
+                {% assign name = option.name | handleize %}
+                {% for val in option.values %}
+                    {% if name == 'color' or name=='colors' %}
+                        <span>{{ val | upcase }}</span>
+                    {% else %}
+                        <span>{{ val | upcase }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% endunless %}
+        <div class="compare-price">
+            <p class="price">
+                {% if product.title %}
+                    {% assign compare_at_price = product.compare_at_price %}
+                    {% assign price = product.price %}
+                    {% assign price_varies = product.price_varies %}
+                    {% assign available = product.available %}
+                {% else %}
+                    {% assign compare_at_price = 1999 %}
+                    {% assign price = 1999 %}
+                    {% assign price_varies = false %}
+                    {% assign available = true %}
+                {% endif %}
+
+                {%- assign money_price = price | money_without_trailing_zeros -%}
+
+                {% if compare_at_price > price %}
+                    {% if price_varies %}
+                        <span class="no-sale">{{ compare_at_price | money_without_trailing_zeros }}</span>
+                        <span class="price-sale">{{ money_price }}</span>
+                        {%  assign t =  price | times : 100 %}
+                        {%  assign x = t | divided_by : compare_at_price %}
+                        {%  assign p = 100 %}
+                        <span class="sale-rate">{{ p | minus : x }}% Off</span>
+                    {% else %}
+                        <span class="no-sale">{{ compare_at_price | money_without_trailing_zeros }}</span>
+                        <span class="price-sale">{{ money_price }}</span>
+                        {%  assign t =  price | times : 100 %}
+                        {%  assign x = t | divided_by : compare_at_price %}
+                        {%  assign p = 100 %}
+                        <span class="sale-rate">{{ p | minus : x }}% Off</span>
+                    {% endif %}
+                {% else %}
+                    {% if price_varies %}
+                        <span class="price-sale">{{ money_price }}</span>
+                    {% else %}
+                        <span class="price-sale">{{ money_price }}</span>
+                    {% endif %}
+                {% endif %}
+                
+            </p>
+        </div>
+    </div>
+</div>

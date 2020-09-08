@@ -1,0 +1,26 @@
+ <div class="wrapper">
+  <a href="{{ b_i.link }}">
+    <div class="banner-item">
+      {%- if b_i.image == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+      {%- else -%}
+        <img 
+          data-src="{{ b_i.image }}"
+          data-srcset="{% include 'lazyload_string' value: b_i.image %}"
+          alt="{{ b_i.image.alt }}"
+          class="lazyload"
+          src="{{ b_i.image | img_url: '767x' }}">
+      {%- endif -%}
+      <div class="banner-content {{ b_i.option_box }} {{ b_i.effect_box }} {{ b_i.style_box }}" style="padding: {{ b_i.padding_box }}">
+        {%- if b_i.title != '' -%}
+          <p class="title-1" style="color: {{ b_i.color_title }}">{{ b_i.title }}</p>
+        {%- endif -%}
+        {%- if b_i.text != '' -%}
+          <p class="title-2" style="color: {{ b_i.color_text }}">{{ b_i.text }}</p>
+        {%- endif -%}
+        {%- if b_i.show_button -%}
+          <a href="{{ b_i.link_button }}" class="btn-banner btn {{ b_i.style_button }}">{{ b_i.text_button }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </a>
+</div>

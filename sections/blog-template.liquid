@@ -1,0 +1,450 @@
+{%- assign item = section.settings -%}
+
+{%- capture blog-position -%}
+  {%- case item.blog_row = "" -%}
+    {%- when 1 -%} col-lg-12 col-md-6 col-sm-12 col-xs-12
+    {%- when 2 -%} col-lg-6 col-md-6 col-sm-12 col-xs-12
+    {%- when 3 -%} col-lg-4 col-md-6 col-sm-12 col-xs-12
+    {%- else -%} col-lg-3 col-md-12
+  {%- endcase-%}
+{%- endcapture -%}
+
+{%- paginate blog.articles by item.blog_list -%}
+<section class="Section-{{ section.id }}" id="section-{{ section.id }}" >
+  <div class="container-indent">
+    <div class="container container-fluid-custom-mobile-padding {{ item.layout }}">
+      {%- case item.layout -%}
+        {%- when 'layout_sidebar' -%}
+        <div class="row row-layout-sidebar">
+          <div class="col-sm-12 col-md-8 col-lg-9 layout-sidebar col-sidebar-9">
+            {%- include 'blog-listing' -%}
+          </div>
+          <div class="col-sm-12 col-md-4 col-lg-3 rightColumn layout-sidebar col-sidebar-3">
+            {%- include 'blog-sidebar' -%}
+          </div>
+        </div>
+        {%- else -%}
+        <div class="sp-portfolio-masonry">
+          <div class="sp-filter-nav text-center">
+            <li class="nav-item">
+              <a class="active button" data-filter="*">All news</a>
+              {% for tag in blog.all_tags %}
+                 <a data-filter=".{{ tag | handleize }}" class="button">{{ tag }}</a>
+              {% endfor %}
+            </li>
+          </div>
+          <div class="sp-portfolio-content sp-add-item {% if item.design == 'blog_list' %}blog-list{% else %}blog-gird row {% endif %}">
+            {% for article in blog.articles %}
+              {% assign t = '' %}
+              {% for tag in article.tags %}
+                  {% assign htag = tag | handleize %}
+                  {% assign t = t | append : htag %}
+                  {% if forloop.index < article.tags.size %}
+                      {% assign t = t | append : ',' %}
+                  {% endif %}
+              {% endfor %}
+               {%- include 'blog-listing-item' -%}
+              {% endfor %}
+          </div>
+          {%- if paginate.pages > 1 -%}
+            {%- include 'pagination' -%}
+          {%- endif -%}
+        </div>
+      {%- endcase -%}
+      
+    </div>
+  </div>
+</section>
+{%- endpaginate -%}
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      color: {{ section.settings.color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  @media (min-width: 1024px){
+    #section-{{ section.id }} .sp-post-img a img{
+      object-fit: cover;
+      height: {{ section.settings.height_img }}px;
+    }
+  }
+</style>
+{% schema %}
+  {
+    "name": "Blog pages",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "layout_fullwidth",
+        "options": [
+          {
+            "value": "layout_sidebar",
+            "label": "Layout Sidebar"
+          },
+          {
+            "value": "layout_fullwidth",
+            "label": "Layout Fullwidth"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "design",
+        "label": "Design",
+        "default": "blog_gird",
+        "options": [
+          {
+            "value": "blog_list",
+            "label": "Blog List"
+          },
+          {
+            "value": "blog_gird",
+            "label": "Blog Grid"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "blog_row",
+        "label": "Item in row ('style blog grid')",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "checkbox",
+        "id": "list_in_line",
+        "label": "Blog In Line ('style blog list')",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "blog_list",
+        "label": "Show items",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "default": 6
+      },
+      {
+        "type": "header",
+        "content": "Thumbnails Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_tags",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_tags_uppercase",
+        "label": "Tags uppercase",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_comments",
+        "label": "Show comments",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_button",
+        "label": "Show button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "decs_blog",
+        "label": "Description Blog",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "Design Description"
+      },
+      {
+        "type": "range",
+        "id": "truncate",
+        "label": "Show Words",
+    		"min": 1,
+    		"max": 100,
+    		"step": 1,
+        "default": 15,
+        "info": "Integer"
+      },
+      {
+        "type": "text",
+        "id": "truncate_last_symbols",
+        "label": "Last Symbols",
+        "default": "..."
+      },
+      {
+        "type": "text",
+        "id": "height_img",
+        "label": "Height image",
+        "default": "209"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "about",
+        "name": "About",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "ABOUT"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "100x100px"
+          },
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "HTML",
+            "default": "Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."
+          },
+          {
+            "type": "url",
+            "id": "banner_link",
+            "label": "Link",
+            "info": "Optional"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_button",
+            "label": "Show button",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "button",
+            "label": "Button Name",
+            "default": "READ MORE"
+          }
+        ]
+      },
+      {
+        "type": "tags",
+        "name": "Category",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Category"
+          },
+          {
+            "type": "checkbox",
+            "id": "blog_tags_uppercase",
+            "label": "Tags uppercase",
+            "default": true
+          }
+        ]
+      },
+      {
+        "type": "recent_post",
+        "name": "Recent Post",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "RECENT POST"
+          },
+          {
+            "type": "blog",
+            "id": "sidebar_recent_blog_name",
+            "label": "Blog Name"
+          },
+          {
+            "type": "range",
+            "id": "sidebar_recent_blog_count",
+            "label": "Post Count",
+            "info": "Integer",
+      			"min": 1,
+      			"max": 20,
+      			"step": 1,
+            "default": 3
+          },
+          {
+            "type": "select",
+            "id": "design_recent",
+            "label": "Design",
+            "default": "blog_in_line",
+            "options": [
+              {
+                "value": "blog_in_line",
+                "label": "All In line"
+              },
+              {
+                "value": "blog_out_line",
+                "label": "Image In Line"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "blog_show_title",
+            "label": "Show Title",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "blog_show_tags",
+            "label": "Show tags",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "blog_show_author",
+            "label": "Show author",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "blog_show_date",
+            "label": "Show date",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_comments",
+            "label": "Show comments",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_decs_recent",
+            "label": "Description Blog",
+            "default": true
+          },
+          {
+            "type": "paragraph",
+            "content": "Design Description"
+          },
+          {
+            "type": "range",
+            "id": "truncate",
+            "label": "Show Words",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "default": 15,
+            "info": "Integer"
+          },
+          {
+            "type": "text",
+            "id": "truncate_last_symbols",
+            "label": "Last Symbols",
+            "default": "..."
+          },
+          {
+            "type": "checkbox",
+            "id": "blog_show_button",
+            "label": "Show Button",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "blog_readmore_text",
+            "label": "Text Button",
+            "default": "read more"
+          }
+        ]
+      },
+      {
+        "type": "search",
+        "name": "Search",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "TITLE"
+          }
+        ]
+      },
+      {
+        "type": "custom_html",
+        "name": "Custom Html",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "TITLE"
+          },
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "HTML"
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+		    "limit": 1,
+        "name": "Newsletter",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "NEWSLETTER SIGNUP"
+          },
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "Text",
+			      "default": "Sign up for our e-mail and be the first who know our special offers! Furthermore, we will give a 15% discount on the next order after you sign up."
+          },
+          {
+            "type": "textarea",
+            "id": "form_text",
+            "label": "Form text",
+			      "default": "Enter your e-mail"
+          },
+          {
+            "type": "textarea",
+            "id": "button",
+            "label": "Button text",
+			      "default": "GET!"
+          }
+        ]
+      }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,457 @@
+{%- assign item = section.settings -%}
+<section class="Section" id="section-{{ section.id }}" data-aos="{{ section.settings.effect }}">
+  <div class="container-indent" data-sectionname="index_horizontaltabs">
+    <div class="container-fluid{% if item.fullwidth %}-full{% endif %} container-fluid-custom-mobile-padding">
+
+      {% if item.show_title %}<div class="sp-block-title bb-title-tabs">
+        <h2 class="sp-title">{{ item.text1 }}</h2>
+      </div>{% endif %}
+      {% if item.show_title %}<div class="sp-tab-wrapper">{% endif %}
+
+        <ul class="nav nav-tabs sp-tabs-default" role="tablist">
+          {%- for block in section.blocks -%}
+          <li class="nav-item">
+            <a href="#{{ section.id }}{{ forloop.index }}" class="nav-link{% if forloop.first %} active{% endif %}" data-toggle="tab" role="tab">{{ block.settings.tab_name }}</a>
+          </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="tab-content">
+          {%- for block in section.blocks -%}
+          {%- assign name_collection = block.settings.collection -%}
+          
+          {%- assign collection = collections[name_collection] -%}
+          <div id="{{ section.id }}{{ forloop.index }}" class="tab-pane{% if forloop.first %} active{% endif %}" role="tabpanel" {{ block.shopify_attributes }}>
+            {%- if block.type == 'item2' -%}
+              <div class="row sp-layout-product-item">
+                {%- for product in collection.products limit:block.settings.limit -%}
+                <div class="col-6 col-md-4 col-lg-{{ block.settings.toshow }}">
+                  {% include "product-grid-item" %}
+                </div>
+                {%- endfor -%}
+              </div>
+            
+            {%- else -%}
+              {% if section.settings.layout_type == 'slide' %}
+                {%- assign slider_mode = true -%}
+                <div class="sp-carousel-products-js row arrow-location-tab{% unless item.show_title %} no-title{% endunless %} sp-alignment-img sp-layout-product-item slick-animated-show-js" data-slick='{"slidesToShow": {{ block.settings.toshow }}, "slidesToScroll": {{ block.settings.step }}, "autoplay": {{ block.settings.module_autoplay }}, "autoplaySpeed": {{ block.settings.delay_time }}}' {{ block.shopify_attributes }}>
+                  {%- for product in collection.products limit:block.settings.limit -%}
+                  <div class="col-12">
+                    {% include "product-grid-item" %}
+                  </div>
+                  {%- endfor -%}
+                  {%- if name_collection == blank or collection.products.size == 0 -%}
+                    {% for i in (1..block.settings.limit) %}
+                      <div class="columns">
+                        <div class="sp-product product-parent options-js thumbprod-center">
+                          <div class="sp-image-box">
+                            <a href="">
+                              <span class="sp-img">
+                                <img src="{{ 'bg.jpg' | asset_img_url: '600x710', crop: 'center' }}" class="lazyload">
+                              </span>
+                            </a>
+                            <div class="gruop-button">
+                              <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                              <div class="sp-row-btn btn-cart">
+                                <form method="post" enctype="multipart/form-data">
+                                  <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                                </form>
+                              </div>
+                              <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                              <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                            </div>
+                          </div>
+                          <div class="sp-description">
+                            <div class="sp-row">
+                              <div class="sp-rating">
+                                <span class="shopify-product-reviews-badge"></span>
+                              </div>
+                            </div>
+                            <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                            <div class="sp-price">
+                              <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {%- endif -%}
+                </div>
+              {% else %}
+                <div class="row">
+                  {%- for product in collection.products limit:block.settings.limit -%}
+                  <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-{{ item.grid_row }}">
+                    {% include "product-grid-item" %}
+                  </div>
+                  {%- endfor -%}
+                  {%- if name_collection == blank or collection.products.size == 0 -%}
+                    {% for i in (1..block.settings.limit) %}
+                      <div class="columns columns-md-3 columns-sm-2 columns-xs-1 columns-{{ item.grid_row }}">
+                        <div class="sp-product product-parent options-js thumbprod-center">
+                          <div class="sp-image-box">
+                            <a href="">
+                              <span class="sp-img">
+                                <img src="{{ 'bg.jpg' | asset_img_url: '600x710', crop: 'center' }}" class="lazyload">
+                              </span>
+                            </a>
+                            <div class="gruop-button">
+                              <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                              <div class="sp-row-btn btn-cart">
+                                <form method="post" enctype="multipart/form-data">
+                                  <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                                </form>
+                              </div>
+                              <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                              <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                            </div>
+                          </div>
+                          <div class="sp-description">
+                            <div class="sp-row">
+                              <div class="sp-rating">
+                                <span class="shopify-product-reviews-badge"></span>
+                              </div>
+                            </div>
+                            <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                            <div class="sp-price">
+                              <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                {%- endif -%}
+                </div>
+              {% endif %}
+            {%- endif -%}
+          </div>
+          {%- endfor -%}
+        </div>
+      
+      {%- if item.show_title -%}</div>{%- endif -%}
+      {%- if item.btn_more -%}
+        <div class="text-center margin-top">
+          <a class="btn-more btn btn-border" href="/collections/all"> {{ item.btn_text }} </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Tabs Horizontal",
+  "class": "index-section",
+  "max_blocks": 8,
+  "settings": [
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Fullwidth width",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "93px 0px 100px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content": "Mobile"
+      },
+      {
+        "type": "color",
+        "id": "bg_color_mobi",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobi",
+        "label": "Section Padding",
+        "default": "63px 0px 63px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin_mobi",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type":"select",
+        "id":"effect",
+        "label":"Effect",
+        "options":[
+            {"value":"none","label":"No effect"},
+            {"value":"fade","label":"fade"},
+            {"value":"fade-up","label":"fade-up"},
+            {"value":"fade-down","label":"fade-down"},
+            {"value":"fade-left","label":"fade-left"},
+            {"value":"fade-right","label":"fade-right"},
+            {"value":"fade-up-right","label":"fade-up-right"},
+            {"value":"fade-up-left","label":"fade-up-left"},
+            {"value":"fade-down-right","label":"fade-down-right"},
+            {"value":"fade-down-left","label":"fade-down-left"},
+            {"value":"flip-up","label":"flip-up"},
+            {"value":"flip-down","label":"flip-down"},
+            {"value":"flip-left","label":"flip-left"},
+            {"value":"flip-right","label":"flip-right"},
+            {"value":"zoom-in","label":"zoom-in"},
+            {"value":"zoom-in-up","label":"zoom-in-up"},
+            {"value":"zoom-in-down","label":"zoom-in-down"},
+            {"value":"zoom-in-left","label":"zoom-in-left"},
+            {"value":"zoom-in-right","label":"zoom-in-right"},
+            {"value":"zoom-out","label":"zoom-out"},
+            {"value":"zoom-out-up","label":"zoom-out-up"},
+            {"value":"zoom-out-down","label":"zoom-out-down"},
+            {"value":"zoom-out-left","label":"zoom-out-left"},
+            {"value":"zoom-out-right","label":"zoom-out-right"}
+        ]
+      },
+      {
+        "type": "select",
+        "id": "layout_type",
+        "label": "Layout type",
+        "default": "slide",
+        "options": [
+          {
+            "value": "slide",
+            "label": "Slide"
+          },
+          {
+            "value": "grid",
+            "label": "Grid"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "grid_row",
+        "label": "Products In Row ( layout type grid )",
+        "options": [
+          { "value": "2", "label": "2" },
+          { "value": "3", "label": "3" },
+          { "value": "4", "label": "4" },
+          { "value": "5", "label": "5" },
+          { "value": "6", "label": "6" }
+        ],
+        "default": "5",
+        "info": "Grid Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show Title",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "text1",
+        "label": "Title",
+        "default": "WOMEN’S"
+      },
+      {
+        "type": "header",
+        "content": "Button"
+      },
+      {
+        "type":"checkbox",
+        "id": "btn_more",
+        "label": "Show Button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "btn_text",
+        "label": "Button Text",
+        "default": "Shop More"
+      }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Tab Gallery",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_name",
+          "label": "Tab Name",
+          "default": "Collection"
+        },
+        {
+          "label": "Collection",
+          "id": "collection",
+          "type": "collection"
+        },
+        {
+          "type": "text",
+          "id": "limit",
+          "label": "Items Length. Integer",
+          "default": "8"
+        },
+        {
+          "type": "header",
+          "content": "Slider Settings"
+        },
+        {
+          "type": "select",
+          "id": "toshow",
+          "label": "Products In Row",
+          "options": [
+            { "value": "2", "label": "2" },
+            { "value": "3", "label": "3" },
+            { "value": "4", "label": "4" },
+            { "value": "5", "label": "5" },
+            { "value": "6", "label": "6" }
+          ],
+          "default": "4",
+          "info": "For screen size > 1024"
+        },
+        {
+          "type": "select",
+          "id": "step",
+          "label": "Slides To Scroll",
+          "default": "1",
+          "info": "Max = Products In Row",
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            },
+            {
+              "value": "3",
+              "label": "3"
+            },
+            {
+              "value": "4",
+              "label": "4"
+            },
+            {
+              "value": "5",
+              "label": "5"
+            },
+            {
+              "value": "6",
+              "label": "6"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "module_autoplay",
+          "label": "Auto-rotate slides",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "delay_time",
+          "label": "Change slides every",
+          "options": [
+            { "value": "5000", "label": "5 seconds" },
+            { "value": "6000", "label": "6 seconds" },
+            { "value": "7000", "label": "7 seconds" },
+            { "value": "8000", "label": "8 seconds" },
+            { "value": "9000", "label": "9 seconds" },
+            { "value": "10000", "label": "10 seconds" }
+          ],
+          "default": "7000"
+        }
+      ]
+    },
+    {
+      "type": "item2",
+      "name": "Tab Grid",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_name",
+          "label": "Tab Name",
+          "default": "Collection name"
+        },
+        {
+          "label": "Collection",
+          "id": "collection",
+          "type": "collection"
+        },
+        {
+          "type": "text",
+          "id": "limit",
+          "label": "Items Length. Integer",
+          "default": "8"
+        },
+        {
+          "type": "select",
+          "id": "toshow",
+          "label": "Products In Row",
+          "options": [
+            { "value": "6", "label": "2" },
+            { "value": "4", "label": "3" },
+            { "value": "3", "label": "4" },
+            { "value": "2", "label": "6" }
+          ],
+          "default": "3",
+          "info": "For screen size > 1024"
+        },
+        {
+          "type": "checkbox",
+          "id": "showbtn",
+          "label": "Show Button",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "btnname",
+          "label": "Button Name",
+          "default": "SEE ALL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabs Horizontal",
+      "category": "Products",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

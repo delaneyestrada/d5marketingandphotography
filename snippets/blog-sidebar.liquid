@@ -1,0 +1,141 @@
+{%- for block in section.blocks -%}
+{%- assign b_s = block.settings -%}
+
+<div class="sp-block-aside {{ block.type }}">
+  {% if b_s.title != blank %}
+  <h3 class="sp-aside-title ">{{ b_s.title }}</h3>
+  {% endif %}
+  <div class="sp-aside-content">
+
+    {%- case block.type -%}
+    {%- when 'about' -%}
+    <div class="sp-aside-info">
+      {%- if b_s.image != blank -%}
+      <a href="#" class="sp-aside-img">
+        <img src="{{ b_s.image | img_url: '300x' }}" alt="{{ b_s.image.alt }}">
+      </a>
+      {%- endif -%}
+      <p>{{ b_s.content }}</p>
+      {%- if b_s.show_button -%}
+      <div class="sp-btn">
+        <a href="{{ b_s.banner_link }}" class="bb-block-btn">{{ b_s.button }}</a>
+      </div>
+      {%- endif -%}
+    </div>
+
+    {%- when 'tags' -%}
+    <ul class="bb-list-inline{% if b_s.blog_tags_uppercase %} text-uppercase{% endif %}">
+      {%- for tag in blog.all_tags -%}
+      <li>{{ tag | link_to_tag: tag }}</li>
+      {%- endfor -%}
+    </ul>
+
+    {%- when 'recent_post' -%}
+    {%- assign name_collection = b_s.sidebar_recent_blog_name -%}
+    {%- assign length = b_s.sidebar_recent_blog_count | plus: 0 -%}
+    {%- if name_collection == blank -%}
+      {%- assign selected_blog = blog -%}
+    {%- else -%}
+      {%- assign selected_blog = blogs[name_collection] -%}
+    {%- endif -%}   
+    <div class="sp-aside-post recent-post">
+    {%- for article in selected_blog.articles limit: length -%}
+      <div class="item {% if b_s.design_recent == 'blog_in_line' %}bb-item-line{% else %} bb-item-out-line{% endif %}">
+        {%- if b_s.design_recent == 'blog_out_line' -%}
+          <div class="bb-img-recenr">
+            <img src="{{ article.image.src  | img_url: '200x200'}}" alt="{{ article.image.alt }}">
+          </div> 
+        {%- else -%}
+          <div class="bb-img-recenr">
+            <img src="{{ article.image.src  | img_url: '80x80', crop: 'center' }}" alt="{{ article.image.alt }}">
+          </div> 
+        {%- endif -%}
+        <div class="bb-entry">
+          {%- if article.tags.size > 0 and b_s.blog_show_tags -%}
+            <div class="sp-tag{% if b_s.blog_tags_uppercase %} text-uppercase{% endif %}">
+              {%- for tag in article.tags -%}{{ tag | link_to_tag: tag }}{%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if b_s.blog_show_title -%}
+            <div class="sp-title">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </div>
+          {%- endif -%}
+          {% if b_s.show_decs_recent %}
+            <div class="sp-description">
+              {%- if article.excerpt.size > 0 -%}
+              {%- if b_s.truncate_excerpt -%}{{ article.excerpt | strip_html | truncatewords: b_s.truncate, b_s.truncate_last_symbols }}
+              {%- else -%}{{ article.excerpt }}
+              {%- endif -%}
+              {%- else -%}{{ article.content | strip_html | truncatewords: b_s.truncate, b_s.truncate_last_symbols }}{%- endif -%}
+            </div>
+            {%- endif -%}
+          {%- if b_s.blog_show_author or b_s.blog_show_date -%}
+            <div class="sp-info">
+              {% if b_s.blog_show_author %}{{ 'blogs.article.by_author' | t }} <span>{{ article.author }}</span> {% endif %}{% if b_s.blog_show_date %}{{ 'blogs.article.posted_in' | t }} {{ article.created_at | date: '%B' }} {{ article.created_at | date: '%d, %Y' }}{% endif %}
+            </div>
+          {%- endif -%}
+          {%- if b_s.blog_show_button -%}
+            <div class="sp-btn">
+              <a href="{{ article.url }}" class="bb-block-btn">{{ b_s.blog_readmore_text }}</a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endfor -%}
+    </div>
+    
+    {%- when 'newsletter' -%}
+    <div class="sp-aside-subscribe-box">
+      <p>
+        {{ b_s.content }}
+      </p>
+      
+      {%- if settings.use_mailchimp_form -%}
+      {%- if settings.mailchimp_form_action != "" -%}
+      <form action="{{ settings.mailchimp_form_action }}" method="post" name="mc-embedded-subscribe-form" target="_blank" class="form-default">
+        <div class="form-group">
+          <input type="email" name="EMAIL" class="form-control" placeholder="{{ b_s.form_text }}">
+        </div>
+        <button type="submit" class="btn">{{ b_s.button }}</button>
+      </form>
+      {%- endif -%}
+      {%- else -%}
+      {%- form 'customer' -%}
+      {{ form.errors | default_errors }}
+      {%- if form.posted_successfully? -%}
+
+      {%- endif -%}
+      <div class="form-group">
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email"
+               name="contact[email]"
+               class="form-control"
+               value="{% if customer %}{{ customer.email }}{% endif %}"
+               placeholder="{{ b_s.form_text }}"
+               autocorrect="off"
+               autocapitalize="off">
+        <button type="submit" class="btn" name="commit">{{ b_s.button }}</button>
+      </div>
+      {%- endform -%}
+      {%- endif -%}
+
+    </div>
+    {%- when 'search' -%}
+      <form action="/search" method="get" role="search">
+        <input class="sp-search-input"
+              type="search"
+              name="q"
+              placeholder="Search here..."
+              aria-label="{{ 'general.search.place_holder' | t }}">
+        <button type="submit" class="sp-btn-search"><i class="icon-f-85"></i></button>
+      </form>
+    {%- else -%}
+
+    {{ b_s.content }}
+
+    {%- endcase -%}
+  </div>
+</div>
+
+{%- endfor -%}

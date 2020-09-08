@@ -1,0 +1,144 @@
+{%- assign item = section.settings -%}
+<section class="Section section--contact-form" id="section-{{ section.id }}">
+  <div class="container-index">
+    <div class="container">
+      <h2 class="heading text-center">{{ section.settings.heading }}</h2>
+      <div class="contact-form form-default">
+	     {%- form 'contact' -%}
+
+	      {%- if form.posted_successfully? -%}
+	      <p>{{ 'contact.form.post_success' | t }}</p>
+	      {%- endif -%}
+
+	      {{ form.errors | default_errors }}
+
+	      <div class="row">
+	        <div class="col-md-6">
+	          <div class="form-group">
+	            <input type="text" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" class="form-control" id="inputName" placeholder="name">
+	          </div>
+	          
+	        </div>
+	        <div class="col-md-6">
+		        <div class="form-group">
+		            <input type="email" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="form-control" id="inputEmail" placeholder="email">
+		        </div>
+	        </div>
+	        <div class="col-md-12">
+	        	<div class="form-group">
+		            <textarea name="contact[body]" class="form-control" rows="8" placeholder="Message" id="textareaMessage">{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
+		         </div>
+	        </div>
+	      </div>
+	      <div class="text-center form-button">
+	        <button type="submit" class="btn btn-2">Contact us</button>
+	        <div class="social">
+	            {%- include "footer_social" -%}
+	          </div>
+	      </div>
+	      {%- endform -%}
+		</div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+	#section-{{ section.id }}{
+	    padding:{{ section.settings.padding }};
+	    margin:{{ section.settings.margin }};
+	}
+	@media (max-width: 1024px){
+	    #section-{{ section.id }}{
+	      	padding:{{ section.settings.padding_mobi }};
+	      	margin:{{ section.settings.margin_mobi }};
+	    }
+	}
+	@media (min-width: 992px){
+		#section-{{ section.id }} .heading{
+			font-size: {{ section.settings.font_size }}px;
+		}
+	}
+</style>
+{% schema %}
+{
+	"name": "contact form",
+  	"settings": [
+  		{
+	      "type": "text",
+	      "id": "padding",
+	      "label": "Section Padding",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "text",
+	      "id": "margin",
+	      "label": "Section margin",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "header",
+	      "content": "Mobile"
+	    },
+	    {
+	      "type": "text",
+	      "id": "padding_mobi",
+	      "label": "Section Padding",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "text",
+	      "id": "margin_mobi",
+	      "label": "Section margin",
+	      "default": "0px 0px 0px 0px"
+	    },
+		{
+			"type": "text",
+			"id": "heading",
+			"label": "Heading",
+			"default": "Got Any Questions?"
+		},
+		{
+			"type": "range",
+			"id": "font_size",
+			"label": "Font size",
+			"default": 40,
+			"min": 30,
+			"max": 50,
+			"step": 1
+		},
+		{
+	      "type": "header",
+	      "content": "Social Buttons"
+	    },
+	    {
+	      "type": "url",
+	      "id": "facebook_url",
+	      "label": "Facebook",
+	      "info": "If url is empty? Link will be hidden"
+	    },
+	    {
+	      "type": "url",
+	      "id": "twitter_url",
+	      "label": "Twitter",
+	      "info": "If url is empty? Link will be hidden"
+	    },
+	    {
+	      "type": "url",
+	      "id": "gmail_url",
+	      "label": "Gmail",
+	      "info": "If url is empty? Link will be hidden"
+	    },
+	    {
+	      "type": "url",
+	      "id": "instagram_url",
+	      "label": "Instagram",
+	      "info": "If url is empty? Link will be hidden"
+	    },
+	    {
+	      "type": "url",
+	      "id": "pinterest_url",
+	      "label": "Pinterest",
+	      "info": "If url is empty? Link will be hidden"
+	    }
+  	]
+}
+{% endschema %}

@@ -1,0 +1,27 @@
+<div class="sp-block-title bb-block text-center">
+  <h2 class="sp-title">
+    {{ block.settings.title }}
+  </h2>
+  {%- unless item.description == '' -%}<div class="sp-description">{{ block.settings.decs_sub }}</div>{%- endunless -%}
+</div>
+<div class="subscribe-form form-default">
+     <div class="row-subscibe">
+        {%- form 'customer' -%}
+        {{ form.errors | default_errors }}
+        {%- if form.posted_successfully? -%}
+
+        {%- endif -%}
+        <div class="bb-input-group">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input type="email"
+                 name="contact[email]"
+                 class="bb-form-control"
+                 value="{%- if customer -%}{{ customer.email }}{%- endif -%}"
+                 placeholder="{{ block.settings.placeholder }}"
+                 autocorrect="off"
+                 autocapitalize="off">
+          <button type="submit" class="btn bb-btn" name="commit">{{ block.settings.submit }}</button>
+        </div>
+        {%- endform -%}
+     </div>
+</div>

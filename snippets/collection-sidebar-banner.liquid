@@ -1,0 +1,11 @@
+<div class="sp-content-aside">
+  <a href="{{ settings.collectionsbannerurl }}" class="sp-promo-03">
+    <img src="{{ 'listing-banner.jpg' | asset_url }}" alt="Collection page banner">
+    <div class="sp-description sp-point-v-t">
+      <div class="sp-description-wrapper">
+        {% if settings.collectionsbannertitle != '' %}<div class="sp-title-large">{{ settings.collectionsbannertitle }}</div>{% endif %}
+        {% if settings.collectionsbannerdesc != '' %}<p>{{ settings.collectionsbannerdesc }}</p>{% endif %}
+      </div>
+    </div>
+  </a>
+</div>

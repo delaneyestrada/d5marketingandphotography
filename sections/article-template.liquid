@@ -1,0 +1,135 @@
+{%- assign item = section.settings -%}
+<div class="container-indent" itemscope itemtype="http://schema.org/Article">
+  <div class="container container-fluid-custom-mobile-padding">
+    <div class="row justify-content-center">
+      <div class="col-xs-12 col-md-12 col-lg-12 col-md-auto">
+        <div class="bb-post-single" itemprop="articleBody">
+          <div class="emtry-post">
+            <div class="img-post-single">
+              <img src="{{ article.image.src | img_url: '1170x600'}}" alt="{{ article.image.alt }}">
+            </div>
+            {%- if item.blog_show_author or item.blog_show_date -%}
+              <div class="sp-autor">
+                {%- if article.tags.size > 0 and item.blog_show_tags -%}
+                  <span>
+                    <span class="post-meta fa fa-calendar"></span>
+                    {%- for tag in article.tags -%}
+                      {{ tag | link_to_tag: tag }}{% unless forloop.last %}, {% endunless %}
+                    {%- endfor -%}
+                  </span>
+                {%- endif -%}
+                {% if item.blog_show_author %} 
+                  <span>
+                    <span class="fa fa-user"></span>
+                    {{ article.author }}
+                  </span> 
+                {% endif %}
+                {% if item.blog_show_date %}
+                  <span>
+                    <span class=" fa fa-folder"></span>
+                    {{ article.published_at | date: '%B' }} {{ article.published_at | date: '%d, %Y' }}
+                  </span>
+                {% endif %}
+              </div>
+            {%- endif -%}
+            <div class="sp-post-content">
+              {{ article.content }}
+            </div>
+          </div>
+        </div>
+        {% if item.show_share_buttons %}
+          <div class="single-post-social">
+            <span>share:</span> {% include 'footer_social' %}
+          </div>
+        {% endif %}
+        <div class="single-post-navigation">
+          <a href="{{ blog.previous_article }}" class="nav-links previous"><i class="flaticon-left-arrow"></i>Previous Post</a>
+          <a href="{{ blog.next_article }}" class="nav-links next">Next Post <i class="flaticon-next-1"></i></a>
+          </div>
+        <div class="entry-related">
+          <h2 class="title-related">You might also like</h2>
+          <div class="blogs-related">
+            {% for article in blogs.news.articles limit: 3 %}
+              <div class="col-lg-4 col-md-4 col-sm-12">
+                {%- include 'blog-listing-item' -%}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Posts",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_tags",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_tags_uppercase",
+        "label": "Tags uppercase",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Social Buttons"
+      },
+      {
+        "type": "url",
+        "id": "facebook_url",
+        "label": "Facebook",
+        "info": "If url is empty? Link will be hidden"
+      },
+      {
+        "type": "url",
+        "id": "twitter_url",
+        "label": "Twitter",
+        "info": "If url is empty? Link will be hidden"
+      },
+      {
+        "type": "url",
+        "id": "gmail_url",
+        "label": "Gmail",
+        "info": "If url is empty? Link will be hidden"
+      },
+      {
+        "type": "url",
+        "id": "instagram_url",
+        "label": "Instagram",
+        "info": "If url is empty? Link will be hidden"
+      },
+      {
+        "type": "url",
+        "id": "pinterest_url",
+        "label": "Pinterest",
+        "info": "If url is empty? Link will be hidden"
+      }
+    ]
+  }
+{% endschema %}

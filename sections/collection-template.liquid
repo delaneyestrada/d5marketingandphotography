@@ -1,0 +1,990 @@
+{%- assign item = settings -%}
+{%- assign settings = section.settings -%}
+{%- assign item_sidebar = item.sidebar -%}
+{%- capture flip_sidebar -%}{%- if item_sidebar contains "rightColumn" -%} flex-sm-row-reverse{%- endif -%}{%- endcapture -%}
+{%- assign pagination_limit_const = settings.pagination_limit | times: 1 -%}
+
+<div class="container-indent">
+  <div class="container{%- if item.fullwidth -%}-fluid{%- endif -%}{% if item_sidebar contains "_wide" %}-fluid-custom container-fluid-custom-mobile-padding{% endif %}">
+    <div class="row{{ flip_sidebar }}">
+      {%- if item_sidebar == 'sidebardropdown' -%}
+        <div class="col-md-12 col-md-12 col-lg-12 col-xl-12">
+          {%- if collection.description != '' and settings.show_collection_description -%}
+          <div class="content-indent">
+            <div class="row sp-layout-promo-box">
+              {{ collection.description }}
+            </div>
+          </div>{%- endif -%}
+          
+          <div class="content-indent container-fluid-custom-mobile-padding-02">
+
+            {%- paginate collection.products by current_pagination_limit -%}
+
+            <div class="sp-filters-options{% if item_sidebar contains "hidden_closed" %} desctop-no-sidebar{% endif %}">
+              <div class="sp-sort bb-sort">
+                <!-- <select class="sort-position">
+                  <option value="manual"{% if collection.default_sort_by == 'manual' %} selected{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+                  <option value="title-ascending"{% if collection.default_sort_by == 'title-ascending' %} selected{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+                  <option value="title-descending"{% if collection.default_sort_by == 'title-descending' %} selected{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+                  <option value="created-ascending"{% if collection.default_sort_by == 'created-ascending' %} selected{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+                  <option value="created-descending"{% if collection.default_sort_by == 'created-descending' %} selected{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+                  <option value="price-ascending"{% if collection.default_sort_by == 'price-ascending' %} selected{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+                  <option value="price-descending"{% if collection.default_sort_by == 'price-descending' %} selected{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+                  <option value="best-selling"{% if collection.default_sort_by == 'best-selling' %} selected{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+                </select> -->
+
+                <!-- {% if collection.all_products_count > pagination_limit_const and settings.show_perpage %}
+                <select class="show-qty">
+                  <option>{{ pagination_limit_const }}</option>
+                  <option {% if current_pagination_limit == 16 %}selected{% endif %}>16</option>
+                  <option {% if current_pagination_limit == 32 %}selected{% endif %}>32</option>
+                  <option {% if current_pagination_limit == 50 %}selected{% endif %} value="all">{{ 'collections.toolbar.all' | t }}</option>
+                </select>
+                {% endif %} -->
+              </div>
+              <div class="sp-quantity">
+                See:
+                <a href="#" class="sp-col-one" data-value="sp-col-one"></a>
+                <a href="#" class="sp-col-two" data-value="sp-col-two"></a>
+                <a href="#" class="sp-col-three" data-value="sp-col-three"></a>
+                <a href="#" class="sp-col-four" data-value="sp-col-four"></a>
+                <a href="#" class="sp-col-six" data-value="sp-col-six"></a>
+              </div>
+              <div class="sp-btn-toggle icon-dropdown" style="display: block;">
+                <a href="#">Filters</a>
+              </div>
+            </div>
+            {%- include "collection-page-sidebar" -%}
+
+            <div class="sp-product-listing row{% if collection.products.size == 0 %} flex-center-message{% endif %}{% if settings.products_in_one_row %} sp-col-one only-row{% endif %}" data-onerow="{{ settings.use_one_row_in_theme }}">
+              {%- if collection.products.size > 0 -%}
+              {%- for product in collection.products -%}
+              <div class="col-sm-6 col-xs-12 col-md-{{ item.products_in_column }} sp-col-item">
+                {%- include "product-grid-item" -%}
+              </div>
+              {%- endfor -%}
+              {%- else -%}
+              <div class="sp-empty-search">
+                <span class="sp-icon icon-g-84"></span>
+                <h2 class="sp-title">{{ 'collections.general.empty' | t }}</h2>
+                <p>{{ 'collections.general.sort_result' | t }}</p>
+              </div>
+              {%- endif -%}
+            </div>
+
+           {% if settings.enable_infinite_scroll == 'pagination' %}
+              <div class="pagination_page text-center">
+                {% if paginate.pages > 1 %}
+                  {% include 'pagination' %}
+                {% endif %}
+               </div>
+            {% else %}
+              <div class="text-center tt_product_showmore infinitybutton{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll_yes{% endif %}{% if paginate.next == empty? and paginate.previous == empty? %} hide{% endif %}">
+                
+                {%- if paginate.next -%}
+                  <div class="show-more">
+                    <a href="{{ paginate.next.url }}" class="btn btn-border{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll hide{% endif %}">{{ 'collections.toolbar.button_show_more' | t }}</a>
+                  </div>
+                {%- else -%}
+                  {%- if paginate.previous -%}
+                  <div class="show-more tt_item_all_js" >
+                    <a href="#" class="btn btn-border01 disable">{{ 'collections.toolbar.button_show_more_disabled' | t }}</a>
+                  </div>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {% endif %}
+            {%- endpaginate -%}
+            
+          </div>
+        </div>
+      {%- else -%}
+        {%- unless item_sidebar contains "_disable_" -%}{%- include "collection-page-sidebar" -%}{%- endunless -%}
+
+        <div class="{% if item_sidebar == 'leftColumn' %}col-left{% endif %}{% if item_sidebar == 'rightColumn' %}col-right{% endif %} {% if item_sidebar contains "hidden_" %}col-md-12{% else %}col-md-12 col-lg-10 col-xl-10{% endif %}">
+          {%- if collection.description != '' and settings.show_collection_description -%}
+          <div class="content-indent">
+            <div class="row sp-layout-promo-box">
+              {{ collection.description }}
+            </div>
+          </div>{%- endif -%}
+          
+          <div class="content-indent container-fluid-custom-mobile-padding-02">
+
+            {%- paginate collection.products by current_pagination_limit -%}
+
+            <div class="sp-filters-options{% if item_sidebar contains "hidden_closed" %} desctop-no-sidebar{% endif %}">
+
+              {%- include "collection-page-toolbar" -%}
+
+            </div>
+
+            <div class="sp-product-listing row{% if collection.products.size == 0 %} flex-center-message{% endif %}{% if settings.products_in_one_row %} sp-col-one only-row{% endif %}" data-onerow="{{ settings.use_one_row_in_theme }}">
+              {%- if collection.products.size > 0 -%}
+              {%- for product in collection.products -%}
+              <div class="col-sm-6 col-xs-12 col-md-{{ item.products_in_column }} sp-col-item">
+                {%- include "product-grid-item" -%}
+              </div>
+              {%- endfor -%}
+              {%- else -%}
+              <div class="sp-empty-search">
+                <span class="sp-icon icon-g-84"></span>
+                <h2 class="sp-title">{{ 'collections.general.empty' | t }}</h2>
+                <p>{{ 'collections.general.sort_result' | t }}</p>
+              </div>
+              {%- endif -%}
+            </div>
+            {% if settings.enable_infinite_scroll == 'pagination' %}
+              <div class="pagination_page text-center">
+                {% if paginate.pages > 1 %}
+                  {% include 'pagination' %}
+                {% endif %}
+               </div>
+            {% else %}
+              <div class="text-center tt_product_showmore infinitybutton{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll_yes{% endif %}{% if paginate.next == empty? and paginate.previous == empty? %} hide{% endif %}">
+                
+                {%- if paginate.next -%}
+                  <div class="show-more">
+                    <a href="{{ paginate.next.url }}" class="btn btn-border{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll hide{% endif %}">{{ 'collections.toolbar.button_show_more' | t }}</a>
+                  </div>
+                {%- else -%}
+                  {%- if paginate.previous -%}
+                  <div class="show-more tt_item_all_js" >
+                    <a href="#" class="btn btn-border01 disable">{{ 'collections.toolbar.button_show_more_disabled' | t }}</a>
+                  </div>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {% endif %}
+            {%- endpaginate -%}
+            
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Collection Page",
+    "settings": [
+      {
+        "type": "header",
+        "content": "HEADER WIDTH"
+      },
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Full width",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "pagination_limit",
+        "label": "Number of products per page",
+        "default": "8"
+      },
+      {
+        "type": "checkbox",
+        "id": "products_in_one_row",
+        "label": "Products in one row always",
+        "default": false,
+        "info": "Independent option"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_one_row_in_theme",
+        "label": "Show option One Row",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "products_in_column",
+        "label": "Products In Column",
+        "info": "Start screen width > 1024px",
+        "options": [
+          {
+            "value": "6",
+            "label": "2"
+          },
+          {
+            "value": "4",
+            "label": "3"
+          },
+          {
+            "value": "3",
+            "label": "4"
+          },
+          {
+            "value": "2",
+            "label": "6"
+          }
+        ],
+        "default": "4"
+      },
+      {
+        "type": "select",
+        "id": "enable_infinite_scroll",
+        "label": "Pagination",
+        "options": [
+          {
+            "value": "showmore",
+            "label": "\"Show More\" Button"
+          },
+          {
+            "value": "autoscroll",
+            "label": "Auto Scroll"
+          },
+          {
+            "value": "pagination",
+            "label": "Pagination"
+          }
+        ],
+        "default": "showmore"
+      },
+      {
+        "type": "text",
+        "id": "no_products",
+        "label": "Infinity scroll. No Products Text",
+        "default": "No Products"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_perpage",
+        "label": "Show product per page count",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_collection_title",
+        "label": "Show Collection Title",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_collection_products_count",
+        "label": "Show Collection Product Count",
+        "default": true,
+        "info": "Work in title"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_collection_description",
+        "label": "Show Collection Description",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Sidebar"
+      },
+      {
+        "type": "select",
+        "id": "sidebar",
+        "label": "Sidebar",
+        "options": [
+          {
+            "value": "sidebardropdown",
+            "label": "Sidebar dropdown"
+          },
+          {
+            "value": "leftColumn",
+            "label": "Left sidebar"
+          },
+          {
+            "value": "rightColumn",
+            "label": "Right sidebar"
+          },
+          {
+            "value": "hidden_closed_boxed",
+            "label": "Closed sidebar. Boxed page"
+          },
+          {
+            "value": "hidden_closed_wide",
+            "label": "Closed sidebar. Fullwidth page"
+          },
+          {
+            "value": "hidden_disable_boxed",
+            "label": "Disable sidebar. Boxed page"
+          },
+          {
+            "value": "hidden_disable_wide",
+            "label": "Disable sidebar. Fullwidth page"
+          },
+          {
+            "value": "hidden_closed_wide_metro",
+            "label": "Metro mode. Fullwidth page"
+          }
+        ],
+        "default": "leftColumn"
+      },
+      {
+        "type": "paragraph",
+        "content": "new Colors add in \"Product Colors and Textures\""
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_clear_section",
+        "label": "Show Tooltips in clear filters section",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 1"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup1",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup1",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup1",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup1",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup1",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup1",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 2"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup2",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup2",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup2",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup2",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup2",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup2",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 3"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup3",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup3",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup3",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup3",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup3",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup3",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 4"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup4",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup4",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup4",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup4",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup4",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup4",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 5"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup5",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup5",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup5",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup5",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup5",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup5",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 6"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup6",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup6",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup6",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup6",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup6",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup6",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 7"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup7",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup7",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup7",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup7",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup7",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup7",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 8"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup8",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup8",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup8",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup8",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup8",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup8",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 9"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup9",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup9",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup9",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup9",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup9",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup9",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Filter Group 10"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Filter values correspond to the value \"Tags\" in the product.](https:\/\/docs.shopify.com\/manual\/your-store\/products\/edit-tags)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_filtergroup10",
+        "label": "Show Filter Group",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "tooltips_filtergroup10",
+        "label": "Show Tooltips",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_filtergroup10",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "design_filtergroup10",
+        "label": "Design",
+        "options": [
+          {
+            "value": "default",
+            "label": "Links"
+          },
+          {
+            "value": "inrow",
+            "label": "Links in row"
+          },
+          {
+            "value": "button",
+            "label": "Buttons"
+          },
+          {
+            "value": "color",
+            "label": "Color Group"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "text",
+        "id": "title_filtergroup10",
+        "label": "Title",
+        "default": "Group"
+      },
+      {
+        "type": "textarea",
+        "id": "filtergroup10",
+        "label": "Unique Tags List",
+        "default": "dress,tops,shirts",
+        "info": "Example: dress,tops,shirts"
+      },
+      {
+        "type": "header",
+        "content": "Sidebar Collections Tab"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_collectionstab",
+        "label": "Show Collections",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "open_collectionstab",
+        "label": "Open Tab By Default",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "collectionstab_title",
+        "label": "Title",
+        "default": "Collections"
+      },
+      {
+        "type": "link_list",
+        "id": "collectionstab_links",
+        "label": "Collections Link List"
+      }
+    ]
+  }
+{% endschema %}

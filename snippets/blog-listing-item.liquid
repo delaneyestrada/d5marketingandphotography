@@ -1,0 +1,52 @@
+{%- if article.comments.size > 0 -%}{%- assign comment_url = article.url | append: '#comments' -%}{%- else -%}{%- assign comment_url = article.url | append: '#addcomment' -%}{%- endif -%}
+<div class="{% if item.design == 'blog_list' %}blog-list-item row {% if item.list_in_line %}list-in-line{% endif %}{% else %}{{ blog-position }}{% endif %} sp-post element-item {{ t | replace :',',' ' }}">
+  {%- unless article.image == blank -%}
+  <div class="sp-post-img {% if item.design == 'blog_list' %} col-lg-6 {% endif %}">
+    <a href="{{ article.url }}"><img src="{{ article.image.src | img_url: '1024x1024' }}" alt="{{ article.image.alt }}"></a>
+    {% if item.blog_show_date %}
+      <div class="bb-time">
+        <div class="bb-time-date">{{ article.published_at | date: '%d' }}</div>
+        <div class="bb-time-mar">{{ article.published_at | date: '%b' }}</div>
+      </div>
+    {% endif %}
+  </div>
+  {%- endunless -%}  
+  <div class="sp-post-content {% if item.design == 'blog_list' %} col-lg-6 {% endif %}">
+    <div class="content">
+      {%- if article.tags.size > 0 and item.blog_show_tags -%}
+      <div class="sp-tag{% if item.blog_tags_uppercase %} text-uppercase{% endif %}">
+        {%- for tag in article.tags -%}{{ tag | link_to_tag: tag }}{%- endfor -%}
+      </div>{%- endif -%}
+
+      <h2 class="sp-title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+      {%- if item.decs_blog -%}
+        <div class="sp-description">
+          {%- if article.excerpt.size > 0 -%}
+          {%- if section.settings.truncate_excerpt -%}{{ article.excerpt | strip_html | truncatewords: section.settings.truncate, section.settings.truncate_last_symbols }}
+          {%- else -%}{{ article.excerpt | strip_html | truncatewords: section.settings.truncate, section.settings.truncate_last_symbols }}
+          {%- endif -%}
+          {%- else -%}{{ article.content | strip_html | truncatewords: item.truncate, item.truncate_last_symbols }}{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if item.blog_show_author or item.blog_show_date or article.comments_enabled? and item.show_comments -%}
+      <div class="sp-meta">
+        {%- if item.blog_show_author or item.blog_show_date -%}
+        <div class="sp-autor">
+          {% if item.blog_show_author %}
+            {{ 'blogs.article.by_author' | t }} <span>{{ article.author }}</span> {% endif %}
+          {%- if item.show_comments -%}
+            <a href="{{ comment_url }}"> - {{ article.comments.size }} comments</a>
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+      </div>
+      {%- endif -%}
+
+      {%- if item.blog_show_button -%}
+      <div class="sp-btn">
+        <a href="{{ article.url }}" class="bb-block-btn">{{ 'blogs.article.read_more' | t }}</a>
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+{%- if customer -%}
+  <a class="sp-dropdown-toggle" href="/account">
+    <i class="icon-f-94"></i>
+  </a>
+{%- else -%}
+  <button class="sp-dropdown-toggle" id="myBtn" data-tposition="bottom">
+          <i class="icon-f-94"></i>
+  </button>
+  <div id="myModal" class="modal-popup">
+    <div class="bb-item text-left">
+      <span class="bb-item-close">&times;</span>
+      {%- if item.show_image -%}
+        <div class="img-login">
+          {%- if item.img_login != blank -%}
+            <img src="{{ item.img_login | img_url: '340x310' }}">
+          {%- else -%}
+            <img src="{{ 'bg.jpg' | asset_img_url: '340x310', crop: 'center' }}">
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      <div id="login">
+        <h2 class="sp-title">Login <a href="/account/register">Register</a></h2>
+        <span>{{ 'customer.login.description' | t }}</span>
+        <div class="form-default form-top">
+          {% form 'customer_login' %}
+
+          <div class="sp-base-color">
+          {{ form.errors | default_errors }}
+          </div>
+
+          <div class="form-group">
+           <!--  <label for="loginInputName">{{ 'customer.login.email' | t }} {% if required != "" %}<sup>*</sup>{% endif %}</label> -->
+            {% if required != "" %}<div class="sp-required">{{ required }}</div>{% endif %}
+            <input type="email" name="customer[email]" class="form-control" id="loginInputName" placeholder="{{ 'customer.login.email_field' | t }}">
+          </div>
+          {% if form.password_needed %}
+          <div class="form-group">
+           <!--  <label for="loginInputEmail">{{ 'customer.login.password' | t }} {% if required != "" %}<sup>*</sup>{% endif %}</label> -->
+            <input type="password" value="" name="customer[password]" class="form-control" id="loginInputEmail" placeholder="{{ 'customer.login.password_field' | t }}">
+          </div>
+          {% endif %}      
+              <div class="form-group">
+                <button class="btn" type="submit">{{ 'customer.login.sign_in' | t }}</button>
+              </div>          
+            {% if form.password_needed %}            
+                <div class="additional-links">
+                  <a href="/account/login">{{ 'customer.login.forgot_password' | t }}</a>
+                </div>
+            {% endif %}
+
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+<script>
+// Get the modal
+var modalpopup = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("bb-item-close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modalpopup.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modalpopup.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modalpopup) {
+    modalpopup.style.display = "none";
+  }
+}
+</script>

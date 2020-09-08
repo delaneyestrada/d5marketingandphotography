@@ -1,0 +1,224 @@
+{%- assign item = section.settings -%}
+<section id="section-{{ section.id }}">
+    <div class="container-indent page">
+    		<div class="img-about">
+    		</div>
+    </div>
+    <div class="page-content">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-lg-6 col-md-6 col-sm-12">
+    				<div class="column-about">
+              {%- if item.title != blank -%}
+    					 <h2 class="heading" style="color: {{ item.color_heading }}">{{ item.title }}</h2>
+              {%- endif -%}
+
+              {%- if item.description != blank -%}
+      					<div class="descriptions" style="color: {{ item.color_text_2 }}; font-size: 15px;">
+        					<span>
+        						{{ item.description }}
+        					</span>
+      					</div>
+              {%- endif -%}
+    				</div>
+
+
+    				<div class="column-about">
+              {%- if item.title_1 != blank -%}
+    					 <h2 class="heading" style="color: {{ item.color_heading }}">{{ item.title_1 }}</h2>
+              {%- endif -%}
+
+              {%- if item.description_1 != blank -%}
+      					<div class="descriptions" style="color: {{ item.color_text }};">
+        					<span>
+        						{{ item.description_1 }}
+        					</span>
+      					</div>
+              {%- endif -%}
+
+              {%- if item.show_social -%}
+      					<div class="social-footer">
+          					{%- include "footer_social" -%}
+          				</div>
+      				  </div>
+              {%- endif -%}
+    			</div>
+    			<div class="col-lg-6 col-md-6 col-sm-12">
+    				<div class="bb-img-about hidden--mobile">
+    					{%- if item.image == blank -%}{%- include "get_svg" type:'image' size:'2048x800' -%}
+    				  	{%- else -%}
+    					<img src="{{ item.image_1 | img_url: '1200x' }}">
+    					{%- endif -%}
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }} .img-about{
+      background-attachment: fixed;
+      background-image: url('{{ item.image | img_url: '1930x1200' }}');
+  }
+  #section-{{ section.id }}{
+      padding:{{ section.settings.padding }};
+      margin:{{ section.settings.margin }};
+    }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} .page-content .bb-img-about img{
+    padding: 0 0 0 14px;
+  }
+  @media (min-width: 791px) and (max-width: 991px){
+    #section-about-template .page-content .col-md-6{
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+</style>
+{% schema %}
+  {
+    "name": "Section banner",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Fullwidth Width",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content": "Mobile"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobi",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin_mobi",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+          "type": "header",
+          "content": "Content"
+      },
+	    {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Background Image"
+      },
+      {
+      	"type": "text",
+      	"id": "title",
+      	"label": "Title",
+      	"default": "our story"
+      },
+      {
+      	"type": "textarea",
+      	"id": "description",
+      	"label": "Description",
+      	"default": "our story"
+      },
+      {
+      	"type": "text",
+      	"id": "title_1",
+      	"label": "Title",
+      	"default": "our story"
+      },
+      {
+      	"type": "textarea",
+      	"id": "description_1",
+      	"label": "Description",
+      	"default": "our story"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "Image"
+      },
+      {
+        "type": "header",
+        "content": "Social Buttons"
+	    },
+      {
+        "type": "checkbox",
+        "id": "show_social",
+        "label": "Show Social",
+        "default": true
+      },
+    	{
+    		"type": "url",
+    		"id": "facebook_url",
+    		"label": "Facebook",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "twitter_url",
+    		"label": "Twitter",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "gmail_url",
+    		"label": "Gmail",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "instagram_url",
+    		"label": "Instagram",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+    	{
+    		"type": "url",
+    		"id": "pinterest_url",
+    		"label": "Pinterest",
+    		"info": "If url is empty? Link will be hidden"
+    	},
+      {
+        "type": "header",
+        "content": "Color"
+      },
+      {
+        "type": "color",
+        "id": "color_heading",
+        "label": "Color Heading",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_text_2",
+        "label": "Color Text",
+        "default": "#828282"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Color Text 1",
+        "default": "#828282"
+      }
+    ]
+  }
+{% endschema %}
+

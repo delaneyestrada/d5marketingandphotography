@@ -1,0 +1,114 @@
+<section class="Section section--text" id="section-{{ section.id }}" >
+  <div class="container-index">
+    <div class="container">
+      {% for block in section.blocks %}
+        <div class="content">
+          {% if block.settings.title != blank %}
+            <h2 class="heading" style="font-size: {{ block.settings.font_size }}px;">{{ block.settings.title }}</h2>
+          {% endif %}
+
+          {% if block.settings.text != blank %}
+            <div class="text">{{ block.settings.text }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+   #section-{{ section.id }}{
+    margin: {{ section.settings.margin }};
+    padding: {{ section.settings.padding }};
+  }
+  @media(max-width: 992px){
+    #section-{{ section.id }}{
+      margin: {{ section.settings.margin_mobile }};
+      padding: {{ section.settings.padding_mobile }};
+    }
+  }
+  #section-{{ section.id }} .heading{
+    color: {{ section.settings.color_heading }};
+  }
+  #section-{{ section.id }} .text{
+    line-height: 2.7;
+    color: {{ section.settings.color_text }};
+  }
+
+</style>
+{% schema %}
+{
+  "name": "Text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobile",
+      "label": "Margin",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobile",
+      "label": "Padding",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Color Heading",
+      "default": "#303030"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Color Text",
+      "default" : "#777"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Typography",
+      "name": "Typography",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "headding"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size",
+          "default": 40,
+          "min": 30,
+          "max": 50,
+          "step": 1
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Nunc vulputate consectetur ipsum"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

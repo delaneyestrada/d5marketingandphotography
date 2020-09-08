@@ -1,0 +1,204 @@
+{%- assign item = section.settings -%}
+{% assign bg_alpha = item.background_alpha | plus: 0 %}
+{% assign bg_alpha_2 = item.background_alpha_2 | plus: 0 %}
+<section id="section-{{ section.id }}" class="Section">
+  <div class="section-parallax">
+    <div class="container-parallax content-{{ item.position }}">
+      <div class="content-parallax text-center">
+        <div class="sub_heading" style="color: {{ item.color_sub_heading }}">{{ item.sub_heading }}</div>
+        <div class="heading" style="color: {{ item.color_heading }}">{{ item.heading }}</div>
+        <a href="{{ item.url_link }}" class="btn">{{ item.text_button }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    {%- if item.bg_image == blank -%}
+      background-image: url('{{ 'bg.jpg' | asset_img_url: '1900x' }}');
+    {%- else -%}
+      background-image: url('{{ item.bg_image | img_url: '1900x' }}');
+    {%- endif -%}
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 991px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} .content-parallax .btn{
+    color: {{ item.color_text_button }};
+    border-color: {{ item.color_border_button }};
+    background: {{ item.color_bg_button | color_modify: 'alpha', bg_alpha }};
+  }
+  #section-{{ section.id }} .content-parallax .btn:hover{
+    color: {{ item.color_text_button_hv }};
+    background: {{ item.color_bg_button_hv | color_modify: 'alpha', bg_alpha_2 }};
+    border-color: {{ item.color_border_button_hv }};
+  }
+</style>
+{% schema %}
+{
+  "name": "Banner Parallax",
+  "settings": [
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "380px 0"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "180px 0"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Select content",
+      "options": [
+          {
+            "value": "left",
+            "label": "Content left"
+          },
+          {
+            "value": "center",
+            "label": "Content center"
+          },
+          {
+            "value": "right",
+            "label": "Content right"
+          }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub Heading",
+      "default": "LOOKBOOK SS 2019"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Basic instinct"
+    },
+    {
+      "type": "text",
+      "id": "text_button",
+      "label": "text button",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "url_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "color"
+    },
+    {
+      "type": "color",
+      "id": "color_sub_heading",
+      "label": "Color Sub Heading",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Color Heading",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_text_button",
+      "label": "Color Text Button",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_border_button",
+      "label": "Color Boder Button",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_bg_button",
+      "label": "Color Background Button",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "background_alpha",
+      "label": "background opacity",
+      "default": "0.75",
+      "info": "Range: 1 = 100%"
+    },
+    {
+      "type": "color",
+      "id": "color_text_button_hv",
+      "label": "Color Text Button Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_border_button_hv",
+      "label": "Color Boder Button Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_bg_button_hv",
+      "label": "Color Background Button Hover",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "background_alpha_2",
+      "label": "background opacity",
+      "default": "0.75",
+      "info": "Range: 1 = 100%"
+    }
+
+  ],
+  "presets":[
+    {
+      "name": "Banners Parallax",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

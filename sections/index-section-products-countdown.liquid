@@ -1,0 +1,475 @@
+{%- assign item = section.settings -%}
+
+{%- assign grid = item.items -%}
+{%- assign name_collection = item.collection -%}
+
+{%- assign collection = collections[name_collection] -%}
+{%- assign length = item.limit | plus: 0 -%}
+<section id="section-{{ section.id }}" class="section-products-countdown section-electrolic" data-aos="{{ section.settings.effect }}">
+  <div class="container-indent">
+    <div class="container-fluid{% if item.fullwidth %}-fullwidth{% endif %} container-fluid-custom-mobile-padding" data-sectionname="index_sectionproducts">
+      <div class="row">
+        <div class="col-xl-7 col-md-12 col-sm-12 col-xs-12">
+          <div class="sp-block-title">
+            <h2 class="sp-title" style="border-color: {{ item.color_border }};">
+              {%- if item.use_title_as_link -%}
+              <a href="/collections/{{ collection.handle }}" class="title-hover-underline" title="{{ item.button_text }}">{{ item.text1 }}</a>
+              {%- else -%}{{ item.text1 }}
+              {%- endif -%}
+            </h2>
+          </div>
+          {%- if item.default_carousel -%}
+          {%- assign slider_mode = true -%}
+          <div class="sp-carousel-products-js row arrow-location-tab sp-alignment-img sp-layout-product-item slick-animated-show-js" data-slick='{"slidesToShow": {{ item.toshow }}, "slidesToScroll": {{ item.step }}, "autoplay": {{ item.module_autoplay }}, "autoplaySpeed": {{ item.delay_time }}}'>
+            {% if name_collection != blank and collection.products.size > 1 %}
+              {%- for product in collection.products limit: length -%}
+                <div class="columns">
+                  {%- include "product-grid-item" -%}
+                </div>
+              {%- endfor -%}
+            {% else %}
+              {% for i in (1..section.settings.limit) %}
+                <div class="columns">
+                  <div class="sp-product product-parent options-js thumbprod-center">
+                    <div class="sp-image-box">
+                      <a href="">
+                        <span class="sp-img">
+                          <img src="{{ 'bg.jpg' | asset_img_url: '600x600', crop: 'center' }}" class="lazyload">
+                        </span>
+                      </a>
+                      <div class="gruop-button">
+                        <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                        <div class="sp-row-btn btn-cart">
+                          <form method="post" enctype="multipart/form-data">
+                            <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                          </form>
+                        </div>
+                        <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                        <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                      </div>
+                    </div>
+                    <div class="sp-description">
+                      <div class="sp-row">
+                        <div class="sp-rating">
+                          <span class="shopify-product-reviews-badge"></span>
+                        </div>
+                      </div>
+                      <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                      <div class="sp-price">
+                        <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          {%- else -%}
+          <div class="row sp-layout-product-item">
+            {% if name_collection != blank and collection.products.size > 1 %}
+              {%- for product in collection.products limit: length -%}
+              <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+                {%- include "product-grid-item" -%}
+              </div>
+              {%- endfor -%}
+            {% else %}    
+              {% for i in (1..section.settings.limit) %}
+                <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+                  <div class="sp-product product-parent options-js thumbprod-center">
+                    <div class="sp-image-box">
+                      <a href="">
+                        <span class="sp-img">
+                          <img src="{{ 'bg.jpg' | asset_img_url: '600x600', crop: 'center' }}" class="lazyload">
+                        </span>
+                      </a>
+                      <div class="gruop-button">
+                        <a href="#" data-toggle="modal" class="sp-btn-quickview" data-tooltip="Quick View"> </a>
+                        <div class="sp-row-btn btn-cart">
+                          <form action="/cart/add" method="post" enctype="multipart/form-data">
+                            
+                            <button class="sp-btn-addtocart  addtocart-item-js thumbprod-button-bg" data-tooltip="Add to cart"><span class="icon icon-shopping_basket"></span> <span>ADD TO CART</span></button>
+                          </form>
+                        </div>
+                        <a class="btn-cart btn-view-more" data-tooltip="View More">View more</a>
+                        <a class="compare wk-app-btn sp-btn-compare" data-toggle="tooltip" data-tooltip="Compare" data-placement="left" href="#"><i class="fa fa-sliders" aria-hidden="true"></i></a>
+                      </div>
+                    </div>
+                    <div class="sp-description">
+                      <div class="sp-row">
+                        <div class="sp-rating">
+                          <span class="shopify-product-reviews-badge"></span>
+                        </div>
+                      </div>
+                      <h5 class="sp-title prod-thumb-title-color"><a>Basic Swear Shirt</a></h5>
+                      <div class="sp-price">
+                        <span><span class="money">$660.00 </span></span><span class="old-price hide"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          {%- endif -%}
+          {%- if item.show_button -%}
+          <div class="text-center">
+            <a href="/collections/{{ collection.handle }}" class="btn btn-border btn-top">{{ item.button_text }}</a>
+          </div>
+          {%- endif -%}
+      
+        </div>
+        <div class="col-xl-5 col-md-12 col-sm-12 col-xs-12">
+          <div class="wrapper">
+            <div id="demo" class="countdown-bar">
+            </div>
+            <div class="banner-content">
+              <div class="twrap">
+                <div><span class="title1 title" style="color: {{ item.color_text1 }}">{{ item.text2 }}</span></div>
+                <div>
+                  <span class="title2 title" style="color: {{ item.color_text1 }}">{{ item.text3 }}</span>
+                  <span class="title3 title" style="color: {{ item.color_text1 }}">{{ item.text4 }}</span>
+                </div>
+              </div>
+              <span class="title4 title" style="color: {{ item.color_text2 }}">{{ item.text5 }}</span>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+
+  // Set the date we're counting down to
+  var countDownDate = new Date("{{ item.time }}").getTime();
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Display the result in the element with id="demo"
+    var htmls = "<div class='countdown'>";
+        htmls += "<div><span class='days countdown-amount'>   "+days+"   </span><div class='countdown-label'>days</div></div>";
+        htmls += "<div><span class='hours countdown-amount'>   "+hours+"   </span><div class='countdown-label'>hours</div></div>";
+        htmls += "<div><span class='minutes countdown-amount'>"+minutes+"</span><div class='countdown-label'>mins </div></div>";
+       htmls += "<div><span class='seconds countdown-amount'>"+seconds+"</span><div class='countdown-label'>secs </div></div>";
+        htmls += "</div>";
+    document.getElementById("demo").innerHTML = htmls;
+
+    // If the count down is finished, write some text 
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+</script>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} .wrapper{
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    {%- if item.image == blank -%}
+      background-image: url('{{ 'bg.jpg' | asset_img_url: '1900x' }}');
+    {%- else -%}
+      background-image: url('{{ item.image | img_url: "1024x"}}');
+    {%- endif -%}
+  }
+  .wrapper .countdown .countdown-label,.wrapper .countdown .countdown-amount{
+      color: {{ item.color_date }};
+      background: {{ item.bg_time }};
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Products Countdown",
+	  "class": "index-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Fullwidth size",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Color Border",
+        "default": "#e1e1e1"
+      },
+      {
+        "type": "header",
+        "content": "Mobile"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobi",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin_mobi",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content" : "Content"
+      },
+      {
+        "type":"select",
+        "id":"effect",
+        "label":"Effect",
+        "options":[
+            {"value":"none","label":"No effect"},
+            {"value":"fade","label":"fade"},
+            {"value":"fade-up","label":"fade-up"},
+            {"value":"fade-down","label":"fade-down"},
+            {"value":"fade-left","label":"fade-left"},
+            {"value":"fade-right","label":"fade-right"},
+            {"value":"fade-up-right","label":"fade-up-right"},
+            {"value":"fade-up-left","label":"fade-up-left"},
+            {"value":"fade-down-right","label":"fade-down-right"},
+            {"value":"fade-down-left","label":"fade-down-left"},
+            {"value":"flip-up","label":"flip-up"},
+            {"value":"flip-down","label":"flip-down"},
+            {"value":"flip-left","label":"flip-left"},
+            {"value":"flip-right","label":"flip-right"},
+            {"value":"zoom-in","label":"zoom-in"},
+            {"value":"zoom-in-up","label":"zoom-in-up"},
+            {"value":"zoom-in-down","label":"zoom-in-down"},
+            {"value":"zoom-in-left","label":"zoom-in-left"},
+            {"value":"zoom-in-right","label":"zoom-in-right"},
+            {"value":"zoom-out","label":"zoom-out"},
+            {"value":"zoom-out-up","label":"zoom-out-up"},
+            {"value":"zoom-out-down","label":"zoom-out-down"},
+            {"value":"zoom-out-left","label":"zoom-out-left"},
+            {"value":"zoom-out-right","label":"zoom-out-right"}
+        ]
+      },
+      {
+        "type": "textarea",
+        "id": "text1",
+        "label": "Title",
+        "default": "OUR COLLECTIONS"
+      },
+      {
+        "type": "header",
+        "content": "Show all button"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_title_as_link",
+        "label": "Use title as link to the collection",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_button",
+        "label": "Show button",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+		    "default": "SHOW ALL"
+      },
+      {
+        "type": "header",
+        "content": "Products settings"
+      },
+      {
+        "label": "Collection",
+        "id": "collection",
+        "type": "collection"
+      },
+      {
+        "type": "text",
+        "id": "limit",
+        "label": "Items Length. Integer",
+        "default": "3"
+      },
+      {
+        "type": "select",
+        "id": "items",
+        "label": "Products In Row (no carousel)",
+        "options": [
+          { "value": "6", "label": "2" },
+          { "value": "4", "label": "3" },
+          { "value": "3", "label": "4" },
+          { "value": "51", "label": "5" }
+        ],
+        "default": "3",
+        "info": "For screen size > 1024"
+      },
+      {
+        "type": "header",
+        "content": "By Default Carousel"
+      },
+      {
+        "type": "checkbox",
+        "id": "default_carousel",
+        "label": "Default Carousel",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "toshow",
+        "label": "Items in row",
+        "options": [
+          { "value": "2", "label": "2" },
+          { "value": "3", "label": "3" }
+        ],
+        "default": "3",
+        "info": "For screen size > 1024"
+      },
+      {
+        "type": "select",
+        "id": "step",
+        "label": "Slides To Scroll",
+        "default": "2",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "module_autoplay",
+        "label": "Auto-rotate slides",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "delay_time",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+      {
+        "type": "header",
+        "content": "Countdown"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Background image"
+      },
+      {
+        "type": "text",
+        "id": "time",
+        "label" : "Time",
+        "default": "July 26, 2020 20:37:25"
+      },
+      {
+        "type": "text",
+        "id": "text2",
+        "label" : "Text",
+        "default": "sale"
+      },
+      {
+        "type": "text",
+        "id": "text3",
+        "label" : "Text",
+        "default": "Off"
+      },
+      {
+        "type": "text",
+        "id": "text4",
+        "label" : "Text",
+        "default": "up to"
+      },
+      {
+        "type": "text",
+        "id": "text5",
+        "label" : "Text",
+        "default": "50%"
+      },
+      {
+        "type": "header",
+        "content": "Color"
+      },
+      {
+        "type": "color",
+        "id": "bg_time",
+        "label": "Background time",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_date",
+        "label": "Date and label",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_text1",
+        "label": "Text color",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_text2",
+        "label": "Text 2 color",
+        "default": "#ffffff"
+      }
+	],
+    "presets": [
+      {
+        "name": "Products Countdown",
+        "category": "Products"
+      }
+    ]
+  }
+{% endschema %}

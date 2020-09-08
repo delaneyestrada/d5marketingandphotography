@@ -1,0 +1,79 @@
+<div class="container-indent sp__mb">
+  <div class="container">
+    <form class="track_order">
+    	<p class="text-center"> To track your order please enter your Order ID in the box below and press the "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+    	<div class="order-form">
+            {%- form 'contact' -%}
+	            {%- if form.posted_successfully? -%}
+	            <p>{{ 'contact.form.post_success' | t }}</p>
+	            {%- endif -%}
+	            {{ form.errors | default_errors }}
+	            <div class="form-group">
+	            	<label for="orderid">Order ID</label>
+	                <input type="text" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" class="form-control" id="inputName" placeholder="Found in your order confirmation email." required>
+	            </div>   
+	            <div class="form-group">
+	            	<label for="order_email">Billing email</label>
+	                <input type="email" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="form-control" id="inputEmail" placeholder="Email you used during checkout." required>
+	            </div>
+	            <div class="text-center form-button">
+	              <button type="submit" class="btn btn-order">Track</button>
+	            </div>
+            {%- endform -%}
+        </div>
+    </form>
+  </div>
+</div>
+<style type="text/css">
+	@media (min-width: 768px){
+		.track_order{
+			max-width: 712px;
+		    margin: 0 auto;
+		    padding: 0 95px 28px 95px;
+		    background: #f5f5f5;
+		}
+		.track_order p{
+			background: #fff;
+		    margin: 0 -95px;
+		    padding-bottom: 67px;
+		}
+	}
+	.track_order p{
+		font-weight: 400;
+	}
+	.track_order .order-form{
+		margin-top: 44px;
+	}
+	.track_order .form-group{
+		margin-bottom: 22px;
+	}
+	.track_order label{
+		font-size: 16px;
+	    color: #303030;
+	    margin-bottom: 12px;
+	    font-weight: 400;
+	}
+	.track_order .form-control{
+		width: 100%;
+	    padding: 13px 18px;
+	    font-size: 15px;
+	    line-height: 28px;
+	    border: 1px solid #e0e0e0;
+	    background-color: #fff;
+	    text-align: inherit;
+	    letter-spacing: 0.025em;
+	    color: #373737;
+	}
+	.track_order .form-button{
+		margin-bottom: 28px;
+	}
+	.track_order .form-button .btn{
+	    width: 100%;
+		margin-top: 28px;
+		text-transform: uppercase;
+	}
+	.track_order .form-control::placeholder{
+		text-transform: unset;
+		font-weight: 500;
+	}
+</style>

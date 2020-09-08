@@ -1,0 +1,23 @@
+<div class='item-html-js hide'>
+  <div class="sp-item">
+    <a href="#" title="{{ 'cart.header.view_product' | t }}">
+      <div class="sp-item-img">
+        img
+      </div>
+      <div class="sp-item-descriptions">
+        <h2 class="sp-title">title</h2>
+
+        <ul class="sp-add-info">
+          <li class="details">details</li>
+        </ul>
+
+        <div class="sp-quantity"><span class="qty">qty</span> X</div> <div class="sp-price">price</div>
+      </div>
+    </a>
+    <div class="sp-item-close">
+      <a href="/cart/change?id=0&quantity=0" class="sp-btn-close svg-icon-delete header_delete_cartitem_js" title="{{ 'cart.header.button_delete' | t }}">
+        {% include "svg-delete-icon" %}
+      </a>
+    </div>
+  </div>
+</div>

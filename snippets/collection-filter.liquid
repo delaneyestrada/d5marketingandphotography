@@ -1,0 +1,97 @@
+{% assign material = '' %}
+    {% assign color = '' %}
+    {% assign pattern = '' %}
+    {% for tag in collection.tags %}
+      {% assign t = tag | split:'_' %}
+      {% assign vh = tag|handleize %}
+      {% assign active = '' %}
+
+      {% for ct in current_tags %}
+        {% assign ct = ct |handleize %}
+        {% if vh == ct %}
+          {% assign active = 'active' %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% assign type = t[0] | downcase %}
+      {% case type %}
+
+      {% when 'material' %}
+      {% capture m %}
+      <li class="{{ active }}">
+       <input class="filter-value" type="checkbox" name="diameter[]" id="{{ vh }}" value="{{ tag }}">
+       <label for="{{ vh }}">{{ t[1] | replace:'_',' ' | replace:'-',' ' }}</label>
+      </li>
+      {% endcapture %}
+      {% assign material = material |append:m %}
+
+      {% when 'color' %}
+      {% capture c %}
+      <li class="{{ active }}">
+       <input class="filter-value" type="checkbox" name="flutes[]" id="{{ vh }}" value="{{ tag }}">
+       <label for="{{ vh }}">{{ t[1] | replace:'_',' ' | replace:'-',' ' }}</label>
+      </li>
+      {% endcapture %}
+      {% assign color = color |append:c %}
+
+      {% when 'pattern' %}
+      {% capture p %}
+      <li class="{{ active }}">
+       <input class="filter-value" type="checkbox" name="oal[]" id="{{ vh }}" value="{{ tag }}">
+       <label for="{{ vh }}">{{ t[1] | replace:'_',' ' | replace:'-',' ' }}</label>
+      </li>
+      {% endcapture %}
+      {% assign pattern = pattern |append:p %}
+
+      {% endcase %}
+     {% endfor %}
+    {% if material != blank or color != blank or pattern != blank %}
+      <ul class="nav nav-tabs">
+        {% if material != blank %}<li><a data-toggle="tab" href="#materials">Materials</a></li>  {% endif %}
+        {% if color != blank %} <li><a data-toggle="tab" href="#colors">Colors</a></li>{% endif %}
+        {% if pattern != blank %}<li><a data-toggle="tab" href="#patterns">Patterns</a></li>{% endif %}
+      </ul>
+    {% endif %}
+  </div>
+  {% if material != blank or color != blank or pattern != blank %}
+    <div class="col-md-12 col-sm-12 col-xs-12 collection-filters">
+     <div class="tab-content">
+      {% if material != blank %}
+      <div id="materials" class="tab-pane fade in">
+        <div class="filter-block block tag">
+         <ul>
+          {{ material }}
+         </ul>
+        </div>
+      </div>  
+      {% endif %}
+      {% if color != blank %}
+      <div id="colors" class="tab-pane fade">
+        <div class="filter-block block tag">
+         <ul>
+          {{ color }}
+         </ul>
+        </div>
+      </div>
+       {% endif %}
+       {% if pattern != blank %}
+      <div id="patterns" class="tab-pane fade">
+        <div class="filter-block block tag">
+         <ul>
+          {{ pattern }}
+         </ul>
+        </div>
+      </div>
+      {% endif %}
+     </div>
+    </div>
+  {% endif %}
+    
+   </div>
+ </div>
+ </div>
+</div>
+<script>
+ var tags = {{ collection.tags  | json }};
+</script>

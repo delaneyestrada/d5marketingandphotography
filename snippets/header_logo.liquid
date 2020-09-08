@@ -1,0 +1,20 @@
+<a href="/" class="sp-logo" itemprop="url">
+  {%- if headerlogo contains "title_" -%}
+  <h2 class="sp-title logo_index">{{ headerlogo | split:"title_" | last }}</h2>
+  {%- else -%}
+  	<img src="{{ headerlogo }}"
+                   srcset="{{ headerlogo }} 1x, {{ headerlogoretina }} 2x"
+                   alt="{{ headerlogoalt }}"
+                   class="sp-retina logo_index" itemprop="logo" style="top:{{ item.logo_margin_top }}px"/>
+  {%- endif -%}
+
+  {%- if headerlogo_page contains "title_" -%}
+    <h2 class="sp-title logo_page">{{ headerlogo_page | split:"title_" | last }}</h2>
+  {%- else -%}
+    <img src="{{ headerlogo_page }}"
+                   srcset="{{ headerlogo_page }} 1x"
+                   alt="{{ headerlogoalt }}"
+                   class="sp-retina logo_page" itemprop="logo" style="top:{{ item.logo_margin_top }}px"/>
+  {%- endif -%}
+
+</a>

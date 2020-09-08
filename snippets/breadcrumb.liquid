@@ -1,0 +1,77 @@
+{%- comment -%}
+Documentation - http://docs.shopify.com/support/your-website/navigation/creating-a-breadcrumb-navigation
+{%- endcomment -%}
+
+{%- unless template == 'index' -%}
+<div class="sp-breadcrumb">
+  <div class="container">
+    {%- if item.show_collection_title -%}
+    <h1 class="sp-title">
+      Shop{%- if item.show_collection_products_count -%} <span class="sp-title-total listing-total-js"></span>{%- endif -%}
+    </h1>
+    {%- endif -%}
+    <div class="title">
+        {{ page.title }}
+        {%- if template contains 'product' -%}{{ product.title }}{%- endif -%}
+        {%- if template == 'article' -%} {{ page_title }} {%- endif -%}
+        {%- if template contains 'account' -%} {{ page_title }} {%- endif -%}
+        {%- if template == 'login' -%} {{ page_title }} {%- endif -%}
+        {%- if template == 'cart' -%} Cart{%- endif -%}
+        {%- if template contains 'customers' and template != "customers/account" -%}My account{%- endif -%}
+         {{ blog.title }}
+        {%- if template == 'search' -%} {{ 'general.search.no_results_html' | t }}"{{ search.terms }}" {%- endif -%}
+        {%- if template contains 'collection.handle' -%} collection{%- endif -%}
+
+
+    </div>
+    <ul>
+      {% if settings.home_breadcrumbs != blank %}
+        <li><a href="/">{{ settings.home_breadcrumbs }}</a></li>
+      {% endif %}
+      
+      {%- if template contains 'product' -%}
+      {%- if collection -%}            
+      {%- if collection.handle -%}
+      {%- capture url -%}/collections/{{ collection.handle }}{%- endcapture -%}
+      <li>{{ collection.title | link_to: url }}</li>
+      {%- endif -%}
+      {%- endif -%}
+
+      <li><span>{{ product.title }}</span></li>
+
+      {%- elsif template contains 'collection' and collection.handle -%}
+      {%- if current_tags -%}
+      {%- capture url -%}/collections/{{ collection.handle }}{%- endcapture -%}
+      <li>{{ collection.title | link_to: url }}</li>
+      {%- else -%}
+      <li>{{ collection.title | capitalize }}</li>
+      {%- endif -%}
+
+      {%- elsif template == 'article' -%}
+      <li><a href="{{ blog.url }}">{{ blog.title }}</a></li>
+      <li>{{ article.title }}</li>
+      {%- elsif template contains 'customers' and template != "customers/account" -%}
+      {%- assign account = 'customer.account.title_main' | t -%}
+      <li>{{ account | capitalize | link_to: "/account" }}</li>
+      <li>{{ page_title }}</li>
+
+      {%- elsif template contains 'page' -%}
+      <li>{{ page.title }}</li>
+
+      {%- else -%}
+      <li>{{ page_title }}</li>
+      {%- endif -%}
+    </ul>
+  </div>
+</div>
+{%- endunless -%}
+<style type="text/css">
+  {% if settings.image_breadcrubs != blank %}
+    .sp-breadcrumb{
+      background: url('{{ settings.image_breadcrubs | img_url: '1024x' }}');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  {% endif %}
+</style>

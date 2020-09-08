@@ -1,0 +1,590 @@
+{%- assign item = section.settings -%}
+{%- assign blog = blogs[item.blog] -%}
+{%- assign blog_slug = item.blog -%}
+{%- assign grid = item.items | plus: 0 -%}
+
+{%- capture image_size -%}600x{%- endcapture -%}
+<section class="Section blog-home section-blogs-instagram section-electrolic" id="section-{{ section.id }}" data-aos="{{ section.settings.effect }}">
+  <div class="container-indent">
+    <div class="container-fluid{% if item.fullwidth %}-full{% endif %}" data-sectionname="index_blog">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 col-lg-blog">
+          {%- if item.show_title -%}
+            <div class="sp-block-title">
+              <h2 class="sp-title">
+                {%- if item.use_title_as_link -%}<a href="{{ blog.url }}" class="title-hover-underline" title="{{ item.button_text }}">{{ item.text1 }}</a>
+                {%- else -%}{{ item.text1 }}
+                {%- endif -%}
+              </h2>
+            </div>
+          {% endif %}
+          <div class="sp-blog-thumb-list">
+            <div class="row index-blog-js arrow-location-tab"  data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "autoplay": false, "autoplaySpeed": 7000}' {{ block.shopify_attributes }}>
+              {%- if blogs[item.blog] != blank and blogs[blog_slug].articles.size > 0  -%}
+                {%- for article in blog.articles limit: item.limit -%}
+                  <div class="col-blog col-lg-4">
+                    <div class="sp-blog-thumb">
+                      {%- if article.image != blank -%}
+                      <div class="sp-img">
+                        <a href="{{ article.url }}" target="_blank">
+                          <img class="lazyload"
+                               data-src="{{ article.image.src | img_url: image_size }}"
+                               data-srcset="{% include 'lazyload_string' value: article.image %}"
+                               alt="{{ article.image.alt }}">
+                        </a>
+                        <div class="bb-title-description">
+                          {%- if item.blog_show_date -%}
+                            <div class="bb-time">
+                              <div class="bb-time-date">{{ article.published_at | date: '%d' }}</div>
+                              <div class="bb-time-mar">{{ article.published_at | date: '%b' }}</div>
+                            </div>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                      {%- endif -%}
+                      
+                      <div class="{% if item.style_tile_blog == 'margintop' %}sp-title-description {% else item.style_tile_blog == 'normal' %} bb-title-description text-center{% endif %}">
+                        <div class="sp-background"></div>
+                        {%- if article.tags.size > 0 and item.show_tags -%}<div class="sp-tag text-uppercase">
+                          {%- for tag in article.tags -%}
+                            {%- assign a_url = tag | handle -%}{%- assign a_url = blog.url | append: '/tagged/' | append: a_url  -%}
+                            {{ tag | link_to: a_url }}
+                          {%- endfor -%}
+                        </div>{% endif %}
+                        <div class="sp-title{% if settings.block_titles_uppercase %} text-uppercase{% endif %}">
+                          <a href="{{ article.url }}">{{ article.title }}</a>
+                        </div>
+                        {%- if item.show_description -%}
+                        <p>{% if article.excerpt.size > 0 %}
+                          {%- if section.settings.truncate_excerpt -%}{{ article.excerpt | strip_html | truncatewords: section.settings.truncate, section.settings.truncate_last_symbols }}
+                          {%- else -%}{{ article.excerpt }}
+                          {%- endif -%}
+                          {%- else -%}{{ article.content | strip_html | truncatewords: section.settings.truncate, section.settings.truncate_last_symbols }}{%- endif -%}
+                        </p>
+                        {%- endif -%}
+                        <div class="sp-meta">
+                          {%- if section.settings.blog_show_author or section.settings.blog_show_date -%}
+                          <div class="sp-autor">
+                            {%- if item.blog_show_author -%}{{ "blogs.general.author_by_html" | t: author: article.author }}{%- endif -%}
+                            {%- if item.show_comment -%}
+                            {%- if article.comments.size > 0 -%}{%- assign comment_url = article.url | append: '#comments' -%}{%- else -%}{%- assign comment_url = article.url | append: '#addcomment' -%}{%- endif -%}
+                              <a href="{{ comment_url }}"> - {{ article.comments.size }} comments</a>
+                            {%- endif -%}
+                          </div>
+              
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                <div class="col-blog col-lg-4 col-md-4 col-ms-12">
+                  <div class="sp-blog-thumb">
+                    <div class="sp-img">
+                      <a href="#">
+                        <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}" class="lazyload">
+                      </a>
+                      <div class="bb-title-description">
+                        {%- if item.blog_show_date -%}
+                          <div class="bb-time">
+                            <div class="bb-time-date">25</div>
+                            <div class="bb-time-mar">Mar</div>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    
+                    <div class="{% if item.style_tile_blog == 'margintop' %}sp-title-description {% else item.style_tile_blog == 'normal' %} bb-title-description text-center{% endif %}">
+                      <div class="sp-background"></div>
+                      {%- if article.tags.size > 0 and item.show_tags -%}<div class="sp-tag text-uppercase">
+                        {%- for tag in article.tags -%}
+                          {%- assign a_url = tag | handle -%}{%- assign a_url = blog.url | append: '/tagged/' | append: a_url  -%}
+                          {{ tag | link_to: a_url }}
+                        {%- endfor -%}
+                      </div>{% endif %}
+                      <h4 class="sp-title{% if settings.block_titles_uppercase %} text-uppercase{% endif %}">
+                        <a href="{{ article.url }}">Men’s Fashion</a>
+                      </h4>
+                      {%- if item.show_description -%}
+                      <p>Nulla laoreet ipsum dignissim magna maximus, vitae euis mod turpis iaculis. </p>
+                      {%- endif -%}
+                      <div class="sp-meta">
+                        {%- if section.settings.blog_show_author or section.settings.blog_show_date -%}
+                        <div class="sp-autor">
+                          {%- if item.blog_show_author -%}by store bixbang Admin{%- endif -%}
+                          {%- if item.show_comment -%}
+                            <a href="{{ comment_url }}"> - 0 comments</a>
+                          {%- endif -%}
+                        </div>
+            
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-blog col-lg-4 col-md-4 col-ms-12">
+                  <div class="sp-blog-thumb">
+                    <div class="sp-img">
+                      <a href="#">
+                        <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                      </a>
+                      <div class="bb-title-description">
+                        {%- if item.blog_show_date -%}
+                          <div class="bb-time">
+                            <div class="bb-time-date">25</div>
+                            <div class="bb-time-mar">Mar</div>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    
+                    <div class="{% if item.style_tile_blog == 'margintop' %}sp-title-description {% else item.style_tile_blog == 'normal' %} bb-title-description text-center{% endif %}">
+                      <div class="sp-background"></div>
+                      {%- if article.tags.size > 0 and item.show_tags -%}<div class="sp-tag text-uppercase">
+                        {%- for tag in article.tags -%}
+                          {%- assign a_url = tag | handle -%}{%- assign a_url = blog.url | append: '/tagged/' | append: a_url  -%}
+                          {{ tag | link_to: a_url }}
+                        {%- endfor -%}
+                      </div>{% endif %}
+                      <h4 class="sp-title{% if settings.block_titles_uppercase %} text-uppercase{% endif %}">
+                        <a href="{{ article.url }}">Men’s Fashion</a>
+                      </h4>
+                      {%- if item.show_description -%}
+                      <p>Nulla laoreet ipsum dignissim magna maximus, vitae euis mod turpis iaculis. </p>
+                      {%- endif -%}
+                      <div class="sp-meta">
+                        {%- if section.settings.blog_show_author or section.settings.blog_show_date -%}
+                        <div class="sp-autor">
+                          {%- if item.blog_show_author -%}by store bixbang Admin{%- endif -%}
+                          {%- if item.show_comment -%}
+                            <a href="{{ comment_url }}"> - 0 comments</a>
+                          {%- endif -%}
+                        </div>
+            
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-blog col-lg-4 col-md-4 col-ms-12">
+                  <div class="sp-blog-thumb">
+                    <div class="sp-img">
+                      <a href="#">
+                        <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                      </a>
+                      <div class="bb-title-description">
+                        {%- if item.blog_show_date -%}
+                          <div class="bb-time">
+                            <div class="bb-time-date">25</div>
+                            <div class="bb-time-mar">Mar</div>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    
+                    <div class="{% if item.style_tile_blog == 'margintop' %}sp-title-description {% else item.style_tile_blog == 'normal' %} bb-title-description text-center{% endif %}">
+                      <div class="sp-background"></div>
+                      {%- if article.tags.size > 0 and item.show_tags -%}<div class="sp-tag text-uppercase">
+                        {%- for tag in article.tags -%}
+                          {%- assign a_url = tag | handle -%}{%- assign a_url = blog.url | append: '/tagged/' | append: a_url  -%}
+                          {{ tag | link_to: a_url }}
+                        {%- endfor -%}
+                      </div>{% endif %}
+                      <h4 class="sp-title{% if settings.block_titles_uppercase %} text-uppercase{% endif %}">
+                        <a href="{{ article.url }}">Men’s Fashion</a>
+                      </h4>
+                      {%- if item.show_description -%}
+                      <p>Nulla laoreet ipsum dignissim magna maximus, vitae euis mod turpis iaculis. </p>
+                      {%- endif -%}
+                      <div class="sp-meta">
+                        {%- if section.settings.blog_show_author or section.settings.blog_show_date -%}
+                        <div class="sp-autor">
+                          {%- if item.blog_show_author -%}by store bixbang Admin{%- endif -%}
+                          {%- if item.show_comment -%}
+                            <a href="{{ comment_url }}"> - 0 comments</a>
+                          {%- endif -%}
+                        </div>        
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-blog col-lg-4 col-md-4 col-ms-12">
+                  <div class="sp-blog-thumb">
+                    <div class="sp-img">
+                      <a href="#">
+                        <img src="{{ 'bg.jpg' | asset_img_url: '200x' }}" class="lazyload">
+                      </a>
+                      <div class="bb-title-description">
+                        {%- if item.blog_show_date -%}
+                          <div class="bb-time">
+                            <div class="bb-time-date">25</div>
+                            <div class="bb-time-mar">Mar</div>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    
+                    <div class="{% if item.style_tile_blog == 'margintop' %}sp-title-description {% else item.style_tile_blog == 'normal' %} bb-title-description text-center{% endif %}">
+                      <div class="sp-background"></div>
+                      {%- if article.tags.size > 0 and item.show_tags -%}<div class="sp-tag text-uppercase">
+                        {%- for tag in article.tags -%}
+                          {%- assign a_url = tag | handle -%}{%- assign a_url = blog.url | append: '/tagged/' | append: a_url  -%}
+                          {{ tag | link_to: a_url }}
+                        {%- endfor -%}
+                      </div>{% endif %}
+                      <h4 class="sp-title{% if settings.block_titles_uppercase %} text-uppercase{% endif %}">
+                        <a href="{{ article.url }}">Men’s Fashion</a>
+                      </h4>
+                      {%- if item.show_description -%}
+                      <p>Nulla laoreet ipsum dignissim magna maximus, vitae euis mod turpis iaculis. </p>
+                      {%- endif -%}
+                      <div class="sp-meta">
+                        {%- if section.settings.blog_show_author or section.settings.blog_show_date -%}
+                        <div class="sp-autor">
+                          {%- if item.blog_show_author -%}by store bixbang Admin{%- endif -%}
+                          {%- if item.show_comment -%}
+                            <a href="{{ comment_url }}"> - 0 comments</a>
+                          {%- endif -%}
+                        </div>        
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-xs-12 col-lg-instagram" data-sectionname="index_instagram">
+          {%- if item.show_titles -%}
+            <div class="sp-block-title">
+              <h2 class="sp-title">{{ item.text1_ins }}</h2>
+              {%- unless item.text2 == '' -%}<div class="sp-description">{{ item.text2-ins }}</div>{%- endunless -%}
+            </div>
+            {%- endif -%}
+            <div class="row-instagram">
+              <div id="instafeed-{{ section.id }}" class="{% if item.in_line %}instafeed instafeed-fluid{% else %}instafeed-col{% if item.grid_6 %} instafeed-col-item-06{% endif %}{% endif %}" data-userid="{{ section.settings.userid }}" data-clientid="{{ section.settings.clientid }}" data-accesstoken="{{ section.settings.accesstoken }}" data-count="{{ section.settings.count }}">
+                
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} .sp-block-title .sp-title{
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+  @media (min-width: 1200px){
+  #section-{{ section.id }} .sp-blog-thumb .sp-img img{
+    object-fit: cover;
+    height: {{ item.height_img }}px;
+  }
+</style>
+{% schema %}
+  {
+    "name": "Blog Posts electronic",
+  "class": "index-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Fullwidth Width",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "border_color",
+        "label": "Border Color",
+        "default": "#dedede"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "95px 0px 92px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content": "Mobile"
+      },
+      {
+        "type": "color",
+        "id": "bg_color_mobi",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },  
+      {
+        "type": "text",
+        "id": "padding_mobi",
+        "label": "Section Padding",
+        "default": "63px 0px 63px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin_mobi",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type":"select",
+        "id":"effect",
+        "label":"Effect",
+        "options":[
+            {"value":"none","label":"No effect"},
+            {"value":"fade","label":"fade"},
+            {"value":"fade-up","label":"fade-up"},
+            {"value":"fade-down","label":"fade-down"},
+            {"value":"fade-left","label":"fade-left"},
+            {"value":"fade-right","label":"fade-right"},
+            {"value":"fade-up-right","label":"fade-up-right"},
+            {"value":"fade-up-left","label":"fade-up-left"},
+            {"value":"fade-down-right","label":"fade-down-right"},
+            {"value":"fade-down-left","label":"fade-down-left"},
+            {"value":"flip-up","label":"flip-up"},
+            {"value":"flip-down","label":"flip-down"},
+            {"value":"flip-left","label":"flip-left"},
+            {"value":"flip-right","label":"flip-right"},
+            {"value":"zoom-in","label":"zoom-in"},
+            {"value":"zoom-in-up","label":"zoom-in-up"},
+            {"value":"zoom-in-down","label":"zoom-in-down"},
+            {"value":"zoom-in-left","label":"zoom-in-left"},
+            {"value":"zoom-in-right","label":"zoom-in-right"},
+            {"value":"zoom-out","label":"zoom-out"},
+            {"value":"zoom-out-up","label":"zoom-out-up"},
+            {"value":"zoom-out-down","label":"zoom-out-down"},
+            {"value":"zoom-out-left","label":"zoom-out-left"},
+            {"value":"zoom-out-right","label":"zoom-out-right"}
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show Title Block",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "text1",
+        "label": "Title",
+        "default": "LATES FROM BLOG"
+      },
+      {
+        "type": "header",
+        "content": "Use title as link"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_title_as_link",
+        "label": "Use title as link to the blog",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Blog settings"
+      },
+      {
+        "id": "blog",
+        "type": "blog",
+        "label": "Blog"
+      },
+      {
+        "type": "text",
+        "id": "limit",
+        "label": "Items Length. Integer",
+        "default": "8"
+      },
+      {
+        "type": "select",
+        "id": "items",
+        "label": "Items in row",
+        "options": [
+          { "value": "6", "label": "2" },
+          { "value": "4", "label": "3" },
+          { "value": "3", "label": "4" }
+        ],
+        "default": "4",
+        "info": "For screen size > 1024"
+      },
+      {
+        "type": "text",
+        "id": "height_img",
+        "label" : "Height Image",
+        "default" :"310"
+      },
+      {
+        "type": "select",
+        "id": "style_tile_blog",
+        "label": "Style Title Blog",
+        "options": [
+            {
+              "value": "normal",
+              "label": "normal"
+            },
+            {
+              "value": "margintop",
+              "label": "Margin Top"
+            }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "show_tags",
+        "label": "Show tags",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_comment",
+        "label": "Show comment",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "_____"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_description",
+        "label": "Show description",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "Work only for the field \"Content\". Field \"Excerpt\" will show full."
+      },
+      {
+        "type": "checkbox",
+        "id": "truncate_excerpt",
+        "label": "Truncate Excerpt",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "truncate",
+        "label": "Show Words",
+        "default": "15",
+        "info": "Integer"
+      },
+      {
+        "type": "text",
+        "id": "truncate_last_symbols",
+        "label": "Last Symbols",
+        "default": "..."
+      },
+      {
+        "type": "header",
+        "content": "Instagram"
+      },
+      {
+        "type": "checkbox",
+        "id": "in_line",
+        "label": "Design in line",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "grid_6",
+        "label": "Grid view. 6 in row",
+        "default": false,
+       "info": "Default = 4 in row"
+      },
+      {
+        "type": "text",
+        "id": "userid",
+        "label": "User Id",
+        "default": "8185238493",
+      "info": "[Get a Instagram Client_ID key](http:\/\/darkwhispering.com\/how-to\/get-a-instagram-client_id-key)"
+      },
+      {
+        "type": "text",
+        "id": "clientid",
+        "label": "Client Id",
+        "default": "e62e102e7ba5426daf3f1ee80cd91434",
+      "info": "[Get Instagram User Id](http:\/\/www.ershad7.com\/InstagramUserID)"
+      },
+      {
+        "type": "text",
+        "id": "accesstoken",
+        "label": "Access Token",
+        "default": "8185238493.e62e102.9760a60f45754a33bef03fe25e148f2e",
+      "info": "[Instagram access token generator](https:\/\/elfsight.com\/service\/generate-instagram-access-token)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Instagram access token](https:\/\/elfsight.com\/blog\/2016\/05\/how-to-get-instagram-access-token/)"
+      },
+      {
+        "type": "text",
+        "id": "count",
+        "label": "Images Count",
+        "default": "6",
+        "info": "Integer"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_titles",
+        "label": "Show titles",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "text1_ins",
+        "label": "Title",
+        "default": "<a target=\"_blank\" href=\"https:\/\/www.instagram.com\/bixbangshopify\">@ FOLLOW<\/a> US ON"
+      },
+      {
+        "type": "text",
+        "id": "text2_ins",
+        "label": "Description",
+        "default": "INSTAGRAM"
+      }
+   ],
+    "presets": [
+      {
+        "name": "Blog Posts Electronic",
+        "category": "Blog"
+      }
+    ]
+  }
+{% endschema %}

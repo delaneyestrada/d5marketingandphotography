@@ -1,0 +1,25 @@
+<!-- /snippets/social-sharing.liquid -->
+<div class="social-sharing">
+
+  {%- if item.share_facebook -%}
+    <a target="_blank" href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" class="share-facebook" title="{{ 'general.social.alt_text.share_on_facebook' | t }}">
+      <i class="fa fa-facebook"></i>
+      
+    </a>
+  {%- endif -%}
+
+  {%- if item.share_twitter -%}
+    <a target="_blank" href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" class="share-twitter" title="{{ 'general.social.alt_text.share_on_twitter' | t }}">
+      <i class="fa fa-twitter"></i>
+      
+    </a>
+  {%- endif -%}
+
+  {%- if item.share_pinterest -%}
+    <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}" class="share-pinterest" title="{{ 'general.social.alt_text.share_on_pinterest' | t }}">
+      <i class="fa fa-pinterest-p"></i>
+      
+    </a>
+  {%- endif -%}
+
+</div>

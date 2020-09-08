@@ -1,0 +1,96 @@
+<section class="Section" id="section-{{ section.id }}" >
+  {%- assign item = section.settings -%}
+  <div class="container-indent" itemscope itemtype="http://schema.org/Article">
+    <div class="container container-fluid-custom-mobile-padding">
+      <div class="row justify-content-center">
+        <div class="col-xs-12 col-md-12 col-lg-12 col-md-auto">
+          <div class="single-porfolio" itemprop="articleBody">
+            <div class="text-center porfolio-img">
+              <img src="{{ article.image.src | img_url: '1170x600'}}" alt="{{ article.image.alt }}">
+            </div>
+            <div class="content-porfolio">
+              {%- if item.blog_show_tags -%}
+                <div class="sp-autor text-center">
+                  {%- if article.tags.size > 0 and item.blog_show_tags -%}
+                    <span>
+                      {%- for tag in article.tags -%}
+                        {{ tag | link_to_tag: tag }}{% unless forloop.last %}, {% endunless %}
+                      {%- endfor -%}
+                    </span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <h1 class="sp-title text-center">{{ article.title }}</h1>
+              <div class="emtry-post">
+                <div class="sp-post-content">
+                  {{ article.content }}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="single-post-navigation single-porfolio-navigation">
+            <a href="{{ blog.previous_article }}" class="nav-links previous"><i class="flaticon-left-arrow"></i>Previous Post</a>
+            <a href="{{ blog.next_article }}" class="nav-links next">Next Post <i class="flaticon-next-1"></i></a>
+          </div>
+
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Posts",
+    "settings": [
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content": "Mobile"
+      },
+      {
+        "type": "text",
+        "id": "padding_mobi",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin_mobi",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_tags",
+        "label": "Show tags",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

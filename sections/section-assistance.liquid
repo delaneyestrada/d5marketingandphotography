@@ -1,0 +1,120 @@
+<section class="Section" id="section-{{ section.id }}">
+  <div class="page-team">
+    <div class="section-banner">
+        <div class="container">
+          <div class="wrapper row">
+            <div class="heading col-lg-6 col-md-6 col-sm-8">{{ section.settings.title_our }}</div>
+            <div class="wrapper-button col-lg-6 col-md-6 col-sm-4">
+              <a href="{{ section.settings.button_url }}" class="btn wrapper-btn">{{ section.settings.text_button }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  #section-{{ section.id }} .section-banner{
+    background-image: url('{{ section.settings.bg_section | img_url: '1900x' }}');
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      color: {{ section.settings.color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+  {
+    "name": "Meet Team",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color",
+        "label": "Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Section Padding",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "text",
+        "id": "margin",
+        "label": "Section margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+          "type": "header",
+          "content": "Mobile"
+      },
+      {
+          "type": "color",
+          "id": "bg_color_mobi",
+          "label": "Background Color",
+          "default": "#ffffff"
+      },
+      {
+          "type": "color",
+          "id": "color_mobi",
+          "label": "Color",
+          "default": "#ffffff"
+      },
+      {
+          "type": "text",
+          "id": "padding_mobi",
+          "label": "Section Padding",
+          "default": "0px 0px 0px 0px"
+      },
+      {
+          "type": "text",
+          "id": "margin_mobi",
+          "label": "Section margin",
+          "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "header",
+        "content": "Need our assistance?"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_section",
+        "label": "background"
+      },
+      {
+        "type": "text",
+        "id": "title_our",
+        "label": "Title",
+        "default": "Need our assistance?"
+      },
+      {
+          "type": "text",
+          "id": "text_button",
+          "label": "Text Button",
+          "default": "contact us"
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button Url"
+      }
+    ]
+  }
+{% endschema %}

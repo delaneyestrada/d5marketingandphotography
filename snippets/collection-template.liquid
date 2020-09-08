@@ -1,0 +1,171 @@
+{%- assign item = settings -%}
+{%- assign item_sidebar = item.sidebar -%}
+{%- capture flip_sidebar -%}{% if item_sidebar contains "rightColumn" %} flex-sm-row-reverse{% endif %}{%- endcapture -%}
+{%- assign pagination_limit_const = settings.pagination_limit | times: 1 -%}
+{%- assign curent_id =  collection.id -%}
+{%- assign check_all = collection.handle -%}
+
+
+<div class="container-indent">
+  <ul class="tabs--collection nav nav-tabs sp-tabs-default">
+    <li class="nav-item title-collection">
+      <a  href="/collections/all" class="{% if curent_id == '' or check_all == 'all' %}active{% endif %}">All Items</a>
+      {% for collection in collections %}
+        <a href="{{ collection.url }}" class="{% if collection.id == curent_id %}active{% endif %}">{{ collection.title }}
+        </a>
+      {% endfor %}
+    </li>
+  </ul>
+  <div class="container-collection{%- if item.fullwidth -%}-fluid{%- endif -%}{% if item_sidebar contains "_wide" %}-fluid-custom container-fluid-custom-mobile-padding{% endif %}">
+    <div class="row{{ flip_sidebar }}">
+      {%- if item_sidebar == 'sidebardropdown' -%}
+          <div class="col-md-12 col-md-12 col-lg-12 col-xl-12">
+
+            {%- if collection.description != '' and settings.show_collection_description -%}
+            <div class="content-indent">
+              <div class="row sp-layout-promo-box">
+                {{ collection.description }}
+              </div>
+            </div>{%- endif -%}
+            
+            <div class="content-indent container-fluid-custom-mobile-padding-02">
+
+              {%- paginate collection.products by current_pagination_limit -%}
+              <div class="sp-filters-options{% if item_sidebar contains "hidden_closed" %} desctop-no-sidebar{% endif %}">
+                <div class="sp-sort bb-sort">
+                 {{ collection.all_products_count }}</span> items
+                </div>
+                <div class="shop__filter">
+                  <div class="sp-quantity">
+                    See:
+                    <a href="#" class="sp-col-one" data-value="sp-col-one"></a>
+                    <a href="#" class="sp-col-two" data-value="sp-col-two"></a>
+                    <a href="#" class="sp-col-three" data-value="sp-col-three"></a>
+                    <a href="#" class="sp-col-four" data-value="sp-col-four"></a>
+                    <a href="#" class="sp-col-six" data-value="sp-col-six"></a>
+                  </div>
+                  <div class="sp-btn-toggle" style="display: block;" onclick="Filters($(this))">
+                    <a href="#" class="open-filters"><span>Filters</span></a>
+                  </div>
+                </div>
+              </div>
+              {%- include "collection-page-sidebar" -%}
+
+              <div class="sp-product-listing row{% if collection.products.size == 0 %} flex-center-message{% endif %}{% if settings.products_in_one_row %} sp-col-one only-row{% endif %}" data-onerow="{{ settings.use_one_row_in_theme }}">
+                {%- if collection.products.size > 0 -%}
+                {%- for product in collection.products -%}
+                <div class="col-sm-6 col-xs-12 col-md-{{ item.products_in_column }} sp-col-item">
+                  {%- include "product-grid-item" -%}
+                </div>
+                {%- endfor -%}
+                {%- else -%}
+                <div class="sp-empty-search">
+                  <span class="sp-icon icon-g-84"></span>
+                  <h2 class="sp-title">{{ 'collections.general.empty' | t }}</h2>
+                  <p>{{ 'collections.general.sort_result' | t }}</p>
+                </div>
+                {%- endif -%}
+              </div>
+
+             {% if settings.enable_infinite_scroll == 'pagination' %}
+                <div class="pagination_page text-center">
+                  {% if paginate.pages > 1 %}
+                    {% include 'pagination' %}
+                  {% endif %}
+                 </div>
+              {% else %}
+                <div class="text-center tt_product_showmore infinitybutton{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll_yes{% endif %}{% if paginate.next == empty? and paginate.previous == empty? %} hide{% endif %}">
+                  
+                  {%- if paginate.next -%}
+                    <div class="show-more">
+                      <a href="{{ paginate.next.url }}" class="btn{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll hide{% endif %}">{{ 'collections.toolbar.button_show_more' | t }}</a>
+                    </div>
+                  {%- else -%}
+                    {%- if paginate.previous -%}
+                    <div class="show-more tt_item_all_js" >
+                      <a href="#" class="btn btn-border01 disable">{{ settings.no_products }}</a>
+                    </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              {% endif %}
+              {%- endpaginate -%} 
+            </div>
+          </div>
+      {%- else -%}
+        {%- unless item_sidebar contains "_disable_" -%}{%- include "collection-page-sidebar" -%}{%- endunless -%}
+        <div class="{% if item_sidebar == 'leftColumn' %}col-left{% endif %}{% if item_sidebar == 'rightColumn' %}col-right{% endif %} {% if item_sidebar contains "hidden_" %}col-md-12{% else %}col-md-12 col-lg-10 col-xl-10{% endif %}">
+          {%- if collection.description != '' and settings.show_collection_description -%}
+          <div class="content-indent">
+            <div class="row sp-layout-promo-box">
+              {{ collection.description }}
+            </div>
+          </div>{%- endif -%}
+          
+          <div class="content-indent container-fluid-custom-mobile-padding-02">
+
+            {%- paginate collection.products by current_pagination_limit -%}
+
+            <div class="sp-filters-options{% if item_sidebar contains "hidden_closed" %} desctop-no-sidebar{% endif %}">
+
+              {%- include "collection-page-toolbar" -%}
+
+            </div>
+
+            <div class="sp-product-listing row tab-content{% if collection.products.size == 0 %} flex-center-message{% endif %}{% if settings.products_in_one_row %} sp-col-one only-row{% endif %}" data-onerow="{{ settings.use_one_row_in_theme }}">
+              {%- if collection.products.size > 0 -%}
+              {%- for product in collection.products -%}
+              <div class="col-sm-12 col-xs-12 col-md-{{ item.products_in_column }} sp-col-item">
+                {%- include "product-grid-item" -%}
+              </div>
+              {%- endfor -%}
+              {%- else -%}
+              <div class="sp-empty-search">
+                <span class="sp-icon icon-g-84"></span>
+                <h2 class="sp-title">{{ 'collections.general.empty' | t }}</h2>
+                <p>{{ 'collections.general.sort_result' | t }}</p>
+              </div>
+              {%- endif -%}
+            </div>
+            {% if settings.enable_infinite_scroll == 'pagination' %}
+              <div class="pagination_page text-center">
+                {% if paginate.pages > 1 %}
+                  {% include 'pagination' %}
+                {% endif %}
+               </div>
+            {% else %}
+              <div class="text-center tt_product_showmore infinitybutton{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll_yes{% endif %}{% if paginate.next == empty? and paginate.previous == empty? %} hide{% endif %}">
+                
+                {%- if paginate.next -%}
+                  <div class="show-more">
+                    <a href="{{ paginate.next.url }}" class="btn btn-border{% if settings.enable_infinite_scroll == 'autoscroll' %} autoscroll hide{% endif %}">{{ 'collections.toolbar.button_show_more' | t }}</a>
+                  </div>
+                {%- else -%}
+                  {%- if paginate.previous -%}
+                  <div class="show-more tt_item_all_js" >
+                    <a href="#" class="btn btn-border01 disable">{{ settings.no_products }}</a>
+                  </div>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {% endif %}
+            {%- endpaginate -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function Filters(_this){
+    $("#menu-mobile").slideToggle(300);
+    if(_this.hasClass("opend")){
+      _this.removeClass("opend");
+    }
+    else{
+      $("#peter_search").hide();
+      _this.addClass("opend");
+    }
+  }
+</script>

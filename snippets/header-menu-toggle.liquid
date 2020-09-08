@@ -1,0 +1,17 @@
+<div class="sp-desktop-header{% if settings.header_position and template == 'index' %} sp-header-static{% endif %}">    
+    <div class="container-fluid{% if item.header_fullwidth %}-full{% endif %} header-menu-toggle">
+    	<div class="row bb-row {{ menuposition }}">
+    		<div class="sp-obj-menu">	  
+		        <div class="sp-menu-toggle mainmenumob-js">
+		          <span class="flaticon-lists"></span>
+		        </div>
+	        </div>
+	        <div class="bb-logo-header" itemscope itemtype="http://schema.org/Organization">
+	            {%- include "header_logo" -%}
+	        </div>
+	        <div class="options-header bb-dropdown">
+	            {%- include "header_options" -%}
+	        </div>
+		</div>
+	</div>
+</div>

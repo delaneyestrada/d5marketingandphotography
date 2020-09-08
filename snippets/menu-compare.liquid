@@ -1,0 +1,10 @@
+<div class="decstop"><a href="#"
+ data-toggle="modal"
+ data-target="#ModalquickView"
+ class="sp-btn-quickview"
+ data-value="{{ product.url | within: collection }}"
+ data-quantity="{% for variant in product.variants %}{% if variant.inventory_policy == "continue" %}{{ variant.id }}-continue;{% else %}{{ variant.id }}-{{ variant.inventory_quantity }};{% endif %}{% endfor %}"{% if settings.first_variant_column_is_image and settings.use_in_the_small_products %}
+ data-optionimages='{% include 'get_product_images_from_first_column' %}'{% endif %}
+ data-tposition="top">
+ <span class="flaticon-random"></span>
+</a>

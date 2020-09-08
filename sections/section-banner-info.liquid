@@ -1,0 +1,124 @@
+<section class="Section section-banner-info" id="section-{{ section.id }}">
+  <div class="container-index">
+    <div class="container">
+      <div class="row banner-info">
+        {% for block in section.blocks %}
+        <div class="col-sm-12 col-md-6 col-lg-6 banner-info__col">
+          <div class="content row">
+            {% if block.settings.image != blank %}
+            <div class="bg-img col-sm-6 col-md-6"><img src="{{ block.settings.image | img_url: '270x360' }}" style="width: 100%;"></div>
+            {% endif %}
+            <div class="info col-sm-6 col-md-6">
+              <div class="title" style="color: {{ section.settings.color_title }}">{{ block.settings.title }}</div>
+              <div class="text" style="color: {{ section.settings.color_text }}">{{ block.settings.text }}</div>
+              <a href="" class="btn-page">{{ block.settings.text_button }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  @media (max-width: 575px){
+    #section-{{ section.id }} .bg-img{
+      margin-bottom: 30px;
+    }
+  }
+  .banner-info .banner-info__col{
+    margin-bottom: 50px;
+  }
+  .banner-info .banner-info__col:last-child{
+    margin-bottom: 0;
+  }
+</style>
+{% schema %}
+{
+  "name": "Banner Info",
+  "settings": [
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Color Title",
+      "default": "#373737"
+    },
+     {
+      "type": "color",
+      "id": "color_text",
+      "label": "Color Text",
+      "default": "#373737"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "header",
+      "name": "banner info",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "CORAL TOWER"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "70 Washington Square South"
+        },
+        {
+          "type": "text",
+          "id": "text_button",
+          "label": "text button",
+          "default": "view map"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

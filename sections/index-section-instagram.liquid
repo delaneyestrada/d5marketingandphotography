@@ -1,0 +1,236 @@
+{%- assign item = section.settings -%}
+<section class="Section" id="section-{{ section.id }}" data-aos="{{ section.settings.effect }}">
+  <div class="container-indent">
+    <div class="container-fluid-bb{% if item.fullwidth %}-fluid{% endif %}" data-sectionname="index_instagram">
+      {%- if item.show_titles -%}
+      <div class="sp-block-title">
+        <h2 class="sp-title">{{ item.text1 }}</h2>
+        {%- unless item.text2 == '' -%}<div class="sp-description">{{ item.text2 }}</div>{%- endunless -%}
+      </div>
+      {%- endif -%}
+      <div class="row">
+        <div id="instafeed-{{ section.id }}" class="{% if item.in_line %}instafeed instafeed-fluid{% else %}instafeed-col{% if item.grid_6 %} instafeed-col-item-06{% endif %}{% endif %}" data-userid="{{ section.settings.userid }}" data-clientid="{{ section.settings.clientid }}" data-accesstoken="{{ section.settings.accesstoken }}" data-count="{{ section.settings.count }}"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.color }};
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+    border-top: 1px solid {{ section.settings.border_color }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      background-color: {{ section.settings.bg_color_mobi }};
+      color: {{ section.settings.color_mobi }};
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  .instafeed-fluid a{
+      margin-right: {{ item.space_item }};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Instagram",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth Width",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#dedede"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mobi",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_mobi",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type":"select",
+      "id":"effect",
+      "label":"Effect",
+      "options":[
+          {"value":"none","label":"No effect"},
+          {"value":"fade","label":"fade"},
+          {"value":"fade-up","label":"fade-up"},
+          {"value":"fade-down","label":"fade-down"},
+          {"value":"fade-left","label":"fade-left"},
+          {"value":"fade-right","label":"fade-right"},
+          {"value":"fade-up-right","label":"fade-up-right"},
+          {"value":"fade-up-left","label":"fade-up-left"},
+          {"value":"fade-down-right","label":"fade-down-right"},
+          {"value":"fade-down-left","label":"fade-down-left"},
+          {"value":"flip-up","label":"flip-up"},
+          {"value":"flip-down","label":"flip-down"},
+          {"value":"flip-left","label":"flip-left"},
+          {"value":"flip-right","label":"flip-right"},
+          {"value":"zoom-in","label":"zoom-in"},
+          {"value":"zoom-in-up","label":"zoom-in-up"},
+          {"value":"zoom-in-down","label":"zoom-in-down"},
+          {"value":"zoom-in-left","label":"zoom-in-left"},
+          {"value":"zoom-in-right","label":"zoom-in-right"},
+          {"value":"zoom-out","label":"zoom-out"},
+          {"value":"zoom-out-up","label":"zoom-out-up"},
+          {"value":"zoom-out-down","label":"zoom-out-down"},
+          {"value":"zoom-out-left","label":"zoom-out-left"},
+          {"value":"zoom-out-right","label":"zoom-out-right"}
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "in_line",
+      "label": "Design in line",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "grid_6",
+      "label": "Grid view. 6 in row",
+      "default": false,
+	   "info": "Default = 4 in row"
+    },
+    {
+      "type": "text",
+      "id": "userid",
+      "label": "User Id",
+      "default": "8185238493",
+	  "info": "[Get a Instagram Client_ID key](http:\/\/darkwhispering.com\/how-to\/get-a-instagram-client_id-key)"
+    },
+    {
+      "type": "text",
+      "id": "clientid",
+      "label": "Client Id",
+      "default": "e62e102e7ba5426daf3f1ee80cd91434",
+	  "info": "[Get Instagram User Id](http:\/\/www.ershad7.com\/InstagramUserID)"
+    },
+    {
+      "type": "text",
+      "id": "accesstoken",
+      "label": "Access Token",
+      "default": "8185238493.e62e102.9760a60f45754a33bef03fe25e148f2e",
+	  "info": "[Instagram access token generator](https:\/\/elfsight.com\/service\/generate-instagram-access-token)"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Instagram access token](https:\/\/elfsight.com\/blog\/2016\/05\/how-to-get-instagram-access-token/)"
+    },
+    {
+      "type": "text",
+      "id": "count",
+      "label": "Images Count",
+      "default": "6",
+	  "info": "Integer"
+    },
+    {
+      "type": "text",
+      "id": "space_item",
+      "label": "Space in Items",
+      "default": "20px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_titles",
+      "label": "Show titles",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text1",
+      "label": "Title",
+      "default": "<a target=\"_blank\" href=\"https:\/\/www.instagram.com\/bixbangshopify\">@ FOLLOW<\/a> US ON"
+    },
+    {
+      "type": "text",
+      "id": "text2",
+      "label": "Description",
+      "default": "INSTAGRAM"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram",
+      "category": "Instagram"
+    }
+  ]
+}
+{% endschema %}
+{% stylesheet %}
+@media (min-width: 790px){
+  .instafeed-col.instafeed-col-item-06 > *{
+    width: 16.6666%;
+    margin: 0;
+  }
+}
+@media (min-width: 576px) and (max-width: 991px){
+  .instafeed-col.instafeed-col-item-06 > *{
+    width: 33.333%;
+    margin: 0;
+  }
+}
+@media (max-width: 575px){
+  .instafeed-col.instafeed-col-item-06 > a{
+    width: 50%;
+    margin: 0;
+  }
+}
+{% endstylesheet %}

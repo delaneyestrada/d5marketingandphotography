@@ -1,0 +1,18 @@
+<div id="instafeed" class="row-padding">
+</div>
+{% if ins.title != blank %}
+  <div class="heading text-center" style="color: {{ ins.color_title }}">{{ ins.title }}</div>
+{% endif %}
+<script type="text/javascript">
+  var token = '{{ ins.access_token }}',
+    image_count = '{{ ins.image_count }}',
+    content = document.getElementById( 'instafeed' ),
+    scrElement = document.createElement( 'script' );
+  window.mishaProcessResult = function( data ) {
+    for( x in data.data ){
+      content.innerHTML += '<li class="eq-col text-center"><a href="'+ data.data[x].link +'" target="_blank"><img src="' + data.data[x].images.standard_resolution.url + '"></a></li>';
+    }
+  }
+  scrElement.setAttribute( 'src', 'https://api.instagram.com/v1/users/self/media/recent?access_token=' + token + '&count=' + image_count + '&callback=mishaProcessResult' );
+  document.body.appendChild( scrElement );
+</script>

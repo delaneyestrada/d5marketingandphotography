@@ -1,0 +1,21 @@
+<div class="sp-item"{% if length > 3 %} style="display: none;"{% endif %}>
+  <a href="{{item.url}}" title="{{ 'cart.header.view_product' | t }}">
+    <div class="sp-item-img">
+      <img src="{{ item.image | product_img_url: 'small' }}" alt="{{ item.image.alt }}">
+    </div>
+    <div class="sp-item-descriptions">
+      <h2 class="sp-title">{{item.product.title}}</h2>
+      {%- if item.variant.title != 'Default Title' -%}
+      <ul class="sp-add-info">
+        <li class="details">{{ item.variant.title | replace: ' / ', ', ' }}</li>
+      </ul>
+      {%- endif -%}
+      <div class="sp-quantity">{{ item.quantity }} x</div> <div class="sp-price">{{item.price | money}}</div>
+    </div>
+  </a>
+  <div class="sp-item-close">
+    <a href="/cart/change?id={{ item.variant.id }}&quantity=0" class="sp-btn-close svg-icon-delete header_delete_cartitem_js" title="{{ 'cart.header.button_delete' | t }}">
+      {% include "svg-delete-icon" %}
+    </a>
+  </div>
+</div>

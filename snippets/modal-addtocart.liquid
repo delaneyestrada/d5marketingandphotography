@@ -1,0 +1,80 @@
+<!-- modalAddToCart -->
+<div class="modal fade" id="modalAddToCartError" tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="icon icon-clear"></span></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-add-cart">
+          <i class="icon-h-10"></i>
+          <p class="error_message"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalAddToCartProduct" tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="icon icon-clear"></span></button>
+      </div>
+      <div class="modal-body">
+        <div class="sp-modal-addtocart mobile">
+          <div class="sp-modal-messages">
+            <i class="icon-f-68"></i> {{ 'cart.popup_product_added.message_mobile' | t }}
+          </div>
+          <a href="#" class="btn-link btn btn-border btn-close-popup">{{ 'cart.popup_product_added.continue_shopping' | t }}</a>
+          <a href="/cart" class="btn-link btn btn-border">{{ 'cart.popup_product_added.view_cart' | t }}</a>
+          <a href="/checkout" class="btn-link btn">{{ 'cart.popup_product_added.go_to_checkout' | t }}</a>
+        </div>
+        <div class="sp-modal-addtocart desctope">
+          <div class="row">
+            <div class="col-12 col-lg-6">
+              <div class="sp-modal-messages">
+                <i class="icon-f-68"></i> {{ 'cart.popup_product_added.message_main' | t }}
+              </div>
+              <div class="sp-modal-product">
+                <div class="sp-img"></div>
+                <div class="sp-title sp-title-js"></div>
+                <div class="description"></div>
+                <div class="sp-qty">{{ 'cart.popup_product_added.item_quantity' | t }} <span></span></div>
+              </div>
+              <div class="sp-product-total">
+                <div class="sp-total total-product-js">
+                  {{ 'cart.popup_product_added.item_price' | t }} <span class="sp-price"></span>
+                </div>
+              </div>
+            </div>
+            <!-- { variant.inventory_quantity == 1 }  -->
+            <div class="col-12 col-lg-6">
+              <a href="/cart" class="sp-cart-total" title="{{ 'cart.popup_product_added.view_cart' | t }}">
+                  {{ 'cart.popup_product_added.quantity_html' | t: not_delete_variable:'<span class="modal-total-quantity"></span>' }}
+                  <div class="sp-total">
+                    {{ 'cart.popup_product_added.total_price' | t }}<span class="sp-price full-total-js"></span>
+                  </div>
+              </a>
+
+              <a href="#" class="btn btn-border btn-close-popup">{{ 'cart.popup_product_added.continue_shopping' | t }}</a>
+              <a href="/cart" class="btn btn-border">{{ 'cart.popup_product_added.view_cart' | t }}</a>
+              
+              <a href="/checkout" class="btn">{{ 'cart.popup_product_added.go_to_checkout' | t }}</a>
+            </div>
+          </div>
+        </div>
+        
+        {%- if settings.show_addtocart_popup_related -%}
+        <div class="sp-modal-slider hide">
+          <hr>
+          <div class="sp-title">{{ 'cart.popup_product_added.related_products_title' | t }}</div>
+          <div class="sp-modal-slider-js header-menu-product arrow-location-03 row">
+          </div>
+        </div>
+        {%- endif -%}
+        
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+
+<section class="Section" id="section-{{ section.id }}" data-aos="{{ section.settings.effect }}">
+  <div class="container-index">
+    <div class="container">
+      <div class="red-about">
+        <div class="heading" style="color: {{ section.settings.color_heading }}">{{ section.settings.title }}</div>
+        <div class="img-name">
+          {% if section.settings.bg_name == blank %}
+            <img src="{{ 'bg-2.jpg' | asset_img_url: '200x' }}">
+          {% else %}
+            <img src="{{ section.settings.bg_name | img_url: '200x' }}">
+          {% endif %}
+        </div>
+        <div class="name-pos" style="color: {{ section.settings.color_heading }}">{{ section.settings.title_name }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+    {% if section.settings.background == blank %}
+      background-image: url('{{ 'bg.jpg' | asset_img_url: '1200x' }}');
+    {% else %}
+      background-image: url('{{ section.settings.background | img_url: '1200x' }}');
+    {% endif %}
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Banner Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "100px 0px 100px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0 60px 0 60px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "70px 0px 70px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type":"select",
+      "id":"effect",
+      "label":"Effect",
+      "options":[
+          {"value":"none","label":"No effect"},
+          {"value":"fade","label":"fade"},
+          {"value":"fade-up","label":"fade-up"},
+          {"value":"fade-down","label":"fade-down"},
+          {"value":"fade-left","label":"fade-left"},
+          {"value":"fade-right","label":"fade-right"},
+          {"value":"fade-up-right","label":"fade-up-right"},
+          {"value":"fade-up-left","label":"fade-up-left"},
+          {"value":"fade-down-right","label":"fade-down-right"},
+          {"value":"fade-down-left","label":"fade-down-left"},
+          {"value":"flip-up","label":"flip-up"},
+          {"value":"flip-down","label":"flip-down"},
+          {"value":"flip-left","label":"flip-left"},
+          {"value":"flip-right","label":"flip-right"},
+          {"value":"zoom-in","label":"zoom-in"},
+          {"value":"zoom-in-up","label":"zoom-in-up"},
+          {"value":"zoom-in-down","label":"zoom-in-down"},
+          {"value":"zoom-in-left","label":"zoom-in-left"},
+          {"value":"zoom-in-right","label":"zoom-in-right"},
+          {"value":"zoom-out","label":"zoom-out"},
+          {"value":"zoom-out-up","label":"zoom-out-up"},
+          {"value":"zoom-out-down","label":"zoom-out-down"},
+          {"value":"zoom-out-left","label":"zoom-out-left"},
+          {"value":"zoom-out-right","label":"zoom-out-right"}
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "“Style is a way to say who you are without having to speak”"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_name",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title_name",
+      "label": "Post Name",
+      "default": "Rusty / CEO"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Page",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

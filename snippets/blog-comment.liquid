@@ -1,0 +1,11 @@
+<div class="sp-item" id="{{ comment.id }}">
+  <div class="sp-comments-level-1">
+    <div class="sp-content">
+      <div class="sp-comments-title">
+        <div class="username">{{ comment.author }}</div>
+        <div class="time">{{ 'blogs.article.posted_in' | t }} {{ comment.created_at | date: '%B' }} {{ comment.created_at | date: '%d, %Y' }}</div>
+      </div>
+      <p>{{ comment.content }}</p>
+    </div>
+  </div>
+</div>

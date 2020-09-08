@@ -1,0 +1,363 @@
+{%- assign item = section.settings -%}
+
+<section id="section-{{ section.id }}" class="Section banner-electrolic" data-aos="{{ section.settings.effect }}">
+  <div class="container-fluid{% if item.fullwidth %}-fluid{% endif %}">
+    {%- if item.show_title -%}
+      <div class="sp-block-title">
+        <h2 class="sp-title">{{ item.text1 }}</h2>
+        {%- unless item.text2 == '' -%}<div class="sp-description">{{ item.text2 }}</div>{%- endunless -%}
+      </div>
+      {%- endif -%}
+      <div class="row">
+        <div class="col-banner-electrolic">
+          <a href="{{ item.link_1 }}">
+            <div class="banner-item-1">
+              <div class="banner-item">
+                {%- if item.image1 == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+                {%- else -%}
+                  <img 
+                    data-src="{{ item.image1 }}"
+                    data-srcset="{% include 'lazyload_string' value: item.image1 %}"
+                    alt="{{ item.image1.alt }}"
+                    class="lazyload"
+                    src="{{ item.image1 | img_url: '1024x' }}">
+                {%- endif -%}
+              </div>
+               <div class="banner-content">
+                {%- if item.title1 != '' -%}
+                  <p class="title-1 title" style="color: {{ item.color_title1 }}">{{ item.title1 }}</p>
+                {%- endif -%}
+                {%- if item.title2 != '' -%}
+                  <p class="title-2 title" style="color: {{ item.color_title2 }}">{{ item.title2 }}</p>
+                {%- endif -%}
+                {%- if item.title3 != '' -%}
+                  <p class="title-3 title" style="color: {{ item.color_title3 }}">{{ item.title3 }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-banner-electrolic">
+          <a href="{{ item.link_2 }}">
+            <div class=" banner-item-2">
+              <div class="banner-item">
+                {%- if item.image2 == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+                {%- else -%}
+                  <img 
+                    data-src="{{ item.image2 }}"
+                    data-srcset="{% include 'lazyload_string' value: item.image2 %}"
+                    alt="{{ item.image2.alt }}"
+                    class="lazyload"
+                    src="{{ item.image2 | img_url: '1024x' }}">
+                {%- endif -%}
+              </div>
+               <div class="banner-content">
+                {%- if item.title_1 != '' -%}
+                  <p class="title-4 title" style="color: {{ item.color_title_1 }}">{{ item.title_1 }}</p>
+                {%- endif -%}
+                {%- if item.title_2 != '' -%}
+                  <p class="title-5 title" style="color: {{ item.color_title_2 }}">{{ item.title_2 }}</p>
+                {%- endif -%}
+               </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-banner-electrolic">
+          <a href="{{ item.link_3 }}">
+            <div class="banner-item-3">
+              <div class="banner-item">
+                {%- if item.image3 == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+                {%- else -%}
+                  <img 
+                    data-src="{{ item.image3 }}"
+                    data-srcset="{% include 'lazyload_string' value: item.image3 %}"
+                    alt="{{ item.image3.alt }}"
+                    class="lazyload"
+                    src="{{ item.image3 | img_url: '1024x' }}">
+                {%- endif -%}
+              </div>
+              <div class="banner-content">
+                {%- if item.title4 != '' -%}
+                  <p class="title-6 title" style="color: {{ item.color_title4 }}">{{ item.title4 }}</p>
+                {%- endif -%}
+                {%- if item.title5 != '' -%}
+                  <p class="title-7 title" style="color: {{ item.color_title5 }}">{{ item.title5 }}</p>
+                {%- endif -%}
+                {%- if item.title6 != '' -%}
+                  <p class="title-8 title" style="color: {{ item.color_title6 }}">{{ item.title6 }}</p>
+                {%- endif -%}
+                {%- if item.title7 != '' -%}
+                  <p class="title-9 title" style="color: {{ item.color_title7 }}">{{ item.title7 }}</p>
+                {%- endif -%}
+               </div>
+            </div>
+          </a>
+        </div>  
+      </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Banner Electronic",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth Width",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+        "type":"select",
+        "id":"effect",
+        "label":"Effect",
+        "options":[
+            {"value":"none","label":"No effect"},
+            {"value":"fade","label":"fade"},
+            {"value":"fade-up","label":"fade-up"},
+            {"value":"fade-down","label":"fade-down"},
+            {"value":"fade-left","label":"fade-left"},
+            {"value":"fade-right","label":"fade-right"},
+            {"value":"fade-up-right","label":"fade-up-right"},
+            {"value":"fade-up-left","label":"fade-up-left"},
+            {"value":"fade-down-right","label":"fade-down-right"},
+            {"value":"fade-down-left","label":"fade-down-left"},
+            {"value":"flip-up","label":"flip-up"},
+            {"value":"flip-down","label":"flip-down"},
+            {"value":"flip-left","label":"flip-left"},
+            {"value":"flip-right","label":"flip-right"},
+            {"value":"zoom-in","label":"zoom-in"},
+            {"value":"zoom-in-up","label":"zoom-in-up"},
+            {"value":"zoom-in-down","label":"zoom-in-down"},
+            {"value":"zoom-in-left","label":"zoom-in-left"},
+            {"value":"zoom-in-right","label":"zoom-in-right"},
+            {"value":"zoom-out","label":"zoom-out"},
+            {"value":"zoom-out-up","label":"zoom-out-up"},
+            {"value":"zoom-out-down","label":"zoom-out-down"},
+            {"value":"zoom-out-left","label":"zoom-out-left"},
+            {"value":"zoom-out-right","label":"zoom-out-right"}
+        ]
+      },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "text1",
+      "label": "Title",
+      "default": "POPULAR"
+    },
+    {
+      "type": "textarea",
+      "id": "text2",
+      "label": "Description",
+      "default": "CLOTHING BRANDS"
+    },
+    {
+      "type": "header",
+      "content": "Custom Banner 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "Title 1",
+      "default": "music"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2",
+      "default": "Beats"
+    },
+    {
+      "type": "text",
+      "id": "title3",
+      "label": "Title 3",
+      "default": "Hearts"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link banner"
+    },
+    {
+      "type": "color",
+      "id": "color_title1",
+      "label": "Color Title 1",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_title2",
+      "label": "Color Title 2",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_title3",
+      "label": "Color Title 3",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Custom Banner 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title",
+      "default": "QLED TV"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "text",
+      "default": "The next innovation"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link banner"
+    },
+    {
+      "type": "color",
+      "id": "color_title_1",
+      "label": "Color Title 1",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_title_2",
+      "label": "Color Title 2",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Custom Banner 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image3",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title4",
+      "label": "Title 1",
+      "default": "music"
+    },
+    {
+      "type": "text",
+      "id": "title5",
+      "label": "Title 2",
+      "default": "Beats"
+    },
+    {
+      "type": "text",
+      "id": "title6",
+      "label": "Title 3",
+      "default": "Hearts"
+    },
+    {
+      "type": "text",
+      "id": "title7",
+      "label": "Text",
+      "default": "Hearts"
+    },
+    {
+      "type": "url",
+      "id": "link_3",
+      "label": "Link banner"
+    },
+    {
+      "type": "color",
+      "id": "color_title4",
+      "label": "Color Title 1",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_title5",
+      "label": "Color Title 2",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_title6",
+      "label": "Color Title 3",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_title7",
+      "label": "Color Text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets":[
+    {
+      "name": "Banners Electronic",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

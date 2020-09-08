@@ -1,0 +1,25 @@
+<div class="sp-footer-custom sp-color-scheme-04">
+  <div class="container">
+    <div class="sp-row">
+      <div class="sp-col-left">
+        {%- if item.show_logoblock -%}
+        <div class="sp-col-item sp-logo-col">
+          <a href="/" class="sp-logo sp-logo-alignment">
+            {%- if footerlogo contains "title_" -%}<h2 class="sp-title">{{ footerlogo | split:"title_" | last }}</h2>
+            {%- else -%}<img src="{{ footerlogo }}" srcset="{{ footerlogo }} 1x, {{ footerlogoretina }} 2x" alt="{{ footerlogoalt }}" class="sp-retina">
+            {%- endif -%}
+          </a>
+        </div>
+        {%- endif -%}
+        {%- if item.footer_address != "" -%}
+        <div class="sp-col-item">
+          <div class="sp-box-copyright">{{ item.footer_address }}</div>
+        </div>
+        {%- endif -%}
+      </div>
+
+      {%- include "footer_paymant_list" -%}
+
+    </div>
+  </div>
+</div>

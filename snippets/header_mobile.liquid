@@ -1,0 +1,96 @@
+<!-- sp-mobile-header -->
+<div class="sp-mobile-header {% if item.header_custom == 'headersearch' %}header-search{% endif %}">
+  {% if item.header_custom == 'headersearch' %}
+    <div class="topbar-right">
+      <div><span><i class="fa fa-phone"></i> {{ item.call_top }}</span></div>
+      <div><span><i class="fa fa-truck"></i><a href="">{{ item.order_your }}</a></span></div>
+      <div>
+        <ul class="menu-general">
+            {% for link in linklists[topbar.settings.menu_top].links %}
+            <li {% if link.active %}class="link-top-bar {% if link.child_active %}child-active{% endif %}"{% endif %}><a href="{{ link.url }}">{{ link.title }}</a>
+              {% if link.links != blank %}
+              <ul class="child">
+                {% for child_link in link.links %}  
+                <li {% if child_link.active %}class="link-top-bar {% if child_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ child_link.url }}">{{ child_link.title }}</a>
+                  {% if child_link.links != blank %}
+                  <ul class="grandchild">
+                    {% for grandchild_link in child_link.links %}  
+                    <li {% if grandchild_link.active %}class="link-top-bar {% if grandchild_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}   
+                </li>
+                {% endfor %}
+              </ul> 
+              {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif%}
+
+  <div class="container-fluid {% if item.header_custom == 'transparent' %}header-transparent{% endif %} {% if item.header_custom == 'headermenutoggle' %}header-transparent{% endif %}">
+    <div class="sp-header-row {{ mobilemenuposition }}">
+      <div class="sp-logo-container text-left">
+        <a class="sp-logo sp-logo-alignment" href="/">
+          {%- if headerlogomobile contains "title_" -%}
+            <h2 class="logo_index">{{ headerlogomobile | split:"title_" | last }}</h2>
+          {%- else -%}
+            <img src="{{ headerlogomobile }}"
+             srcset="{{ headerlogomobile }} 1x, {{ headerlogomobileretina }} 2x"
+             alt="{{ headerlogomobilealt }}"
+             class="logo_index_mobi sp-retina hidden-lg-up hidden-md-up hidden-sm-up hidden-sm" itemprop="logo">
+            <img src="{{ headerlogo }}"
+                   srcset="{{ headerlogo }} 1x, {{ headerlogoretina }} 2x"
+                   alt="{{ headerlogoalt }}"
+                   class="sp-retina hidden-xs logo_index_mobi" itemprop="logo"/>   
+          {%- endif -%}
+
+          {%- if headerlogomobile_page contains "title_" -%}
+            <h2 class="logo_page">{{ headerlogomobile_page | split:"title_" | last }}</h2>
+          {%- else -%}
+            <img src="{{ headerlogomobile_page }}"
+             srcset="{{ headerlogomobile_page }} 1x, {{ headerlogomobileretina }} 2x"
+             alt="{{ headerlogomobilealt }}"
+             class="logo_page_mobi sp-retina hidden-lg-up hidden-md-up hidden-sm-up hidden-sm" itemprop="logo">
+            <img src="{{ headerlogo_page }}"
+                 srcset="{{ headerlogo_page }} 1x"
+                 alt="{{ headerlogoalt }}"
+                 class="sp-retina logo_page_mobi hidden-xs" itemprop="logo" style="top:{{ item.logo_margin_top }}px"/>     
+          {%- endif -%}
+        </a>
+      </div>
+      <!-- search -->
+      <div class="mobile-option">
+        <div class="sp-mobile-parent-search sp-parent-box"></div>
+        <!-- /search -->
+        {%- if item.show_customer_links -%}
+        <!-- account -->
+        <div class="sp-mobile-parent-account sp-parent-box"></div>
+        <!-- /account -->
+        {%- endif -%}
+        {%- unless settings.catalogue_mode -%}
+        {%- if template != "cart" -%}
+          <!-- cart -->
+        <div class="sp-mobile-parent-cart sp-parent-box"></div>
+          <!-- /cart -->
+        {%- endif -%}
+        {%- endunless -%}
+        <!-- {%- if item.mobile_dropdown -%}
+          <div class="sp-mobile-parent-menu">
+            <div class="sp-menu-toggle">
+              {% include "svg-mobile-menu" %}
+            </div>
+          </div>
+        {%- else -%} -->
+          <div class="sp-mobile-parent-menu">
+            <div class="sp-menu-toggle mainmenumob-js">
+              {% include "svg-mobile-menu" %}
+            </div>
+          </div>
+        <!-- {%- endif -%} -->
+      </div>
+    </div>
+  </div>
+</div>

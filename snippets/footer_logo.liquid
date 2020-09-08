@@ -1,0 +1,5 @@
+<a href="/" class="sp-logo sp-logo-alignment">
+  {%- if footerlogo contains "title_" -%}<h2 class="sp-title">{{ footerlogo | split:"title_" | last }}</h2>
+  {%- else -%}<img src="{{ footerlogo }}" srcset="{{ footerlogo }}, {{ footerlogoretina }}" alt="{{ footerlogoalt }}" class="sp-retina">
+  {%- endif -%}
+</a>

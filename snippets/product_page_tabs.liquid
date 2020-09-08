@@ -1,0 +1,36 @@
+{%- capture html_tabs -%}  
+{%- for block in section.blocks -%}
+{%- assign b_i = block.settings -%}
+{%- case block.type -%}
+  {%- when 'tab_desc' -%}
+    <div class="sp-item{% if b_i.open_tab_by_default %} active{% endif %}">
+      <div class="sp-collapse-title">{{ b_i.title }}</div>
+      <div class="sp-collapse-content" itemprop="description">{{ product.description }}</div>
+    </div>
+  {%- when 'tab_same_html' -%}
+    <div class="sp-item{% if b_i.open_tab_by_default %} active{% endif %}">
+      <div class="sp-collapse-title">{{ b_i.title }}</div>
+      <div class="sp-collapse-content">{{ b_i.html }}</div>
+    </div>
+  {%- when 'tab_unique' -%}
+	{%- if product_meta[b_i.key] != blank -%}
+    <div class="sp-item{% if b_i.open_tab_by_default %} active{% endif %}">
+      <div class="sp-collapse-title">{{ b_i.title }}</div>
+      <div class="sp-collapse-content">{{ product_meta[b_i.key] }}</div>
+    </div>
+	{%- endif -%}
+  {%- when 'tab_review' -%}
+	  <div id="tab_review" class="sp-item{% if b_i.open_tab_by_default %} active{% endif %}">
+      <div class="sp-collapse-title">{{ b_i.title }}</div>
+      <div class="sp-collapse-content">
+        {% include 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false %}
+      </div>
+    </div>
+{%- endcase -%}
+{%- endfor -%}
+{%- endcapture -%}
+
+
+{%- if html_tabs != '' -%}
+<div class="sp-collapse-block prpage-tabs">{{ html_tabs }}</div>
+{%- endif -%}

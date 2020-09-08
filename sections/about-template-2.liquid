@@ -1,0 +1,121 @@
+{%- assign item = section.settings -%}
+<section id="section--{{ section.id }}">
+    <div class="container-indent page">
+    	<div class="img-about">
+    	</div>
+    </div>
+    <div class="page-content">
+    	<div class="container">
+            <div class="col-about row row--center">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="bb-img-about contact-2">
+                        {%- if item.image == blank -%}{%- include "get_svg" type:'image' size:'2048x800' -%}{%- else -%}
+                           <img src="{{ item.image_banner | img_url: '1200x' }}">
+                        {%- endif -%}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="column-about">
+                        <h2 class="heading">{{ item.title }}</h2>
+                        <div class="descriptions">
+                           <span>{{ item.description }}</span>
+                        </div>
+                        <div class="name">
+                            {%- if item.image == blank -%}{%- include "get_svg" type:'image' size:'2048x800' -%}{%- else -%}
+                               <img src="{{ item.image_name | img_url: '1200x' }}">
+                            {%- endif -%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row--center">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="column-about contact-2">
+                        <h2 class="heading">{{ item.title_1 }}</h2>
+                        <div class="descriptions">
+                           <span>{{ item.description_1 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="bb-img-about contact-3">
+                        {%- if item.image == blank -%}{%- include "get_svg" type:'image' size:'2048x800' -%}{%- else -%}
+                           <img src="{{ item.image_banner_1 | img_url: '1024x' }}">
+                        {%- endif -%}
+                    </div>
+                </div>
+    		</div>
+    	</div>
+    </div>
+</section>
+<style type="text/css">
+    #section--{{ section.id }} .img-about{
+        background-attachment: fixed;
+        background-image: url('{{ item.image | img_url: '1930x1200' }}');
+
+    }
+    #section--{{ section.id }} .contact-3{
+        padding-left: 32px;
+    }
+    @media (max-width: 991px){
+        #section--{{ section.id }} .contact-3{
+            padding: 17.5px 0 47.5px 0;
+        }
+    }
+</style>
+{% schema %}
+  {
+    "name": "Section name",
+    "settings": [
+		{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background Image"
+        },
+        {
+        	"type": "text",
+        	"id": "title",
+        	"label": "Title",
+        	"default": "our story"
+        },
+        {
+        	"type": "textarea",
+        	"id": "description",
+        	"label": "Description",
+        	"default": "our story"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_banner",
+          "label": "Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_name",
+            "label": "Image name"
+        },
+        {
+            "type": "header",
+            "content": "Iteam 2"
+        },
+        {
+            "type": "text",
+            "id": "title_1",
+            "label": "Title",
+            "default": "our story"
+        },
+        {
+            "type": "textarea",
+            "id": "description_1",
+            "label": "Description",
+            "default": "our story"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_banner_1",
+          "label": "Image"
+        }
+    ]
+  }
+{% endschema %}
+

@@ -1,0 +1,210 @@
+{%- assign item = block.settings -%}
+<section class="Section" id="section-{{ section.id }}">
+	<div id="rev_slider_3_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="home-3" data-source="gallery" style="margin:0px auto;background:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+		<div id="rev_slider_3_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.8">
+			<ul>	<!-- SLIDE  -->
+			{% for block in section.blocks %}
+				{%- assign img_url = block.settings.image | img_url: 'x1024' -%}
+				<li data-index="rs-{{ forloop.index }}" data-transition="random,random-static,random-premium" data-slotamount="default,default,default,default" data-hideafterloop="0" data-hideslideonmobile="off"  data-randomtransition="on" data-easein="default,default,default,default" data-easeout="default,default,default,default" data-masterspeed="default,default,default,default"  data-thumb="{{ img_url }}"  data-rotate="0,0,0,0"  data-saveperformance="off"  data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+					<!-- MAIN IMAGE -->
+					{%- if block.settings.image == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+                  	{%- else -%}
+					<img src="{{ img_url }}"  alt="" title="home-3-slide1"  width="1920" height="920" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+					<!-- LAYERS -->
+					{%- endif -%}
+					<!-- LAYER NR. 1 -->
+					<div class="tp-caption   tp-resizeme" 
+						id="slide-5-layer-1" 
+						data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" 
+						data-y="['middle','middle','middle','middle']" data-voffset="['15','15','15','15']" 
+						data-fontsize="['68','68','40','28']"
+						data-lineheight="['70','70','42','30']"
+						data-color="['rgb(80,80,80)','rgb(80,80,80)','rgb(82,82,82)','rgb(82,82,82)']"
+						data-width="none"
+						data-height="none"
+						data-whitespace="nowrap"
+			 
+						data-type="text" 
+						data-responsive_offset="on" 
+
+						data-frames='[{"delay":0,"speed":2000,"sfxcolor":"#ffffff","sfx_effect":"blockfromleft","frame":"0","from":"z:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+						data-textAlign="['inherit','inherit','inherit','inherit']"
+						data-paddingtop="[0,0,0,0]"
+						data-paddingright="[0,0,0,0]"
+						data-paddingbottom="[0,0,0,0]"
+						data-paddingleft="[0,0,0,0]"
+
+						style="z-index: 5; white-space: nowrap; font-size: 68px; line-height: 70px; font-weight: 700; color: #505050; letter-spacing: 0.73px;font-family:Poppins;text-transform:uppercase;">Decor work space </div>
+				</li>
+				<!-- SLIDE  -->
+				{% endfor %}
+			</ul>
+			<div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+		</div>
+	</div><!-- END REVOLUTION SLIDER -->
+
+</section>
+
+<script type="text/javascript">
+	var revapi3,
+		tpj;	
+	(function() {			
+	if (!/loaded|interactive|complete/.test(document.readyState)) document.addEventListener("DOMContentLoaded",onLoad); else onLoad();	
+	function onLoad() {				
+		if (tpj===undefined) { tpj = jQuery; if("off" == "on") tpj.noConflict();}
+	if(tpj("#rev_slider_3_1").revolution == undefined){
+		revslider_showDoubleJqueryError("#rev_slider_3_1");
+	}else{
+		revapi3 = tpj("#rev_slider_3_1").show().revolution({
+			sliderType:"standard",
+			jsFileLocation:"//bixbang.spyropress.com/wp-content/plugins/revslider/public/assets/js/",
+			sliderLayout:"fullwidth",
+			dottedOverlay:"none",
+			delay:9000,
+			navigation: {
+				keyboardNavigation:"off",
+				keyboard_direction: "horizontal",
+				mouseScrollNavigation:"off",
+ 							mouseScrollReverse:"default",
+				onHoverStop:"off",
+				bullets: {
+					enable:true,
+					hide_onmobile:true,
+					hide_under:870,
+					style:"uranus",
+					hide_onleave:false,
+					direction:"horizontal",
+					h_align:"left",
+					v_align:"bottom",
+					h_offset:110,
+					v_offset:60,
+					space:8,
+					tmp:'<span class="tp-bullet-inner"></span>'
+				}
+			},
+			responsiveLevels:[1240,1024,778,480],
+			visibilityLevels:[1240,1024,778,480],
+			gridwidth:[1240,1024,778,480],
+			gridheight:[920,768,460,380],
+			lazyType:"none",
+			shadow:0,
+			spinner:"spinner2",
+			stopLoop:"off",
+			stopAfterLoops:-1,
+			stopAtSlide:-1,
+			shuffle:"off",
+			autoHeight:"off",
+			disableProgressBar:"on",
+			hideThumbsOnMobile:"off",
+			hideSliderAtLimit:0,
+			hideCaptionAtLimit:0,
+			hideAllCaptionAtLilmit:0,
+			debugMode:false,
+			fallbacks: {
+				simplifyAll:"off",
+				nextSlideOnWindowFocus:"off",
+				disableFocusListener:false,
+			}
+		});
+	}; /* END OF revapi call */
+	
+ }; /* END OF ON LOAD FUNCTION */
+}()); /* END OF WRAPPING FUNCTION */
+</script>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+{
+    "name": "Slider Furniture",
+    "settings": [
+		{
+	       "type": "checkbox",
+	       "id": "slider_fullwidth",
+	       "label": "Slider fullwidth",
+	       "default": false
+	    },
+    	{
+	      "type": "text",
+	      "id": "padding",
+	      "label": "Section Padding",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "text",
+	      "id": "margin",
+	      "label": "Section margin",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "header",
+	      "content": "Mobile"
+	    },
+	    {
+	      "type": "text",
+	      "id": "padding_mobi",
+	      "label": "Section Padding",
+	      "default": "0px 0px 0px 0px"
+	    },
+	    {
+	      "type": "text",
+	      "id": "margin_mobi",
+	      "label": "Section margin",
+	      "default": "0px 0px 0px 0px"
+	    }
+    ],
+    "blocks": [
+		{
+			"type": "slider_list",
+		    "name": "Slide",
+		    "settings": [
+				{
+		          "type": "image_picker",
+		          "id": "image",
+		          "label": "Image"
+		        },
+		        {
+		          "type": "textarea",
+		          "id": "text",
+		          "label": "Heading",
+				  "default": "Experienced style"
+		        },
+		        {
+		          "type": "header",
+		          "content": "Color"
+		        },
+		        {
+		          "type": "color",
+		          "id": "color_heading",
+		          "label": "Color Heading",
+		          "default": "#505050"
+		        }
+		    ]
+		}
+    ],
+	"presets": [
+		{
+		  "name": "Revolution Slider Furniture",
+		  "category": "Sliders",
+		  "blocks": [
+				{
+					"type": "slider_list"
+				},
+				{
+					"type": "slider_list"
+				}
+		  ]
+		}
+	]
+}
+{% endschema %}

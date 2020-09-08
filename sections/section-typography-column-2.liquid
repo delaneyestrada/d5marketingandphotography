@@ -1,0 +1,101 @@
+<section class="Section section--text" id="section-{{ section.id }}" >
+  <div class="container-index">
+    <div class="container">
+      <div class="content">
+        {% if section.settings.title != blank %}
+          <h2 class="heading">{{ section.settings.title }}</h2>
+        {% endif %}
+        <div class="row">
+          
+            <div class="col-sm-7">
+              {% if section.settings.text != blank %}
+                <div class="text">{{ section.settings.text }}</div>
+              {% endif %}
+            </div>
+            <div class="col-sm-5">
+              {% if section.settings.text1 != blank %}
+                <div class="text">{{ section.settings.text1 }}</div>
+              {% endif %}
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media(max-width: 992px){
+    #section-{{ section.id }}{
+      margin: {{ section.settings.margin_mobile }};
+      padding: {{ section.settings.padding_mobile }};
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Columns 1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Margin",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobile",
+      "label": "Margin",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobile",
+      "label": "Padding",
+      "default": "0 0 0 0"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#373737"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "text",
+      "default": "#777"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "headding"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text 1",
+      "default": "Nunc vulputate consectetur ipsum"
+    },
+    {
+      "type": "textarea",
+      "id": "text1",
+      "label": "Text 2",
+      "default": "Nunc vulputate consectetur ipsum"
+    }
+  ]
+}
+{% endschema %}

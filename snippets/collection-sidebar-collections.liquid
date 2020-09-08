@@ -1,0 +1,16 @@
+{%- assign links = settings.collectionstab_links -%}
+{%- assign open = '' -%}{%- if settings.open_collectionstab -%}{%- assign open = 'open' -%}{%- endif -%}
+<div class="sp-collapse {{ open }}">
+  <h3 class="sp-collapse-title">{{ settings.collectionstab_title }}</h3>
+  <div class="sp-collapse-content">
+    {%- if links == blank -%}
+    <a href="//shopify.com/admin/links"><u>Create and select collections linklist in navigation</u></a> and select created linklist in the <strong>Customize Theme > Sidebar Collections Tab</strong>
+    {%- else -%}
+    <ul class="sp-list-row">
+      {%- for link in linklists[links].links -%}
+      <li{% if link.active %} class="active"{% endif %}><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- endfor -%}
+    </ul>
+    {%- endif -%}
+  </div>
+</div>

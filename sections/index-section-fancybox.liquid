@@ -1,0 +1,210 @@
+{%- assign item = section.settings -%}
+
+<section id="section-{{ section.id }}" class="section-fancybox" data-aos="{{ section.settings.effect }}">
+  <div class="container-fluid{% if item.fullwidth %}-fluid{% endif %}">
+    {%- if item.show_title -%}
+      <div class="sp-block-title">
+        <h2 class="sp-title">{{ item.text1 }}</h2>
+        {%- unless item.text2 == '' -%}<div class="sp-description">{{ item.text2 }}</div>{%- endunless -%}
+      </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="fancybox-row">
+        {%- for block in section.blocks -%}
+        {%- assign b_s = block.settings -%}
+          <div class="fancy-wrapper">
+            <div class="fancy-img">
+              {%- if b_s.image == blank -%}{%- include "get_svg" type:'image' size:info_image_size -%}
+              {%- else -%}
+              <img src="{{ b_s.image | img_url : '500x' }}">
+              {%- endif -%}
+            </div>
+            <div class="fancy-content">
+              <div class="fancy-decs" style="color: {{ b_s.color_decs }}">{{ b_s.decs }}</div>
+              <h4 class="fancy-title" style="color: {{ b_s.color_title }}">{{ b_s.title }}</h4>
+              <a href="{{ b_s.link }}" class="btn  btn-border">{{ b_s.text }}</a>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <span style="display: flex; justify-content: center;">This section doesn’t currently include any content. Add content to this section using the sidebar.</span>
+      {%- endif -%}
+  </div>
+</section>
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Fancybox",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth Width",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type":"select",
+      "id":"effect",
+      "label":"Effect",
+      "options":[
+          {"value":"none","label":"No effect"},
+          {"value":"fade","label":"fade"},
+          {"value":"fade-up","label":"fade-up"},
+          {"value":"fade-down","label":"fade-down"},
+          {"value":"fade-left","label":"fade-left"},
+          {"value":"fade-right","label":"fade-right"},
+          {"value":"fade-up-right","label":"fade-up-right"},
+          {"value":"fade-up-left","label":"fade-up-left"},
+          {"value":"fade-down-right","label":"fade-down-right"},
+          {"value":"fade-down-left","label":"fade-down-left"},
+          {"value":"flip-up","label":"flip-up"},
+          {"value":"flip-down","label":"flip-down"},
+          {"value":"flip-left","label":"flip-left"},
+          {"value":"flip-right","label":"flip-right"},
+          {"value":"zoom-in","label":"zoom-in"},
+          {"value":"zoom-in-up","label":"zoom-in-up"},
+          {"value":"zoom-in-down","label":"zoom-in-down"},
+          {"value":"zoom-in-left","label":"zoom-in-left"},
+          {"value":"zoom-in-right","label":"zoom-in-right"},
+          {"value":"zoom-out","label":"zoom-out"},
+          {"value":"zoom-out-up","label":"zoom-out-up"},
+          {"value":"zoom-out-down","label":"zoom-out-down"},
+          {"value":"zoom-out-left","label":"zoom-out-left"},
+          {"value":"zoom-out-right","label":"zoom-out-right"}
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "text1",
+      "label": "Title",
+      "default": "POPULAR"
+    },
+    {
+      "type": "textarea",
+      "id": "text2",
+      "label": "Description",
+      "default": "CLOTHING BRANDS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "items",
+      "name": "fancybox",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "decs",
+          "label": "Desciption",
+          "default" :"Laptop"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default" :"SALE UP TO 25% OFF "
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text Button",
+          "default" :"shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link Button"
+        },
+        {
+          "type": "header",
+          "content": "Color"
+        },
+        {
+          "type": "color",
+          "id": "color_decs",
+          "label": "Color Description",
+          "default": "#a0a0a0"
+        },
+        {
+          "type": "color",
+          "id": "color_title",
+          "label": "Color Title",
+          "default": "#303030"
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name": "Fancybox",
+      "category": "Banner",
+      "blocks": [
+          {
+            "type": "items"
+          },
+          {
+            "type": "items"
+          },
+          {
+            "type": "items"
+          }
+      ]
+    }
+  ]
+}
+{% endschema %}

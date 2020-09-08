@@ -1,0 +1,224 @@
+{%- assign item = section.settings -%}
+
+{%- assign grid = item.items -%}
+{%- assign name_collection = item.collection -%}
+{%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+{%- assign collection = collections[name_collection] -%}
+{%- assign length = item.limit | plus: 0 -%}
+
+<section class="Section" id="section-{{ section.id }}" data-aos="{{ section.settings.effect }}">
+  <div class="container-indent">
+    <div class="container-fluid{%- if item.fullwidth -%}-fullwidth{%- endif -%}" data-sectionname="index_product_image">
+
+      {%- if item.show_title -%}<div class="sp-block-title">
+        <h2 class="sp-title"> {{ item.text1 }} </h2>
+        {% unless item.text2 == '' %}<div class="sp-description">{{ item.text2 }}</div>{% endunless %}
+      </div>{%- endif -%}
+      <div class="row">
+        {% if section.settings.collection != blank or collection.products.size > 1 %}
+          {%- for product in collection.products limit: length -%}
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              {% for image in product.images offset:0 limit:1 %}
+                <a href="{{ product.url | within: collection }}"> 
+                  <img src="{{ image.src | product_img_url: '400x400', crop : 'center' }}">
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+          {%- endfor -%}
+        {% else %}
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              <a> 
+                <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}">
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              <a> 
+                <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}">
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              <a> 
+                <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}">
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              <a> 
+                <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}">
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              <a> 
+                <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}">
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-12 col-md-4 col-lg-{{ grid }}">
+            <div class="lazyload">
+              <a> 
+                <img src="{{ 'bg.jpg' | asset_img_url: '400x' }}">
+              </a>
+            </div>
+          </div>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} img{
+    width: 100%;
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }} .lazyload{
+      padding-bottom: 30px;
+    }
+  }
+</style>
+{% schema %}
+{
+  "name": "Products Image",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth Width",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "100px 100px 100px 100px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "63px 0px 63px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type":"select",
+      "id":"effect",
+      "label":"Effect",
+      "options":[
+          {"value":"none","label":"No effect"},
+          {"value":"fade","label":"fade"},
+          {"value":"fade-up","label":"fade-up"},
+          {"value":"fade-down","label":"fade-down"},
+          {"value":"fade-left","label":"fade-left"},
+          {"value":"fade-right","label":"fade-right"},
+          {"value":"fade-up-right","label":"fade-up-right"},
+          {"value":"fade-up-left","label":"fade-up-left"},
+          {"value":"fade-down-right","label":"fade-down-right"},
+          {"value":"fade-down-left","label":"fade-down-left"},
+          {"value":"flip-up","label":"flip-up"},
+          {"value":"flip-down","label":"flip-down"},
+          {"value":"flip-left","label":"flip-left"},
+          {"value":"flip-right","label":"flip-right"},
+          {"value":"zoom-in","label":"zoom-in"},
+          {"value":"zoom-in-up","label":"zoom-in-up"},
+          {"value":"zoom-in-down","label":"zoom-in-down"},
+          {"value":"zoom-in-left","label":"zoom-in-left"},
+          {"value":"zoom-in-right","label":"zoom-in-right"},
+          {"value":"zoom-out","label":"zoom-out"},
+          {"value":"zoom-out-up","label":"zoom-out-up"},
+          {"value":"zoom-out-down","label":"zoom-out-down"},
+          {"value":"zoom-out-left","label":"zoom-out-left"},
+          {"value":"zoom-out-right","label":"zoom-out-right"}
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Title Block",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "text1",
+      "label": "Title",
+      "default": "CHOOSE YOUR DIAL"
+    },
+    {
+      "type": "textarea",
+      "id": "text2",
+      "label": "Small description",
+      "default": "How do you feel",
+      "info": "Empty field = hide field"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "limit",
+      "label": "Items Length. Integer",
+      "default": "6"
+    },
+    {
+      "type": "select",
+      "id": "items",
+      "label": "Products In Row",
+      "options": [
+        { "value": "6", "label": "2" },
+        { "value": "4", "label": "3" },
+        { "value": "3", "label": "4" },
+        { "value": "2", "label": "6" }
+      ],
+      "default": "2",
+      "info": "For screen size > 1024"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Image",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

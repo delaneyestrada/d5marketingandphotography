@@ -1,0 +1,218 @@
+{%- assign item = section.settings -%}
+<section class="Section {{ section.id }}" id="section-{{ section.id }}" {%- if item.show_bg -%} style="background-image: url('{{ item.bg | img_url: '1900x'  }}');" {%- endif -%}>
+  <div class="container-indent">
+    <div class="container{%- if item.fullwidth -%}-fullwidth{%- endif -%}" data-sectionname="index_brands">
+      {%- if section.blocks.size > 0 -%}
+      <div class="sp-carousel-brands arrow-location-center-02 sp-arrow-hover" data-slick='{"slidesToShow": {{ item.toshow }}, "slidesToScroll": {{ item.step }}, "autoplay": {{ item.module_autoplay }}, "autoplaySpeed": {{ item.delay_time }}}'>
+        {%- for block in section.blocks -%}{%- assign b_i = block.settings -%}
+        <div {{ block.shopify_attributes }}>
+          <a href="{{ b_i.link }}">
+            {%- if b_i.image != blank -%}{% assign img_url = b_i.image | img_url: '1024x' %}
+            {%- else -%}{% assign img_url = 'template_brand.png' | asset_url %}
+            {%- endif -%}
+            <img src="{{ img_url }}" alt="{{ b_i.image.alt }}">
+          </a>
+        </div>
+        {%- endfor -%}
+      </div>
+      {%- else -%}
+      <span style="display: flex; justify-content: center;">This section doesn’t currently include any content. Add content to this section using the sidebar.</span>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  #section-{{ section.id }}{
+    background-repeat: repeat;
+    background-size: cover;
+    background-position:  center;
+    padding:{{ section.settings.padding }};
+    margin:{{ section.settings.margin }};
+  }
+  @media (max-width: 1024px){
+    #section-{{ section.id }}{
+      padding:{{ section.settings.padding_mobi }};
+      margin:{{ section.settings.margin_mobi }};
+    }
+  }
+  #section-{{ section.id }} .sp-carousel-brands{
+    padding: {{ item.padding_content }};
+  }
+  {%- if item.show_border -%} 
+    #section-{{ section.id }} .sp-carousel-brands{
+      border: 1px solid {{ item.color_border }};
+    }
+  {%- endif -%}
+  .{{ section.id }} .sp-carousel-brands a img{
+    opacity: 0.5;
+  }
+  .{{ section.id }} .sp-carousel-brands a:hover img{
+    opacity: 1;
+  }
+</style>
+{% schema %}
+{
+  "name": "Brands list about",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth Width",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "text",
+      "id": "padding_mobi",
+      "label": "Section Padding",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "text",
+      "id": "margin_mobi",
+      "label": "Section margin",
+      "default": "0px 0px 0px 0px"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "padding_content",
+      "label": "Padding Content",
+      "default": "24px 20px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bg",
+      "label": "Show Background",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "bg",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "Show Border",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Color Border",
+      "default": "#c2c2c2"
+    },
+    {
+      "type": "select",
+      "id": "toshow",
+      "label": "Products In Row",
+      "options": [
+		{ "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" }
+      ],
+      "default": "6",
+	  "info": "For screen size > 1024"
+    },
+    {
+      "type": "select",
+      "id": "step",
+      "label": "Slides To Scroll",
+      "default": "2",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "module_autoplay",
+      "label": "Auto-rotate slides",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "delay_time",
+      "label": "Change slides every",
+      "options": [
+        { "value": "5000", "label": "5 seconds" },
+        { "value": "6000", "label": "6 seconds" },
+        { "value": "7000", "label": "7 seconds" },
+        { "value": "8000", "label": "8 seconds" },
+        { "value": "9000", "label": "9 seconds" },
+        { "value": "10000", "label": "10 seconds" }
+      ],
+      "default": "7000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo_image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
