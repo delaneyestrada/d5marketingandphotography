@@ -1,0 +1,65 @@
+{% if template == "page.gallery" %}
+<script>
+async function postData(data = {}, url = 'http://api.zenfolio.com/api/1.8/zfapi.asmx') {
+
+   const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+postData({
+  "method": "LoadGroupHierarchy",
+  "params": ["d5marketingphotography"],
+  "id": 1
+})
+.then(data => {
+  portfolioSets = data.result.Elements[1].Elements
+  portfolioSets.forEach(set => {
+    let re = new RegExp('\/p(.*)');
+    let setId = re.exec(set.PageUrl)[1]
+    postData({
+      "method": "LoadPhotoSetPhotos",
+      "params": [setId, 0, 30],
+      "id": 1
+    })
+    .then(res => {
+      if(res.result.length > 0){
+        res.result.forEach(photo => {
+          console.log(photo)
+          const url = `http://${photo.UrlHost}${photo.UrlCore}-2.jpg?sn=${photo.Sequence}&tk=${photo.UrlToken}`
+          let img = document.createElement("img")
+          img.src = url
+          document.getElementById('gallery').appendChild(img)
+          /*
+          fetch(url)
+          .then(img => {
+            console.log(img.url)
+          })
+          */
+        })
+        
+      }
+    })
+  })
+})
+
+/*
+postData({
+    "method": "LoadPhotoSet",
+    "params": [542319129871011429, "Level2", "true"],
+    "id": 1
+})
+.then(data => {
+    console.log(data)
+})
+*/
+</script>
+{% endif %}

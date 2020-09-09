@@ -7,15 +7,7 @@
 
 
 <div class="container-indent">
-  <ul class="tabs--collection nav nav-tabs sp-tabs-default">
-    <li class="nav-item title-collection">
-      <a  href="/collections/all" class="{% if curent_id == '' or check_all == 'all' %}active{% endif %}">All Items</a>
-      {% for collection in collections %}
-        <a href="{{ collection.url }}" class="{% if collection.id == curent_id %}active{% endif %}">{{ collection.title }}
-        </a>
-      {% endfor %}
-    </li>
-  </ul>
+
   <div class="container-collection{%- if item.fullwidth -%}-fluid{%- endif -%}{% if item_sidebar contains "_wide" %}-fluid-custom container-fluid-custom-mobile-padding{% endif %}">
     <div class="row{{ flip_sidebar }}">
       {%- if item_sidebar == 'sidebardropdown' -%}
