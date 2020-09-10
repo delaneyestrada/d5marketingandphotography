@@ -23,6 +23,8 @@ postData({
 .then(data => {
   portfolioSets = data.result.Elements[1].Elements
   portfolioSets.forEach(set => {
+    console.log(set)
+    
     let re = new RegExp('\/p(.*)');
     let setId = re.exec(set.PageUrl)[1]
     postData({
@@ -32,12 +34,27 @@ postData({
     })
     .then(res => {
       if(res.result.length > 0){
+		let gallery = document.getElementById('gallery')
+		let galleryNav = document.getElementById('gallery-nav')
+
+        let li = document.createElement("li")
+		let link = document.createElement("a")
+
+		
+
+        let text = document.createTextNode(set.Title)
+
+        link.appendChild(text)
+		li.appendChild(link)
+        galleryNav.appendChild(li)
+
+        console.log(res)
         res.result.forEach(photo => {
-          console.log(photo)
+          //console.log(photo)
           const url = `http://${photo.UrlHost}${photo.UrlCore}-2.jpg?sn=${photo.Sequence}&tk=${photo.UrlToken}`
           let img = document.createElement("img")
           img.src = url
-          document.getElementById('gallery').appendChild(img)
+          gallery.appendChild(img)
           /*
           fetch(url)
           .then(img => {

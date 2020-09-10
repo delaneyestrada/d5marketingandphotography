@@ -60,7 +60,8 @@
   {{ 'animations.css' | asset_url | stylesheet_tag }}
   {{ 'aos.css' | asset_url | stylesheet_tag }}
   <!-- CSS ================================================== -->
-  <link rel="stylesheet" href="{{ 'styles.scss.css' | asset_url }}">  
+  <link rel="stylesheet" href="{{ 'lightgallery.css' | asset_url }}">  
+  <link rel="stylesheet" href="{{ 'styles.scss.css' | asset_url }}"> 
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   {%- if settings.font_name1 != blank -%}
   <link href="https://fonts.googleapis.com/css?family={{ settings.font_name1 }}:100,200,300,400,500,600,700,800,900" rel="stylesheet">
@@ -73,7 +74,8 @@
   {%- include "include_css" -%}
   {{ 'jquery.min.js' | asset_url | script_tag | remove: ' type="text/javascript"' }}
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-  <!-- Header hook for plugins ================================================== -->
+  
+  <!-- Header hook for plugins =================================================== -->
   {{ content_for_header }}
   <!-- /Header hook for plugins ================================================== -->
 
@@ -247,7 +249,9 @@
   {{ 'revolution.set.js' | asset_url | script_tag }}
   {{ 'css3-animate-it.js' | asset_url | script_tag }}
   {{ 'aos.js' | asset_url | script_tag }}
-  {% include 'zenfolio'%}
+  {{ 'main.js' | asset_url | script_tag }}
+  {{ 'lightgallery.min.js' | asset_url | script_tag }} 
+  {{ 'lg-share.js' | asset_url | script_tag }} 
   <script type="text/javascript">
     AOS.init({
         startEvent: 'load',
