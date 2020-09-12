@@ -163,10 +163,12 @@ function getScrollBarWidth() {
 
 // Global variables
 const scrollbarWidth = getScrollBarWidth();
+const gallery = document.getElementById('gallery')
 const pageContainer = document.querySelector('#sp-pageContent .container');
 let setCounter = 0;
 let container;
-let setTitle;
+let galleryInfo = {}
+let bricklayer;
 
 pageContainer.setAttribute('style', `width: calc(100vw - ${scrollbarWidth}px - 2rem); max-width: calc(100vw - ${scrollbarWidth}px - 2rem); margin: 0 calc(1rem + ${scrollbarWidth}px) 0 1rem`);
 async function postData(data = {}, url = 'http://api.zenfolio.com/api/1.8/zfapi.asmx') {
@@ -206,13 +208,16 @@ let groupHierarchyP = postData({
 					if (res.result.length > 0) {
 						let setObj = {};
 						let setImages = [];
-						let gallery = document.getElementById('gallery')
+						let domArr = [];
+						
 						let galleryNav = document.getElementById('gallery-nav')
 
 						let li = document.createElement("li")
 						let link = document.createElement("a")
 						let escapedTitle = set.Title.replace(/[^\w]/gi, '');
 						
+						galleryInfo[escapedTitle] = {domArr: []}
+
 						// Create nav link for photoset
 						/*link.setAttribute('data-target', escapedTitle);
 						link.setAttribute('href', "#");*/
@@ -244,21 +249,16 @@ let groupHierarchyP = postData({
 						gallery.appendChild(lgButtonContainer) 
 						*/
 
-						// Create container for photoset
-						container = document.createElement('div');
-						setAttributes(container, {
-							"style": "margin: 0 auto;",
-							"id": escapedTitle,
-							"class": "bricklayer"
-						});  
-						
-						/* setCounter++; 
+						 
+						/*
+						setCounter++; 
 						if (setCounter == 1) {
 							container.classList.remove('hide')
 						} */
 
-						gallery.appendChild(container);
-						let bricklayer = new Bricklayer(document.querySelector(`#${escapedTitle}`))
+						//gallery.appendChild(container);
+						// let bricklayer = new Bricklayer(document.querySelector(`#${escapedTitle}`))
+						
 						let lgIndex = 0;
 						res.result.forEach(photo => {
 							
@@ -296,13 +296,17 @@ let groupHierarchyP = postData({
 							// thumb.setAttribute('style', "width: 33vw; height: auto;");
 							
 							anchor.appendChild(thumb);
-							bricklayer.append(anchor);  
+							domArr.push(anchor)
+							galleryInfo[escapedTitle].domArr.push(anchor)
+							//bricklayer.append(anchor);  
 
 							
 							lgIndex++; 
 						})
 						setObj['title'] = escapedTitle;
 						setObj['lgObjArr'] = setImages;
+						setObj['domArr'] = domArr;
+						galleryInfo[escapedTitle].lgArr = setImages;
 						return setObj;
 					}
 
@@ -311,10 +315,53 @@ let groupHierarchyP = postData({
 				.then(lgSetObj => {
 					$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event){
 							event.preventDefault();
-							$("#gallery div.bricklayer").removeClass("hide")
-							if($(this).data("target") !== "all"){
+							if(!$(this).hasClass('bricklayer-active')){
+
+								// Destroy previous bricklayer
+								let prev = $('.bricklayer-active').get(0)
+								
+								if(prev){
+									console.log(bricklayer)
+									bricklayer.destroy();
+									//$('div.bricklayer.bricklayer-active').addClass('hide')
+									$('div.bricklayer.bricklayer-active').remove();
+									//$('.bricklayer-active').removeClass('bricklayer-active')
+									
+								} else {
+									console.log('no previous');
+								} 
+
+								// Create container for photoset
+								container = document.createElement('div');
+								setAttributes(container, {
+									"style": "margin: 0 auto;",
+									"id": lgSetObj.title,
+									"class": "bricklayer hide"
+								});
+								gallery.appendChild(container) 
+
+								
+
+								// Create new bricklayer
+								let blContainer = $(`#${lgSetObj.title}`).addClass('bricklayer-active').removeClass('hide').get(0);  
+								$(this).addClass('bricklayer-active') 
+								
+								bricklayer = new Bricklayer(blContainer)
+								lgSetObj['domArr'].forEach(element => {
+									bricklayer.append(element)
+								});
+
+								/*$('.bricklayer-column').each(function(){
+									if(!$(this).children().length){
+										$(this).appendTo($(this).parent()); 
+									} 
+								})*/ 
+							} 
+
+							
+							/*if($(this).data("target") !== "all"){
 								$(`#gallery div#${lgSetObj.title}`).siblings().addClass("hide");	
-							}
+							}*/
 						})
 
 					$(`.${lgSetObj.title}-grid-item`).on('click', function() {
@@ -353,6 +400,26 @@ let groupHierarchyP = postData({
 		})
 	})
 	.finally(() => {
-		 
+		console.log('test')  
+		Object.entries(galleryInfo).forEach(entry => {
+			const [key, value] = entry;
+			console.log(key, value); 
+		}) 
+		 /*$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event){
+							event.preventDefault();
+							$("#gallery div.bricklayer").removeClass("hide")
+							if($(this).data("target") !== "all"){
+								$(`#gallery div#${lgSetObj.title}`).siblings().addClass("hide");	
+							}
+						})
+
+					$(`.${lgSetObj.title}-grid-item`).on('click', function() {
+						let lg = $(this).lightGallery({
+							dynamic: true,
+							dynamicEl: lgSetObj.lgObjArr
+						})
+						console.log($(this).data("index"))
+						lg.data('lightGallery').index = $(this).data("index")
+					})*/
 	})
 {% endjavascript %}
