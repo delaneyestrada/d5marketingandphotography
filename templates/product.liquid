@@ -8,7 +8,9 @@
   <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
 
   {% section 'product-template' %}
+  {%- comment -%}
   {% section 'index-section-instagram-page' %}
+  {%- endcomment -%} 
 </div>
 
 {% include "modal-video" %}
@@ -24,5 +26,3 @@
   {% endfor %}
 </script>
 
-
-{% include 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: true, auto_install: true %}

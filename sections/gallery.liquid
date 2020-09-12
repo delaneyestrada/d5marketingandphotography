@@ -1,5 +1,12 @@
-<ul id="gallery-nav"></ul>
-<div id="gallery"></div>
+<ul id="gallery-nav">
+	<li>
+	<a data-target="all" href="#">All</a>
+	</li>
+</ul>
+<div id="gallery">
+	
+	<div class="bricklayer-column-sizer"></div> 
+</div>
 
 {% schema %}
   {
@@ -47,22 +54,25 @@
 {% endschema %}
 
 {% style %}
+.hide {
+   /*position: absolute !important;
+   top: -9999px !important;
+   left: -9999px !important;*/
+   display: none;
+}
 
 #gallery-nav {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
+} 
 
 #gallery-nav li {
-	list-style: none;
 	margin: 0 1em;
 } 
 
-
-
-#gallery div a {
-	margin: 0 auto;
+#gallery {
+	height: auto;
 }
 
 .container {
@@ -71,160 +81,278 @@
 
 li {
 	list-style: none;
+}
+
+#gallery div.bricklayer {
+	display: hidden;  
+	height: auto;
+	width: 100%; 
+}
+
+.bricklayer-column {
+	display: block; 
+} 
+ 
+#gallery div.active-set {
+	display: flex !important; 
+}  
+
+
+#gallery div a {
+	display: block;
+	
+} 
+
+@media screen and (min-width: 1500px) {
+	.bricklayer-column-sizer {
+		width: 16.66%;
+	}
+}
+@media screen and (min-width: 1000px) and (max-width: 1500px){
+	.bricklayer-column-sizer {
+		width: 20%; 
+	}
+}
+@media screen and (min-width: 700px) and (max-width: 1000px){
+	.bricklayer-column-sizer {
+		width: 33.33%; 
+	}
+}
+@media screen and (max-width: 500px) {
+	.bricklayer-column-sizer {
+		width: 50%;
+	}
+}
+
+.grid-item {
+	width: 100%;
 	cursor: pointer;
 }
 
-#gallery ul {
-	display: none;
+#gallery img {
+	width: 100%;
+	margin-top: 10px; 
+} 
+
+
+ul {
 	padding: 0;
 }
-
-#gallery ul.active-set {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-#gallery li {
-	height: 40vh;
-	flex-grow: 1;
-}
-
-
-
-#gallery img {
-	max-height: 100%;
-	min-width: 100%;
-	object-fit: cover;
-	vertical-align: bottom;
-}
-
 {% endstyle %}
 
 {% javascript %}
-	function getScrollBarWidth() {
-		var $outer = $('<div>').css({
-				visibility: 'hidden',
-				width: 100,
-				overflow: 'scroll'
-			}).appendTo('body'),
-			widthWithScroll = $('<div>').css({
-				width: '100%'
-			}).appendTo($outer).outerWidth();
-		$outer.remove();
-		return 100 - widthWithScroll;
-	};
-	const scrollbarWidth = getScrollBarWidth();
-	const pageContainer = document.querySelector('#sp-pageContent .container');
-	let setCounter = 0;
-	pageContainer.setAttribute('style', `width: calc(100vw - ${scrollbarWidth}px - 2rem); max-width: calc(100vw - ${scrollbarWidth}px - 2rem); margin: 0 calc(1rem + ${scrollbarWidth}px) 0 1rem`);
-	async function postData(data = {}, url = 'http://api.zenfolio.com/api/1.8/zfapi.asmx') {
-
-		const response = await fetch(url, {
-			method: 'POST', // *GET, POST, PUT, DELETE, etc.
-			mode: 'cors', // no-cors, *cors, same-origin
-			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-			body: JSON.stringify(data) // body data type must match "Content-Type" header
-		});
-		return response.json(); // parses JSON response into native JavaScript objects
+// Functions
+function setAttributes(el, attrs) {
+	for (var key in attrs) {
+		el.setAttribute(key, attrs[key]);
 	}
+}
 
-	postData({
-			"method": "LoadGroupHierarchy",
-			"params": ["d5marketingphotography"],
-			"id": 1
-		})
-		.then(data => {
-			portfolioSets = data.result.Elements[1].Elements
-			numSets = portfolioSets.length
-			portfolioSets.forEach((set) => {
-				console.log(set)
+function getScrollBarWidth() {
+	var $outer = $('<div>').css({
+			visibility: 'hidden',
+			width: 100,
+			overflow: 'scroll'
+		}).appendTo('body'),
+		widthWithScroll = $('<div>').css({
+			width: '100%'
+		}).appendTo($outer).outerWidth();
+	$outer.remove();
+	return 100 - widthWithScroll;
+};
 
-				let re = new RegExp('\/p(.*)');
-				let setId = re.exec(set.PageUrl)[1]
-				postData({
-						"method": "LoadPhotoSetPhotos",
-						"params": [setId, 0, 30],
-						"id": 1
-					})
-					.then(res => {
-						if (res.result.length > 0) {
-							let gallery = document.getElementById('gallery')
-							let galleryNav = document.getElementById('gallery-nav')
+// Global variables
+const scrollbarWidth = getScrollBarWidth();
+const pageContainer = document.querySelector('#sp-pageContent .container');
+let setCounter = 0;
+let container;
+let setTitle;
 
-							let li = document.createElement("li")
-							let link = document.createElement("a")
-							let escapedTitle = set.Title.replace(/[^\w]/gi, '');
-							link.setAttribute('data-target', escapedTitle);
-							link.setAttribute('href', "#");
-							link.addEventListener('click', event => {
-								event.preventDefault;
-								document.querySelectorAll('#gallery ul').forEach(item => {
-									item.removeAttribute('class');
-								});
-								
-								document.querySelector(`ul#${event.currentTarget.dataset.target}`).setAttribute('class', 'active-set'); 
-							})
+pageContainer.setAttribute('style', `width: calc(100vw - ${scrollbarWidth}px - 2rem); max-width: calc(100vw - ${scrollbarWidth}px - 2rem); margin: 0 calc(1rem + ${scrollbarWidth}px) 0 1rem`);
+async function postData(data = {}, url = 'http://api.zenfolio.com/api/1.8/zfapi.asmx') {
 
-							let text = document.createTextNode(set.Title)
+	const response = await fetch(url, {
+		method: 'POST', // *GET, POST, PUT, DELETE, etc.
+		mode: 'cors', // no-cors, *cors, same-origin
+		cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		body: JSON.stringify(data) // body data type must match "Content-Type" header
+	});
+	return response.json(); // parses JSON response into native JavaScript objects
+}
+let photoSetsP;
+let groupHierarchyP = postData({
+		"method": "LoadGroupHierarchy",
+		"params": ["d5marketingphotography"],
+		"id": 1
+	})
+	.then(data => {
+		portfolioSets = data.result.Elements[1].Elements
+		numSets = portfolioSets.length
+		portfolioSets.forEach((set) => {
+			console.log(set)
 
-							link.appendChild(text)
-							li.appendChild(link)
-							galleryNav.appendChild(li)
+			let re = new RegExp('\/p(.*)');
+			let setId = re.exec(set.PageUrl)[1]
+			photoSetsP = postData({
+					"method": "LoadPhotoSetPhotos",
+					"params": [setId, 0, 30],
+					"id": 1
+				})
+				.then(res => {
+					if (res.result.length > 0) {
+						let setObj = {};
+						let setImages = [];
+						let gallery = document.getElementById('gallery')
+						let galleryNav = document.getElementById('gallery-nav')
 
-							let container = document.createElement('ul');
+						let li = document.createElement("li")
+						let link = document.createElement("a")
+						let escapedTitle = set.Title.replace(/[^\w]/gi, '');
+						
+						// Create nav link for photoset
+						/*link.setAttribute('data-target', escapedTitle);
+						link.setAttribute('href', "#");*/
+						setAttributes(link, {
+							"data-target": escapedTitle,
+							"href": "#",
+							"class": "nav-link"
+						})
+						
+
+						let text = document.createTextNode(set.Title)
+						 
+						// TODO: create helper function to chain appendChild calls
+						link.appendChild(text)
+						li.appendChild(link)
+						galleryNav.appendChild(li)
+						
+						// Create full-screen gallery button for photoset
+						/*
+						let lgButtonContainer = document.createElement('div');
+						let lgButton = document.createElement('button');
+						let buttonText = document.createTextNode('View images in a full-screen gallery')
+						lgButtonContainer.classList.add(`${escapedTitle}-toggle-container`, 'lg-toggle-container')
+						lgButton.classList.add('lg-toggle')
+						lgButton.setAttribute('id', `${escapedTitle}-toggle`) 
+						
+						lgButton.appendChild(buttonText)  
+						lgButtonContainer.appendChild(lgButton)
+						gallery.appendChild(lgButtonContainer) 
+						*/
+
+						// Create container for photoset
+						container = document.createElement('div');
+						setAttributes(container, {
+							"style": "margin: 0 auto;",
+							"id": escapedTitle,
+							"class": "bricklayer"
+						});  
+						
+						/* setCounter++; 
+						if (setCounter == 1) {
+							container.classList.remove('hide')
+						} */
+
+						gallery.appendChild(container);
+						let bricklayer = new Bricklayer(document.querySelector(`#${escapedTitle}`))
+						let lgIndex = 0;
+						res.result.forEach(photo => {
 							
-							container.setAttribute('id', escapedTitle)
-							setCounter++;
-							if(setCounter == 1){
-								container.setAttribute('class', 'active-set')
+							const createImageUrl = (size) => {
+								return `http://${photo.UrlHost}${photo.UrlCore}-${size}.jpg?sn=${photo.Sequence}&tk=${photo.UrlToken}`
 							}
 
-							res.result.forEach(photo => {
-								//console.log(photo);
-								const createImageUrl = (size) => {
-									return `http://${photo.UrlHost}${photo.UrlCore}-${size}.jpg?sn=${photo.Sequence}&tk=${photo.UrlToken}`
-								}
-
-								let srcset = document.createElement('li')
-								srcset.setAttribute('data-src', createImageUrl(3))
-								srcset.setAttribute('data-srcset', `${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`)
-								srcset.setAttribute('data-sizes', "(min-width: 40em) 80vw, 100vw")
-								srcset.setAttribute('data-sub-html', `<h4>${photo.Title}</h4>`)
-
-								let thumb = document.createElement('img')
-								thumb.setAttribute('src', `${createImageUrl(3)}`);
-								thumb.setAttribute('srcset', `${createImageUrl(11)} 120w, ${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`)
-								thumb.setAttribute('sizes', "33vw")
-								// thumb.setAttribute('style', "width: 33vw; height: auto;");
-								container.appendChild(srcset);
-								srcset.appendChild(thumb);
-								gallery.appendChild(container);
-
+							let anchor = document.createElement('a')
+							setAttributes(anchor, {
+								/*"href": createImageUrl(2),
+								"data-srcset": `${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`,
+								"data-sizes": "(min-width: 40em) 80vw, 100vw",
+								"data-sub-html": `<h4>${photo.Title}</h4>`,*/
+								"class": `${escapedTitle}-grid-item grid-item`,
+								"data-index": lgIndex 
 							})
-						}
+							let escapedPhotoTitle = photo.Title.replace(/[^\w]/gi, '');
+							let setImage = {
+								src: createImageUrl(2),
+								srcset: `${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`,
+								sizes: "(min-width: 40em) 80vw, 100vw",
+								subHtml: `<h4>${photo.Title}</h4>`,
+								alt: escapedPhotoTitle
+							}
+							setImages.push(setImage);
+
+							
+							let thumb = document.createElement('img')
+							setAttributes(thumb, {
+								"src": `${createImageUrl(2)}`,
+								"alt": escapedPhotoTitle
+							})
+							// thumb.setAttribute('srcset', `${createImageUrl(11)} 120w, ${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`)
+							// thumb.setAttribute('sizes', "25vw");
+							// thumb.setAttribute('style', "width: 33vw; height: auto;");
+							
+							anchor.appendChild(thumb);
+							bricklayer.append(anchor);  
+
+							
+							lgIndex++; 
+						})
+						setObj['title'] = escapedTitle;
+						setObj['lgObjArr'] = setImages;
+						return setObj;
+					}
 
 
+				})
+				.then(lgSetObj => {
+					$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event){
+							event.preventDefault();
+							$("#gallery div.bricklayer").removeClass("hide")
+							if($(this).data("target") !== "all"){
+								$(`#gallery div#${lgSetObj.title}`).siblings().addClass("hide");	
+							}
+						})
+
+					$(`.${lgSetObj.title}-grid-item`).on('click', function() {
+						let lg = $(this).lightGallery({
+							dynamic: true,
+							dynamicEl: lgSetObj.lgObjArr
+						})
+						console.log($(this).data("index"))
+						lg.data('lightGallery').index = $(this).data("index")
 					})
-					.finally(() => {
+					
+					/*$(`#${lgSetObj.title}-toggle`).on('click', function() {
+						let lg = $(this).lightGallery({
+							dynamic: true,
+							dynamicEl: lgSetObj.lgObjArr
+						})
+						lg.data('lightGallery').index = 1;
+						console.log(lg.data('lightGallery')) 
+					}) */
+					/*
+					if (setData) {
 						
-						/*
-						if(numSets == setCounter){
-							console.log(numSets)
-							console.log(setCounter)
-							document.getElementById('gallery').appendChild(document.createElement('li'));
-						}*/
-						let lgContainer = document.getElementById(set.Title)
+						let lgContainer = document.getElementById(setData.title)
 						if (lgContainer) {
-							lightGallery(lgContainer, {
-								download: false,
-								googlePlus: false,
-							});
+							console.log('lightgallery loaded');
+						lightGallery(lgContainer, {
+							download: false,
+							googlePlus: false,
+						});
 						}
-					})
-			})
+					}*/
+				})
+				.finally(() => {
+					 
+				})
 		})
+	})
+	.finally(() => {
+		 
+	})
 {% endjavascript %}

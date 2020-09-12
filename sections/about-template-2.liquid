@@ -28,23 +28,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row row--center">
-                <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="column-about contact-2">
-                        <h2 class="heading">{{ item.title_1 }}</h2>
-                        <div class="descriptions">
-                           <span>{{ item.description_1 }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="bb-img-about contact-3">
-                        {%- if item.image == blank -%}{%- include "get_svg" type:'image' size:'2048x800' -%}{%- else -%}
-                           <img src="{{ item.image_banner_1 | img_url: '1024x' }}">
-                        {%- endif -%}
-                    </div>
-                </div>
-    		</div>
     	</div>
     </div>
 </section>
