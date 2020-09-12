@@ -3,12 +3,9 @@
 	<a data-target="all" href="#">All</a>
 	</li>
 </ul>
-<div id="gallery">
-	
-	<div class="bricklayer-column-sizer"></div> 
-</div>
+<div id="gallery" class="bricklayer"></div>
 
-{% schema %}
+{% schema %} 
   {
     "name": "Gallery",
     "settings": [
@@ -55,9 +52,6 @@
 
 {% style %}
 .hide {
-   /*position: absolute !important;
-   top: -9999px !important;
-   left: -9999px !important;*/
    display: none;
 }
 
@@ -73,6 +67,7 @@
 
 #gallery {
 	height: auto;
+	display: flex; 
 }
 
 .container {
@@ -83,24 +78,12 @@ li {
 	list-style: none;
 }
 
-#gallery div.bricklayer {
-	display: hidden;  
-	height: auto;
-	width: 100%; 
-}
-
 .bricklayer-column {
 	display: block; 
 } 
- 
-#gallery div.active-set {
-	display: flex !important; 
-}  
 
-
-#gallery div a {
+#gallery a {
 	display: block;
-	
 } 
 
 @media screen and (min-width: 1500px) {
@@ -134,7 +117,6 @@ li {
 	margin-top: 10px; 
 } 
 
-
 ul {
 	padding: 0;
 }
@@ -164,11 +146,11 @@ function getScrollBarWidth() {
 // Global variables
 const scrollbarWidth = getScrollBarWidth();
 const gallery = document.getElementById('gallery')
+const bricklayer = new Bricklayer(gallery)
 const pageContainer = document.querySelector('#sp-pageContent .container');
 let setCounter = 0;
 let container;
 let galleryInfo = {}
-let bricklayer;
 
 pageContainer.setAttribute('style', `width: calc(100vw - ${scrollbarWidth}px - 2rem); max-width: calc(100vw - ${scrollbarWidth}px - 2rem); margin: 0 calc(1rem + ${scrollbarWidth}px) 0 1rem`);
 async function postData(data = {}, url = 'http://api.zenfolio.com/api/1.8/zfapi.asmx') {
@@ -195,7 +177,6 @@ let groupHierarchyP = postData({
 		portfolioSets = data.result.Elements[1].Elements
 		numSets = portfolioSets.length
 		portfolioSets.forEach((set) => {
-			console.log(set)
 
 			let re = new RegExp('\/p(.*)');
 			let setId = re.exec(set.PageUrl)[1]
@@ -209,71 +190,43 @@ let groupHierarchyP = postData({
 						let setObj = {};
 						let setImages = [];
 						let domArr = [];
-						
+
 						let galleryNav = document.getElementById('gallery-nav')
 
 						let li = document.createElement("li")
 						let link = document.createElement("a")
 						let escapedTitle = set.Title.replace(/[^\w]/gi, '');
-						
-						galleryInfo[escapedTitle] = {domArr: []}
 
-						// Create nav link for photoset
-						/*link.setAttribute('data-target', escapedTitle);
-						link.setAttribute('href', "#");*/
+						galleryInfo[escapedTitle] = {
+							domArr: []
+						}
+
 						setAttributes(link, {
 							"data-target": escapedTitle,
 							"href": "#",
 							"class": "nav-link"
 						})
-						
+
 
 						let text = document.createTextNode(set.Title)
-						 
+
 						// TODO: create helper function to chain appendChild calls
 						link.appendChild(text)
 						li.appendChild(link)
 						galleryNav.appendChild(li)
-						
-						// Create full-screen gallery button for photoset
-						/*
-						let lgButtonContainer = document.createElement('div');
-						let lgButton = document.createElement('button');
-						let buttonText = document.createTextNode('View images in a full-screen gallery')
-						lgButtonContainer.classList.add(`${escapedTitle}-toggle-container`, 'lg-toggle-container')
-						lgButton.classList.add('lg-toggle')
-						lgButton.setAttribute('id', `${escapedTitle}-toggle`) 
-						
-						lgButton.appendChild(buttonText)  
-						lgButtonContainer.appendChild(lgButton)
-						gallery.appendChild(lgButtonContainer) 
-						*/
 
-						 
-						/*
-						setCounter++; 
-						if (setCounter == 1) {
-							container.classList.remove('hide')
-						} */
 
-						//gallery.appendChild(container);
-						// let bricklayer = new Bricklayer(document.querySelector(`#${escapedTitle}`))
-						
 						let lgIndex = 0;
 						res.result.forEach(photo => {
-							
+
 							const createImageUrl = (size) => {
 								return `http://${photo.UrlHost}${photo.UrlCore}-${size}.jpg?sn=${photo.Sequence}&tk=${photo.UrlToken}`
 							}
 
 							let anchor = document.createElement('a')
 							setAttributes(anchor, {
-								/*"href": createImageUrl(2),
-								"data-srcset": `${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`,
-								"data-sizes": "(min-width: 40em) 80vw, 100vw",
-								"data-sub-html": `<h4>${photo.Title}</h4>`,*/
 								"class": `${escapedTitle}-grid-item grid-item`,
-								"data-index": lgIndex 
+								"data-index": lgIndex
 							})
 							let escapedPhotoTitle = photo.Title.replace(/[^\w]/gi, '');
 							let setImage = {
@@ -285,23 +238,20 @@ let groupHierarchyP = postData({
 							}
 							setImages.push(setImage);
 
-							
+
 							let thumb = document.createElement('img')
 							setAttributes(thumb, {
 								"src": `${createImageUrl(2)}`,
 								"alt": escapedPhotoTitle
 							})
-							// thumb.setAttribute('srcset', `${createImageUrl(11)} 120w, ${createImageUrl(2)} 400w, ${createImageUrl(3)} 580w, ${createImageUrl(4)} 800w`)
-							// thumb.setAttribute('sizes', "25vw");
-							// thumb.setAttribute('style', "width: 33vw; height: auto;");
-							
+
 							anchor.appendChild(thumb);
 							domArr.push(anchor)
 							galleryInfo[escapedTitle].domArr.push(anchor)
-							//bricklayer.append(anchor);  
+							bricklayer.append(anchor);
 
-							
-							lgIndex++; 
+
+							lgIndex++;
 						})
 						setObj['title'] = escapedTitle;
 						setObj['lgObjArr'] = setImages;
@@ -313,113 +263,29 @@ let groupHierarchyP = postData({
 
 				})
 				.then(lgSetObj => {
-					$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event){
+					if (lgSetObj) {
+						$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event) {
 							event.preventDefault();
-							if(!$(this).hasClass('bricklayer-active')){
-
-								// Destroy previous bricklayer
-								let prev = $('.bricklayer-active').get(0)
-								
-								if(prev){
-									console.log(bricklayer)
-									bricklayer.destroy();
-									//$('div.bricklayer.bricklayer-active').addClass('hide')
-									$('div.bricklayer.bricklayer-active').remove();
-									//$('.bricklayer-active').removeClass('bricklayer-active')
-									
-								} else {
-									console.log('no previous');
-								} 
-
-								// Create container for photoset
-								container = document.createElement('div');
-								setAttributes(container, {
-									"style": "margin: 0 auto;",
-									"id": lgSetObj.title,
-									"class": "bricklayer hide"
-								});
-								gallery.appendChild(container) 
-
-								
-
-								// Create new bricklayer
-								let blContainer = $(`#${lgSetObj.title}`).addClass('bricklayer-active').removeClass('hide').get(0);  
-								$(this).addClass('bricklayer-active') 
-								
-								bricklayer = new Bricklayer(blContainer)
-								lgSetObj['domArr'].forEach(element => {
-									bricklayer.append(element)
-								});
-
-								/*$('.bricklayer-column').each(function(){
-									if(!$(this).children().length){
-										$(this).appendTo($(this).parent()); 
-									} 
-								})*/ 
-							} 
-
-							
-							/*if($(this).data("target") !== "all"){
-								$(`#gallery div#${lgSetObj.title}`).siblings().addClass("hide");	
-							}*/
-						})
-
-					$(`.${lgSetObj.title}-grid-item`).on('click', function() {
-						let lg = $(this).lightGallery({
-							dynamic: true,
-							dynamicEl: lgSetObj.lgObjArr
-						})
-						console.log($(this).data("index"))
-						lg.data('lightGallery').index = $(this).data("index")
-					})
-					
-					/*$(`#${lgSetObj.title}-toggle`).on('click', function() {
-						let lg = $(this).lightGallery({
-							dynamic: true,
-							dynamicEl: lgSetObj.lgObjArr
-						})
-						lg.data('lightGallery').index = 1;
-						console.log(lg.data('lightGallery')) 
-					}) */
-					/*
-					if (setData) {
-						
-						let lgContainer = document.getElementById(setData.title)
-						if (lgContainer) {
-							console.log('lightgallery loaded');
-						lightGallery(lgContainer, {
-							download: false,
-							googlePlus: false,
-						});
-						}
-					}*/
-				})
-				.finally(() => {
-					 
-				})
-		})
-	})
-	.finally(() => {
-		console.log('test')  
-		Object.entries(galleryInfo).forEach(entry => {
-			const [key, value] = entry;
-			console.log(key, value); 
-		}) 
-		 /*$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event){
-							event.preventDefault();
-							$("#gallery div.bricklayer").removeClass("hide")
-							if($(this).data("target") !== "all"){
-								$(`#gallery div#${lgSetObj.title}`).siblings().addClass("hide");	
+							if ($(this).attr('data-target') == 'all') {
+								$('.grid-item').removeClass('hide')
+							} else {
+								$(`.grid-item:not(.${lgSetObj.title}-grid-item)`).addClass('hide')
+								$(`.${lgSetObj.title}-grid-item`).removeClass('hide')
 							}
+							bricklayer.redraw()
 						})
 
-					$(`.${lgSetObj.title}-grid-item`).on('click', function() {
-						let lg = $(this).lightGallery({
-							dynamic: true,
-							dynamicEl: lgSetObj.lgObjArr
+						$(`.${lgSetObj.title}-grid-item`).on('click', function () {
+							let lg = $(this).lightGallery({
+								dynamic: true,
+								dynamicEl: lgSetObj.lgObjArr,
+								download: false
+							})
+							lg.data('lightGallery').index = $(this).data("index")
 						})
-						console.log($(this).data("index"))
-						lg.data('lightGallery').index = $(this).data("index")
-					})*/
-	})
+					}
+				})
+
+		})
+	}) 
 {% endjavascript %}
