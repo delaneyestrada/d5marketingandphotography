@@ -59,6 +59,7 @@
   {{ 'settings.css' | asset_url | stylesheet_tag }}
   {{ 'animations.css' | asset_url | stylesheet_tag }}
   {{ 'aos.css' | asset_url | stylesheet_tag }}
+  {{ 'nice-select.css' | asset_url | stylesheet_tag }}
   <!-- CSS ================================================== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.3.2/css/lightgallery.css">  
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.css">  
@@ -231,10 +232,11 @@
     {{ 'admin-panel.js' | asset_url | script_tag }}
   {%- endif -%}
   
-  {{ settings.some_code_field }}
+  {{ settings.some_code_field }} 
   {{ 'jquery.themepunch.enablelog.js' | asset_url | script_tag }}
   {{ 'jquery.themepunch.revolution.min.js' | asset_url | script_tag }}
   {{ 'jquery.themepunch.tools.min.js' | asset_url | script_tag }}
+  {{ 'jquery.nice-select.min.js' | asset_url | script_tag }}
   {{ 'revolution.extension.layeranimation.min.js' | asset_url | script_tag }}
   {{ 'revolution.extension.slideanims.min.js' | asset_url | script_tag }}
   {{ 'revolution.extension.navigation.min.js' | asset_url | script_tag }}

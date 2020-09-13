@@ -1,6 +1,9 @@
+<select class="gallery-select">
+	<option class="nav-link" value="all">All</option> 
+</select>  
 <ul id="gallery-nav">
 	<li>
-	<a data-target="all" href="#">All</a>
+	<a class="active-link nav-link" data-target="all" href="#">All</a>
 	</li>
 </ul>
 <div id="gallery" class="bricklayer"></div>
@@ -51,6 +54,19 @@
 {% endschema %}
 
 {% style %}
+select {
+	display: none;
+}
+.gallery-select {
+	display: block;
+	width: 25%;
+	margin: 0 auto;
+}
+
+.gallery-select .list {
+	width: 100%;
+}
+
 .hide {
    display: none;
 }
@@ -106,6 +122,16 @@ li {
 		width: 50%;
 	}
 }
+@media screen and (max-width: 1021px) {
+	#gallery-nav {
+		display: none;
+	}
+} 
+@media screen and (min-width: 1022px) {
+	.nice-select.gallery-select {
+		display: none;
+	}
+} 
 
 .grid-item {
 	width: 100%;
@@ -120,9 +146,16 @@ li {
 ul {
 	padding: 0;
 }
-{% endstyle %}
+
+.active-link {
+	color: {{ settings.color_base }}
+} 
+{% endstyle %} 
 
 {% javascript %}
+$(document).ready(function() {
+	$('select').niceSelect();
+});
 // Functions
 function setAttributes(el, attrs) {
 	for (var key in attrs) {
@@ -151,6 +184,19 @@ const pageContainer = document.querySelector('#sp-pageContent .container');
 let setCounter = 0;
 let container;
 let galleryInfo = {}
+
+$('#shopify-section-gallery').on('click', '.option', function (event) {
+	event.preventDefault();
+	if ($(this).attr('data-value') == 'all') {
+		$('.grid-item').removeClass('hide')
+	} else {
+		$(`.grid-item:not(.${$(this).data('value')}-grid-item)`).addClass('hide')
+		$(`.${$(this).data('value')}-grid-item`).removeClass('hide')
+	} 
+	bricklayer.redraw() 
+	$('.option').removeClass('active-link')
+	$(this).addClass('active-link') 
+})
 
 pageContainer.setAttribute('style', `width: calc(100vw - ${scrollbarWidth}px - 2rem); max-width: calc(100vw - ${scrollbarWidth}px - 2rem); margin: 0 calc(1rem + ${scrollbarWidth}px) 0 1rem`);
 async function postData(data = {}, url = 'http://api.zenfolio.com/api/1.8/zfapi.asmx') {
@@ -192,23 +238,35 @@ let groupHierarchyP = postData({
 						let domArr = [];
 
 						let galleryNav = document.getElementById('gallery-nav')
+						let selectNav = document.querySelector('.gallery-select')
+
+						let selectOption = document.createElement("option");
+						let optionText = document.createTextNode(set.Title)
 
 						let li = document.createElement("li")
 						let link = document.createElement("a")
+						let text = document.createTextNode(set.Title)
+
 						let escapedTitle = set.Title.replace(/[^\w]/gi, '');
 
 						galleryInfo[escapedTitle] = {
 							domArr: []
 						}
 
+						setAttributes(selectOption, {
+							"class": "nav-link nav-link-select",
+							"value": escapedTitle
+						}) 
+
 						setAttributes(link, {
 							"data-target": escapedTitle,
 							"href": "#",
-							"class": "nav-link"
+							"class": "nav-link" 
 						})
 
-
-						let text = document.createTextNode(set.Title)
+						selectOption.appendChild(optionText)
+						selectNav.appendChild(selectOption)
+						$('select').niceSelect('update')
 
 						// TODO: create helper function to chain appendChild calls
 						link.appendChild(text)
@@ -227,7 +285,7 @@ let groupHierarchyP = postData({
 							setAttributes(anchor, {
 								"class": `${escapedTitle}-grid-item grid-item`,
 								"data-index": lgIndex
-							})
+							}) 
 							let escapedPhotoTitle = photo.Title.replace(/[^\w]/gi, '');
 							let setImage = {
 								src: createImageUrl(2),
@@ -261,10 +319,10 @@ let groupHierarchyP = postData({
 					}
 
 
-				})
+				}) 
 				.then(lgSetObj => {
-					if (lgSetObj) {
-						$(`a[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event) {
+					if (lgSetObj) { 
+						$(`[data-target='${lgSetObj.title}'],[data-target='all']`).click(function (event) {
 							event.preventDefault();
 							if ($(this).attr('data-target') == 'all') {
 								$('.grid-item').removeClass('hide')
@@ -273,8 +331,9 @@ let groupHierarchyP = postData({
 								$(`.${lgSetObj.title}-grid-item`).removeClass('hide')
 							}
 							bricklayer.redraw()
+							$('.nav-link').removeClass('active-link')
+							$(this).addClass('active-link')
 						})
-
 						$(`.${lgSetObj.title}-grid-item`).on('click', function () {
 							let lg = $(this).lightGallery({
 								dynamic: true,
